@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Casa Nobre · Móveis de Autor</title>
+<meta name="description" content="Casa Nobre — móveis de autor sob medida. Demonstração de site por Pablo Luz.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --escuro:#241c16; --escuro2:#312720; --nogueira:#5a4436; --latao:#b08d57; --latao2:#c9a878;
+  --osso:#f3eee6; --osso2:#e7dfd2; --areia:#d9cdb9;
+  --tinta:#231c15; --mut:#7d7166; --mut2:#9c9186;
+  --disp:"Playfair Display",Georgia,serif;
+  --sans:"Jost",-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--osso);color:var(--tinta);font-family:var(--sans);font-weight:300;line-height:1.7;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px}
+h1,h2,h3{font-family:var(--disp);font-weight:400;line-height:1.1;letter-spacing:-.01em}
+h2{font-size:clamp(30px,4.3vw,50px)}
+h2 em,h1 em{font-style:italic;color:var(--latao)}
+.eyebrow{font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--latao);font-weight:500}
+.lead{font-size:16px;color:#5d5348;max-width:60ch}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--sans);
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;cursor:pointer;
+  padding:15px 30px;border:1px solid var(--latao);color:var(--latao);background:transparent;
+  transition:background .35s,color .35s}
+.btn:hover{background:var(--latao);color:var(--osso)}
+.btn.solid{background:var(--escuro);border-color:var(--escuro);color:var(--osso)}
+.btn.solid:hover{background:var(--nogueira);border-color:var(--nogueira)}
+
+/* ---------- topo ---------- */
+.nav{position:fixed;inset:0 0 auto;z-index:60;transition:background .4s,border-color .4s;
+  border-bottom:1px solid transparent}
+.nav.sticky{background:rgba(36,28,22,.94);backdrop-filter:blur(10px);border-bottom-color:rgba(176,141,87,.28)}
+.nav .row{display:flex;align-items:center;gap:30px;height:82px}
+.logo{display:flex;align-items:center;gap:12px;color:var(--osso)}
+.logo svg{width:30px;height:34px;flex:0 0 30px}
+.logo b{font-family:var(--disp);font-size:20px;font-weight:500;letter-spacing:.24em;line-height:1;display:block}
+.logo small{font-size:8px;letter-spacing:.34em;color:var(--latao2);display:block;margin-top:4px}
+.links{display:flex;gap:28px;margin-left:auto;font-size:12.5px;letter-spacing:.08em;color:#e2d9cc}
+.links a{position:relative;padding:6px 0;transition:color .25s}
+.links a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--latao2);transition:width .35s}
+.links a:hover{color:#fff}.links a:hover::after{width:100%}
+.nav .btn{border-color:rgba(201,168,120,.6);color:var(--latao2);padding:13px 24px}
+.nav .btn:hover{background:var(--latao);color:var(--escuro);border-color:var(--latao)}
+.burger{display:none;margin-left:auto;background:none;border:1px solid rgba(243,238,230,.3);
+  color:var(--osso);width:44px;height:40px;cursor:pointer;font-size:17px}
+
+/* ---------- herói: 3 painéis ---------- */
+.hero{position:relative;height:100vh;min-height:600px;background:var(--escuro);overflow:hidden}
+.paineis{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1.08fr 1fr;gap:8px;padding:8px}
+.painel{position:relative;overflow:hidden}
+.painel .art{position:absolute;inset:0;transform:scale(1.02);
+  animation:flutua 22s ease-in-out infinite alternate}
+.painel:nth-child(2) .art{animation-delay:-7s}
+.painel:nth-child(3) .art{animation-delay:-14s}
+@keyframes flutua{to{transform:scale(1.1) translateY(-14px)}}
+.painel::after{content:"";position:absolute;inset:0;background:rgba(24,18,13,.42)}
+.hero .veu{position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(58% 46% at 50% 48%,rgba(24,18,13,.5),transparent 72%)}
+.hero .centro{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:0 24px}
+.hero h1{font-size:clamp(44px,9vw,116px);color:#fdfaf5;font-weight:400;line-height:.98;
+  text-shadow:0 6px 40px rgba(0,0,0,.45)}
+.hero h1 em{font-style:italic;color:#f0dcbb}
+.hero .tag{margin-bottom:26px;color:var(--latao2)}
+.circulo{margin-top:46px;width:132px;height:132px;border-radius:50%;border:1px solid rgba(243,238,230,.5);
+  display:grid;place-items:center;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;
+  color:#fdfaf5;transition:background .4s,border-color .4s,transform .4s;backdrop-filter:blur(2px)}
+.circulo:hover{background:rgba(176,141,87,.9);border-color:var(--latao);transform:scale(1.06)}
+.rail{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:55;display:flex;flex-direction:column}
+.rail a{width:46px;height:46px;display:grid;place-items:center;background:var(--escuro2);
+  border-bottom:1px solid rgba(176,141,87,.25);transition:background .3s}
+.rail a:hover{background:var(--latao)}
+.rail svg{width:18px;height:18px;stroke:var(--latao2);fill:none;stroke-width:1.6}
+.rail a:hover svg{stroke:var(--escuro)}
+.rail .vert{writing-mode:vertical-rl;background:var(--latao);color:var(--escuro);height:auto;
+  padding:20px 0;font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;width:46px}
+.rail .vert:hover{background:var(--latao2)}
+
+/* ---------- seções ---------- */
+section{padding:104px 0}
+.sechead{max-width:64ch}
+.sechead h2{margin-top:16px}.sechead .lead{margin-top:20px}
+.centro-t{text-align:center;margin:0 auto}
+.centro-t .lead{margin-left:auto;margin-right:auto}
+
+/* coleções */
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:62px}
+.col{position:relative;background:var(--osso2);overflow:hidden;cursor:pointer}
+.col .ph{aspect-ratio:3/4;position:relative;overflow:hidden}
+.col .ph .art{position:absolute;inset:0;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.col:hover .ph .art{transform:scale(1.07)}
+.col .tx{padding:22px 4px 4px}
+.col h3{font-size:24px}
+.col p{font-size:13.5px;color:var(--mut);margin-top:5px}
+.col .n{position:absolute;top:16px;left:18px;z-index:2;font-family:var(--disp);font-size:13px;
+  color:rgba(253,250,245,.85);font-style:italic}
+.col .ver{margin-top:12px;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--latao);
+  display:inline-flex;gap:8px;align-items:center}
+.col .ver span{transition:transform .3s;display:inline-block}
+.col:hover .ver span{transform:translateX(5px)}
+
+/* faixa escura: sob medida */
+.sob{background:var(--escuro);color:var(--osso)}
+.sob h2{color:#fdfaf5}.sob .lead{color:#c7bcae}
+.passos{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:60px;background:rgba(243,238,230,.14)}
+.passo{background:var(--escuro);padding:32px 26px}
+.passo b{font-family:var(--disp);font-size:15px;color:var(--latao2);font-style:italic;display:block}
+.passo h4{font-family:var(--disp);font-size:21px;font-weight:400;margin:12px 0 9px;color:#fdfaf5}
+.passo p{font-size:13.5px;color:#b7ab9c}
+
+/* ambientes: faixa larga */
+.amb{display:grid;grid-template-columns:1.1fr .9fr;gap:0;margin-top:0;align-items:stretch}
+.amb .foto{position:relative;min-height:440px;overflow:hidden}
+.amb .foto .art{position:absolute;inset:0}
+.amb .txt{background:var(--osso2);padding:64px 56px;display:flex;flex-direction:column;justify-content:center}
+.amb .txt h2{margin-bottom:18px}
+.medidas{display:flex;gap:34px;margin-top:32px;flex-wrap:wrap}
+.medidas div b{font-family:var(--disp);font-size:31px;font-weight:500;color:var(--nogueira);display:block}
+.medidas div span{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut)}
+
+/* depoimento */
+.depo{text-align:center;max-width:52ch;margin:0 auto}
+.depo p{font-family:var(--disp);font-size:clamp(21px,2.7vw,31px);font-style:italic;line-height:1.42;color:var(--nogueira)}
+.depo .quem{margin-top:26px;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--mut)}
+.estrelas{color:var(--latao);letter-spacing:.3em;margin-bottom:22px}
+
+/* showroom / contato */
+.show{background:var(--escuro2);color:var(--osso)}
+.show h2{color:#fdfaf5}
+.showgrid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.showinfo div{padding:17px 0;border-bottom:1px solid rgba(243,238,230,.14)}
+.showinfo b{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--latao2);
+  display:block;margin-bottom:5px;font-weight:500}
+.showinfo span{font-size:15px;color:#e2d9cc}
+form{display:grid;gap:22px}
+.campo{display:flex;flex-direction:column;gap:8px}
+label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#a99d8f}
+input,textarea{font-family:var(--sans);font-size:14.5px;font-weight:300;color:var(--osso);background:transparent;
+  border:0;border-bottom:1px solid rgba(243,238,230,.26);padding:11px 0;transition:border-color .3s}
+input:focus,textarea:focus{outline:none;border-bottom-color:var(--latao)}
+textarea{resize:vertical;min-height:72px}
+.ok{display:none;padding:14px 18px;border:1px solid var(--latao);color:var(--latao2);font-size:13.5px}
+.ok.on{display:block}
+
+footer{background:var(--escuro);color:#9a8e80;padding:60px 0 28px;font-size:13px}
+.frow{display:flex;justify-content:space-between;gap:44px;flex-wrap:wrap}
+footer h5{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--latao2);margin-bottom:14px;font-weight:500}
+footer ul{list-style:none}footer li{padding:5px 0}
+footer a:hover{color:var(--osso)}
+.fbase{border-top:1px solid rgba(243,238,230,.1);margin-top:44px;padding-top:22px;font-size:11.5px;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:#7d7264}
+.demo{background:var(--latao);color:var(--escuro);text-align:center;padding:9px 16px;font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;position:relative;z-index:70}
+
+.rv{opacity:0;transform:translateY(28px);transition:opacity .85s cubic-bezier(.2,.7,.2,1),transform .85s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+@media(max-width:1000px){
+  .links,.nav .btn{display:none}.burger{display:block}
+  .cols{grid-template-columns:1fr}
+  .passos{grid-template-columns:1fr 1fr}
+  .amb{grid-template-columns:1fr}.amb .txt{padding:48px 30px}
+  .showgrid{grid-template-columns:1fr;gap:44px}
+  .paineis{grid-template-columns:1fr}
+  .painel:nth-child(3){display:none}
+  .rail{display:none}
+}
+@media(max-width:600px){
+  section{padding:68px 0}.wrap{padding:0 20px}
+  .passos{grid-template-columns:1fr}
+  .painel:nth-child(2){display:none}
+}
+@media(prefers-reduced-motion:reduce){.rv{transition:none;opacity:1;transform:none}
+  .painel .art{animation:none}}
+</style>
+</head>
+<body>
+<nav class="nav" id="nav">
+<div class="demo">Site demonstrativo · marca fictícia criada para portfólio — Pablo Luz</div>
+<div class="wrap"><div class="row">
+  <a class="logo" href="#topo">
+    <svg viewBox="0 0 30 34" aria-hidden="true">
+      <path d="M4 32 V14 L15 5 L26 14 V32" fill="none" stroke="#b08d57" stroke-width="1.4"/>
+      <path d="M10 32 V21 H20 V32" fill="none" stroke="#b08d57" stroke-width="1.4"/>
+      <path d="M15 5 V21" stroke="#b08d57" stroke-width="1.4"/></svg>
+    <span><b>CASA NOBRE</b><small>MÓVEIS DE AUTOR</small></span></a>
+  <div class="links">
+    <a href="#colecoes">Coleções</a><a href="#sob">Sob medida</a>
+    <a href="#ambientes">Ambientes</a><a href="#showroom">Showroom</a>
+  </div>
+  <a class="btn" href="#showroom">Agendar visita</a>
+  <button class="burger" id="burger" aria-label="Menu">☰</button>
+</div></div></nav>
+
+<div class="rail">
+  <a href="#showroom" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-12.5 7.3L3 20.5l1.7-5.4A8.5 8.5 0 1 1 21 11.5z"/></svg></a>
+  <a class="vert" href="#showroom">Peça um orçamento</a>
+  <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="#b08d57"/></svg></a>
+</div>
+
+<header class="hero" id="topo">
+  <div class="paineis">
+    <!-- 3 "ambientes" distintos: madeira escura / sala clara com luz / detalhe em latão -->
+    <div class="painel"><div class="art" style="background:
+      repeating-linear-gradient(97deg,rgba(255,255,255,.055) 0 3px,transparent 3px 21px),
+      linear-gradient(168deg,#7a5c42 0%,#3a2b20 62%,#1c150f 100%)"></div></div>
+    <div class="painel"><div class="art" style="background:
+      radial-gradient(62% 48% at 44% 26%,rgba(255,246,229,.72),transparent 66%),
+      linear-gradient(158deg,#efe4d0 0%,#b99a74 54%,#6b5238 100%)"></div></div>
+    <div class="painel"><div class="art" style="background:
+      radial-gradient(46% 34% at 66% 66%,rgba(214,170,104,.55),transparent 68%),
+      repeating-linear-gradient(0deg,rgba(0,0,0,.07) 0 1px,transparent 1px 34px),
+      linear-gradient(140deg,#4a382a 0%,#2c211a 55%,#161009 100%)"></div></div>
+  </div>
+  <div class="veu"></div>
+  <div class="centro">
+    <div class="eyebrow tag">Marcenaria autoral desde 1994</div>
+    <h1>Feito para durar<br><em>gerações</em>.</h1>
+    <a class="circulo" href="#colecoes">Conheça</a>
+  </div>
+</header>
+
+<section id="colecoes"><div class="wrap">
+  <div class="sechead centro-t rv">
+    <div class="eyebrow">Coleções</div>
+    <h2>Peças que <em>atravessam</em> gerações.</h2>
+    <p class="lead">Madeira maciça certificada, junções aparentes e acabamento em óleo natural.
+      Cada peça é numerada e assinada por quem a fez.</p>
+  </div>
+  <div class="cols rv">
+    <article class="col">
+      <div class="ph"><span class="n">01</span><div class="art" style="background:
+        linear-gradient(160deg,#7c6046,#3f3025 62%,#241b14),
+        repeating-linear-gradient(88deg,rgba(255,255,255,.06) 0 2px,transparent 2px 22px)"></div></div>
+      <div class="tx"><h3>Linha Cumaru</h3><p>Mesas e aparadores em madeira maciça</p>
+        <span class="ver">Ver a coleção <span>→</span></span></div>
+    </article>
+    <article class="col">
+      <div class="ph"><span class="n">02</span><div class="art" style="background:
+        radial-gradient(68% 52% at 42% 30%,rgba(243,238,230,.55),transparent 60%),
+        linear-gradient(150deg,#cbb199,#8f7355 56%,#4a3928)"></div></div>
+      <div class="tx"><h3>Estar Sereno</h3><p>Sofás e poltronas em linho e couro natural</p>
+        <span class="ver">Ver a coleção <span>→</span></span></div>
+    </article>
+    <article class="col">
+      <div class="ph"><span class="n">03</span><div class="art" style="background:
+        linear-gradient(140deg,#e2d3ba,#a98a63 58%,#5b452f)"></div></div>
+      <div class="tx"><h3>Luz &amp; Latão</h3><p>Iluminação autoral e objetos de apoio</p>
+        <span class="ver">Ver a coleção <span>→</span></span></div>
+    </article>
+  </div>
+</div></section>
+
+<section class="sob" id="sob"><div class="wrap">
+  <div class="sechead rv">
+    <div class="eyebrow">Sob medida</div>
+    <h2>Do desenho à sua sala,<br>em <em>quatro etapas</em>.</h2>
+    <p class="lead">Você conversa com quem projeta e com quem constrói — sem intermediário.</p>
+  </div>
+  <div class="passos rv">
+    <div class="passo"><b>i.</b><h4>Conversa</h4><p>Entendemos o espaço, o uso e o orçamento. Visita técnica sem custo na Grande Florianópolis.</p></div>
+    <div class="passo"><b>ii.</b><h4>Projeto</h4><p>Desenho em 3D com duas rodadas de ajuste, amostras de madeira e tecido na sua mão.</p></div>
+    <div class="passo"><b>iii.</b><h4>Marcenaria</h4><p>Produção na nossa oficina, com acompanhamento por fotos a cada etapa.</p></div>
+    <div class="passo"><b>iv.</b><h4>Entrega</h4><p>Montagem pela nossa equipe e garantia de 5 anos na estrutura.</p></div>
+  </div>
+</div></section>
+
+<section id="ambientes" style="padding:0">
+  <div class="amb rv">
+    <div class="foto"><div class="art" style="background:
+      radial-gradient(78% 62% at 62% 28%,rgba(243,238,230,.42),transparent 66%),
+      linear-gradient(158deg,#8d7154 0%,#54402e 56%,#2b2118 100%)"></div></div>
+    <div class="txt">
+      <div class="eyebrow">Ambientes</div>
+      <h2>Cada casa pede<br>uma <em>medida</em>.</h2>
+      <p class="lead">Do rack que encaixa no vão exato ao closet que aproveita o pé-direito inteiro —
+        nada de módulo pronto forçado no seu espaço.</p>
+      <div class="medidas">
+        <div><b>32</b><span>anos de oficina</span></div>
+        <div><b>1.400+</b><span>projetos entregues</span></div>
+        <div><b>5</b><span>anos de garantia</span></div>
+      </div>
+      <a class="btn solid" style="margin-top:38px;align-self:flex-start" href="#showroom">Falar com um projetista</a>
+    </div>
+  </div>
+</section>
+
+<section><div class="wrap">
+  <div class="depo rv">
+    <div class="estrelas">★★★★★</div>
+    <p>“Levaram cinco meses e cada semana mandaram foto. Quando montaram, encaixou no
+      milímetro. É o tipo de móvel que a gente passa pros filhos.”</p>
+    <div class="quem">Helena e Rodrigo M. · Jurerê, Florianópolis</div>
+  </div>
+</div></section>
+
+<section class="show" id="showroom"><div class="wrap">
+  <div class="showgrid">
+    <div class="rv">
+      <div class="eyebrow">Showroom</div>
+      <h2 style="margin-top:16px">Venha <em>sentar</em><br>nas peças.</h2>
+      <p class="lead" style="color:#c7bcae;margin-top:18px">Nosso showroom tem 600 m² com ambientes
+        montados. Agende e reservamos um projetista só para você.</p>
+      <div class="showinfo" style="margin-top:34px">
+        <div><b>Endereço</b><span>Rod. José Carlos Daux, 4000 · Florianópolis — SC</span></div>
+        <div><b>Horário</b><span>Seg a sex · 9h às 19h &nbsp;·&nbsp; Sáb · 9h às 14h</span></div>
+        <div><b>Contato</b><span>(48) 3000-0000 &nbsp;·&nbsp; ola@casanobre.com.br</span></div>
+      </div>
+    </div>
+    <form class="rv" id="form" novalidate>
+      <div class="campo"><label for="n">Nome</label><input id="n" required></div>
+      <div class="campo"><label for="t">WhatsApp</label><input id="t" inputmode="tel" required></div>
+      <div class="campo"><label for="p">O que você procura?</label><input id="p" placeholder="Ex.: mesa de jantar para 8 lugares"></div>
+      <div class="campo"><label for="m">Mensagem</label><textarea id="m" rows="3"></textarea></div>
+      <button class="btn" type="submit" style="border-color:var(--latao);color:var(--latao2)">Enviar</button>
+      <div class="ok" id="ok">Recebido — este é um site <b>demonstrativo</b>, nenhum dado foi enviado.</div>
+    </form>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="frow">
+    <div style="max-width:290px">
+      <a class="logo" href="#topo">
+        <svg viewBox="0 0 30 34" aria-hidden="true">
+          <path d="M4 32 V14 L15 5 L26 14 V32" fill="none" stroke="#b08d57" stroke-width="1.4"/>
+          <path d="M10 32 V21 H20 V32" fill="none" stroke="#b08d57" stroke-width="1.4"/>
+          <path d="M15 5 V21" stroke="#b08d57" stroke-width="1.4"/></svg>
+        <span><b style="color:#f3eee6">CASA NOBRE</b><small>MÓVEIS DE AUTOR</small></span></a>
+      <p style="margin-top:10px">Marcenaria autoral em Santa Catarina. Madeira certificada,
+        projeto próprio e entrega com montagem.</p>
+    </div>
+    <div><h5>Coleções</h5><ul>
+      <li><a href="#colecoes">Linha Cumaru</a></li><li><a href="#colecoes">Estar Sereno</a></li>
+      <li><a href="#colecoes">Luz &amp; Latão</a></li><li><a href="#sob">Sob medida</a></li></ul></div>
+    <div><h5>A casa</h5><ul>
+      <li><a href="#">Nossa história</a></li><li><a href="#">A oficina</a></li>
+      <li><a href="#">Madeiras e certificação</a></li><li><a href="#showroom">Showroom</a></li></ul></div>
+    <div><h5>Atendimento</h5><ul>
+      <li>(48) 3000-0000</li><li>ola@casanobre.com.br</li>
+      <li>Seg a sex · 9h às 19h</li><li>Sáb · 9h às 14h</li></ul></div>
+  </div>
+  <div class="fbase">
+    <span>© 2026 Casa Nobre — demonstração fictícia.</span>
+    <span>Site por <a href="https://padilhapablo00.github.io/pabloluz/" style="color:#b08d57">Pablo Luz</a></span>
+  </div>
+</div></footer>
+
+<script>
+(function(){
+  var reduz=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},
+    {threshold:.1,rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+
+  var nav=document.getElementById('nav');
+  addEventListener('scroll',function(){nav.classList.toggle('sticky',scrollY>60);},{passive:true});
+
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      var id=a.getAttribute('href');if(id.length<2)return;
+      var t=document.querySelector(id);if(!t)return;e.preventDefault();
+      scrollTo({top:t.getBoundingClientRect().top+scrollY-70,behavior:reduz?'auto':'smooth'});});});
+
+  document.getElementById('form').addEventListener('submit',function(e){
+    e.preventDefault();document.getElementById('ok').classList.add('on');this.reset();});
+  document.getElementById('burger').addEventListener('click',function(){
+    var l=document.querySelector('.links');
+    l.style.cssText='display:flex;position:absolute;top:82px;left:0;right:0;flex-direction:column;'
+      +'gap:0;background:#241c16;padding:14px 28px;margin:0';});
+})();
+</script>
+</body>
+</html>

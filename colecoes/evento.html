@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURORA · Você está convidada — Lançamento Inverno</title>
+<!-- DEMO · loja fictícia AURORA. Na venda real: logo, data e WhatsApp da vendedora entram no lugar. wa.me placeholder: 5555991234567 -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0c0a09;--ink:#efe9df;--gold:#d3b06c;--mut:#8f877b;--line:rgba(211,176,108,.25)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-weight:300;line-height:1.65;overflow-x:hidden}
+  .wrap{max-width:620px;margin:0 auto;padding:0 24px}
+  .card{position:relative;margin:34px auto 40px;border:1px solid var(--line);border-radius:6px;padding:56px 30px 50px;text-align:center}
+  .card::before{content:"";position:absolute;inset:7px;border:1px solid rgba(211,176,108,.14);border-radius:3px;pointer-events:none}
+  .logo{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:26px;letter-spacing:.5em;text-indent:.5em}
+  .fleur{color:var(--gold);font-size:16px;margin:20px 0;letter-spacing:.6em;text-indent:.6em}
+  .k{font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--mut)}
+  h1{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(38px,8vw,58px);line-height:1.12;margin:18px 0 0}
+  h1 em{font-style:italic;color:var(--gold)}
+  .sub{color:var(--mut);font-size:14px;max-width:380px;margin:18px auto 0}
+  .when{margin:34px auto 0;display:flex;justify-content:center;gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .wcol{flex:1;padding:16px 8px}
+  .wcol+.wcol{border-left:1px solid var(--line)}
+  .wcol b{display:block;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:24px;color:var(--ink)}
+  .wcol span{font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--mut)}
+  .list{margin:30px auto 0;max-width:340px;text-align:left}
+  .list li{list-style:none;display:flex;gap:12px;align-items:baseline;font-size:13.5px;color:#cfc8bc;padding:7px 0}
+  .list li::before{content:"—";color:var(--gold)}
+  .rsvp{display:inline-flex;align-items:center;gap:10px;margin-top:34px;font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:#0c0a09;background:var(--gold);text-decoration:none;padding:16px 34px;border-radius:2px;transition:.2s}
+  .rsvp:hover{filter:brightness(1.08)}
+  .rsvp svg{width:15px;height:15px;fill:#0c0a09}
+  .note{margin-top:14px;font-size:11px;color:var(--mut);letter-spacing:.06em}
+  footer{text-align:center;padding:10px 22px 56px;color:var(--mut);font-size:12px}
+  footer .serif{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--ink);letter-spacing:.4em;text-indent:.4em;margin-bottom:6px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="logo">AURORA</div>
+      <div class="fleur">✦ ✦ ✦</div>
+      <div class="k">Convite · noite de lançamento</div>
+      <h1>A nova coleção,<br>antes de <em>todo mundo</em>.</h1>
+      <p class="sub">Uma noite só para convidadas: espumante, primeira escolha das peças e condição especial que não se repete.</p>
+
+      <div class="when">
+        <div class="wcol"><b>24 jul</b><span>quinta</span></div>
+        <div class="wcol"><b>19h30</b><span>na loja</span></div>
+        <div class="wcol"><b>20 vagas</b><span>confirmadas</span></div>
+      </div>
+
+      <ul class="list">
+        <li>Primeira escolha da coleção de inverno</li>
+        <li>10% de cortesia só durante a noite</li>
+        <li>Espumante &amp; provador reservado</li>
+      </ul>
+
+      <a class="rsvp" href="https://wa.me/5555991234567?text=Oi!%20Quero%20confirmar%20presen%C3%A7a%20na%20noite%20de%20lan%C3%A7amento%20da%20cole%C3%A7%C3%A3o." target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24z"/></svg>
+        Confirmar presença
+      </a>
+      <div class="note">vagas por ordem de confirmação</div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="serif">AURORA</div>
+    Rua das Andradas, 000 · Centro · @lojaaurora
+  </footer>
+</body>
+</html>

@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Matheus Padilha · Imóveis</title>
+<meta name="description" content="Veja os imóveis disponíveis e demonstre interesse em 1 minuto. Demonstração por Pablo Luz.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f4f1; --surf:#fff; --surf2:#faf8f5; --linha:#e7e3dc; --linha2:#d7d2c8;
+  --tinta:#15181c; --tinta2:#464d55; --mut:#767d85;
+  --escuro:#191c20; --escuro2:#22262b;
+  --ac:#cf2626; --ac2:#a81d1d; --acclaro:#fdeceb;      /* vermelho da plaquinha */
+  --zap:#25d366;
+  --risco:#c0463a;
+  --disp:"Outfit",-apple-system,"Segoe UI",sans-serif;
+  --ui:"Inter",-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tinta);font-family:var(--ui);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{max-width:1240px;margin:0 auto;padding:0 22px}
+.num{font-variant-numeric:tabular-nums}
+h1,h2{font-family:var(--disp);font-weight:600;line-height:1.12;letter-spacing:-.025em}
+h3{font-family:var(--ui);font-weight:600;line-height:1.25;letter-spacing:-.01em}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:0;font-family:var(--ui);
+  font-size:14px;font-weight:600;cursor:pointer;padding:13px 22px;border-radius:10px;border:1px solid transparent;
+  transition:background .2s,transform .15s;white-space:nowrap}
+.btn:hover{transform:translateY(-1px)}
+.btn-p{background:var(--ac);color:#fff;box-shadow:0 4px 14px rgba(207,38,38,.26)}
+.btn-p:hover{background:var(--ac2)}
+.btn-g{background:var(--surf);color:var(--tinta);border-color:var(--linha2)}
+.btn-g:hover{background:var(--surf2)}
+.btn-w{background:#25d366;color:#06331d}
+.btn-w:hover{background:#1fbb59}
+.demo{background:#15191d;color:#e9e6df;text-align:center;padding:9px 16px;font-size:12px}
+.demo b{color:#7ee0b8}
+
+header.top{background:var(--surf);border-bottom:1px solid var(--linha);position:sticky;top:0;z-index:40}
+.top .row{display:flex;align-items:center;gap:18px;height:70px}
+.marca{display:flex;align-items:center;gap:11px}
+.marca .av{width:40px;height:40px;flex:0 0 40px;object-fit:contain}
+footer .marca .av{filter:brightness(0) invert(1)}   /* rodape e' escuro */
+.marca b{font-family:var(--ui);font-size:15.5px;font-weight:600;display:block;line-height:1.25;letter-spacing:-.01em}
+.marca small{font-size:11.5px;color:var(--mut);display:block}
+.top .dir{margin-left:auto;display:flex;gap:10px}
+
+.hero{padding:58px 0 26px}
+.hero .tag{font-family:var(--ui);font-size:11.5px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--mut)}
+.hero h1{font-size:clamp(34px,5.2vw,58px);margin:16px 0 0;max-width:20ch}
+.hero p{color:var(--tinta2);font-size:16.5px;margin-top:16px;max-width:52ch;line-height:1.65}
+
+.filtros{background:var(--surf);border:1px solid var(--linha);border-radius:14px;padding:15px;
+  display:flex;gap:11px;flex-wrap:wrap;align-items:flex-end;margin-top:24px}
+.campo{display:flex;flex-direction:column;gap:5px;min-width:140px}
+.campo label{font-size:11px;font-weight:600;color:var(--mut)}
+select,input[type=text],input[type=number],input[type=tel],input[type=email],textarea{font-family:var(--ui);
+  font-size:14px;color:var(--tinta);background:var(--surf);border:1px solid var(--linha2);
+  border-radius:9px;padding:10px 12px;transition:border-color .2s,box-shadow .2s;width:100%}
+select:focus,input:focus,textarea:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 3px rgba(207,38,38,.14)}
+textarea{resize:vertical;min-height:70px}
+.contagem{margin-left:auto;font-size:13.5px;color:var(--mut);padding-bottom:9px}
+.contagem b{color:var(--tinta)}
+
+
+/* ---- hero com retrato ---- */
+.hero-grid{display:grid;grid-template-columns:1fr 250px;gap:46px;align-items:center}
+.hero-ctas{display:flex;gap:11px;margin-top:26px;flex-wrap:wrap}
+.btn-zap{background:var(--zap);color:#06331d}
+.btn-zap:hover{background:#1fbb59}
+.retrato{position:relative;margin:0}
+.retrato img{width:100%;aspect-ratio:560/1363;object-fit:cover;object-position:center;
+  border-radius:16px;background:var(--linha)}
+.retrato::before{content:"";position:absolute;inset:14px -14px -14px 14px;border-radius:16px;
+  border:2px solid var(--ac);z-index:-1}
+.retrato figcaption{position:absolute;left:10px;right:10px;bottom:10px;background:rgba(21,24,28,.88);
+  backdrop-filter:blur(8px);border-radius:11px;padding:11px 14px;color:#fff}
+.retrato figcaption b{display:block;font-size:13px;font-weight:600}
+.retrato figcaption span{display:block;font-size:10px;color:rgba(255,255,255,.72);line-height:1.3}
+.retrato.semfoto{display:none}
+
+/* ---- faixa de beneficios (escura, impossivel de ignorar) ---- */
+.faixa{background:var(--escuro);padding:26px 0;margin-top:8px}
+.faixa-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.ben{display:flex;gap:16px;align-items:center;background:var(--escuro2);border:1px solid rgba(255,255,255,.09);
+  border-radius:14px;padding:18px 20px}
+.ben-ic{width:52px;height:52px;flex:0 0 52px;border-radius:12px;display:grid;place-items:center;
+  background:rgba(255,255,255,.07);color:#fff;overflow:hidden}
+.ben-ic svg{width:26px;height:26px}
+.ben-et{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#9aa2ab}
+.ben-et.destaque{color:#ff8a8a}
+.ben h3{font-size:18px;color:#fff;margin:3px 0 4px;letter-spacing:-.01em}
+.ben p{font-size:13.5px;color:#aeb6be;line-height:1.55}
+.ben .cond{display:block;font-size:11.5px;color:#7d858e;margin-top:3px}
+.ben-net{border-color:rgba(207,38,38,.4);background:linear-gradient(120deg,#2a1b1c,var(--escuro2) 62%)}
+.net-logo{background:#fff;padding:5px;width:52px;height:52px;flex:0 0 52px;border-radius:50%}
+.net-logo img{width:100%;height:100%;object-fit:contain}
+.net-logo .net-txt{display:none;font-size:11px;font-weight:700;color:#1f3d6b;text-align:center;line-height:1.1}
+.net-logo.semlogo img{display:none}
+.net-logo.semlogo .net-txt{display:block}
+
+@media(max-width:900px){
+  .faixa-grid{grid-template-columns:1fr}
+}
+/* celular: retrato menor AO LADO do texto, tipografia reduzida */
+@media(max-width:760px){
+  .so-desk{display:none}
+  /* cabecalho: altura livre, nome numa linha so', botao compacto */
+  .top .row{height:auto;min-height:58px;padding:9px 0;gap:10px}
+  .marca .av{width:34px;height:34px;flex:0 0 34px}
+  .marca b{font-size:14.5px;white-space:nowrap}
+  .marca small{display:none}
+  .top .dir .btn{padding:10px 15px;font-size:13px}
+  .hero{padding:22px 0 20px}
+  .hero-grid{grid-template-columns:1fr 108px;gap:14px;align-items:center}
+  .hero .tag{font-size:9.5px;letter-spacing:.1em}
+  .hero h1{font-size:26px;margin-top:9px;max-width:none}
+  .hero p{font-size:13.5px;margin-top:9px}
+  .hero-ctas{margin-top:16px}
+  .hero-ctas .btn{padding:11px 16px;font-size:13px}
+  .retrato::before{inset:9px -9px -9px 9px;border-width:1.5px}
+  .retrato img{border-radius:12px}
+  .retrato figcaption{display:none}
+  .faixa{padding:16px 0}
+  .ben{padding:14px 15px;gap:13px}
+  .ben-ic{width:44px;height:44px;flex:0 0 44px}
+  .ben-ic svg{width:22px;height:22px}
+  .net-logo{width:46px;height:46px;flex:0 0 46px;padding:4px}
+  .ben h3{font-size:16px}
+  .ben p{font-size:12.5px}
+}
+@media(max-width:380px){
+  .hero-grid{grid-template-columns:1fr 92px;gap:11px}
+  .hero h1{font-size:23px}
+}
+
+/* ---- cartões ---- */
+.grade{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:22px 0 60px}
+.card{background:var(--surf);border:1px solid var(--linha);border-radius:14px;overflow:hidden;cursor:pointer;
+  transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(20,24,28,.12)}
+.card .capa{aspect-ratio:4/3;position:relative;background:#e4e1da;overflow:hidden}
+.card .capa img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.card:hover .capa img{transform:scale(1.05)}
+.cod{position:absolute;top:11px;left:11px;z-index:2;font-size:11px;font-weight:600;padding:5px 10px;
+  border-radius:7px;background:rgba(21,25,29,.8);color:#fff;backdrop-filter:blur(6px)}
+.nfotos{position:absolute;bottom:11px;right:11px;z-index:2;font-size:11.5px;font-weight:600;padding:5px 10px;
+  border-radius:7px;background:rgba(21,25,29,.8);color:#fff;display:flex;align-items:center;gap:5px}
+.strip{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;background:var(--linha)}
+.strip .mini{aspect-ratio:1;overflow:hidden;background:#e4e1da;position:relative}
+.strip .mini img{width:100%;height:100%;object-fit:cover}
+.strip .mais{display:grid;place-items:center;background:var(--surf2);font-size:12.5px;font-weight:600;color:var(--mut)}
+.card .txt{padding:15px 16px 17px;display:flex;flex-direction:column;flex:1}
+.card .loc{font-size:12px;color:var(--mut);font-weight:500}
+.card h3{font-size:16.5px;margin:5px 0 0}
+.card .preco{font-family:var(--disp);font-size:26px;font-weight:600;margin-top:9px;color:var(--tinta);
+  letter-spacing:-.025em;line-height:1.1}
+.specs{display:flex;gap:13px;margin-top:11px;padding-top:11px;border-top:1px solid var(--linha);
+  font-size:12.5px;color:var(--tinta2);flex-wrap:wrap}
+.specs b{font-weight:600}
+.acoesCard{display:flex;gap:8px;margin-top:14px;align-items:center}
+.acoesCard .ver{flex:0 0 auto;font-family:var(--ui);font-size:13px;font-weight:600;color:var(--tinta2);
+  background:none;border:0;cursor:pointer;padding:11px 4px;display:inline-flex;align-items:center;gap:6px}
+.acoesCard .ver:hover{color:var(--ac)}
+.acoesCard .ver i{font-style:normal;transition:transform .25s}
+.card:hover .acoesCard .ver i{transform:translateX(3px)}
+.acoesCard .quero{margin-left:auto;font-family:var(--ui);font-size:13px;font-weight:600;color:#fff;
+  background:var(--ac);border:0;border-radius:9px;padding:11px 17px;cursor:pointer;transition:background .2s}
+.acoesCard .quero:hover{background:var(--ac2)}
+.vazio{grid-column:1/-1;text-align:center;padding:56px;color:var(--mut);background:var(--surf);
+  border:1px dashed var(--linha2);border-radius:14px}
+
+
+/* ---- selos do hero ---- */
+.selos-hero{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.selo-h{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;color:var(--tinta2);
+  background:var(--surf);border:1px solid var(--linha2);border-radius:99px;padding:9px 16px}
+.selo-h b{font-weight:600;color:var(--tinta)}
+.selo-h.destaque{background:var(--acclaro);border-color:#b9ddcd;color:var(--ac2)}
+.selo-h.destaque b{color:var(--ac2)}
+
+/* ---- vantagens ---- */
+.vantagens{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;margin:0 0 60px}
+.vg{border-radius:16px;padding:28px 30px}
+.vg-ic{font-size:30px;line-height:1;margin-bottom:14px}
+.vg h2{font-size:26px;margin-bottom:12px}
+.vg p{font-size:15px;line-height:1.65}
+.vg.mcmv{background:var(--surf);border:1px solid var(--linha)}
+.vg.mcmv p{color:var(--tinta2)}
+.vg.mcmv ul{list-style:none;margin:16px 0 22px}
+.vg.mcmv li{font-size:14.5px;color:var(--tinta2);padding:7px 0 7px 26px;position:relative}
+.vg.mcmv li::before{content:"✓";position:absolute;left:0;color:var(--ac);font-weight:700}
+.vg.net{background:linear-gradient(155deg,var(--ac),var(--ac2));color:#fff;
+  display:flex;flex-direction:column;justify-content:center}
+.vg.net h2{color:#fff}
+.vg.net p{color:rgba(255,255,255,.92)}
+.vg.net b{color:#fff}
+.vg.net .cond{display:block;margin-top:16px;font-size:12px;color:rgba(255,255,255,.72)}
+@media(max-width:900px){.vantagens{grid-template-columns:1fr}.vg{padding:24px 22px}.vg h2{font-size:23px}}
+
+/* ---- modal ---- */
+.mo{position:fixed;inset:0;z-index:90;display:none;align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto}
+.mo.on{display:flex}
+.mo .fundo{position:fixed;inset:0;background:rgba(16,20,24,.64);backdrop-filter:blur(4px);opacity:0;transition:opacity .3s}
+.mo.show .fundo{opacity:1}
+.mocx{position:relative;z-index:1;width:min(820px,100%);background:var(--bg);border-radius:16px;overflow:hidden;
+  transform:scale(.96) translateY(12px);opacity:0;transition:transform .35s cubic-bezier(.2,.75,.2,1),opacity .35s;
+  margin:auto;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+.mo.show .mocx{transform:none;opacity:1}
+.mohead{position:relative;background:#e4e1da}
+.mohead img{width:100%;aspect-ratio:16/10;object-fit:cover}
+.mohead.semfoto img{aspect-ratio:auto;height:190px;object-fit:contain;padding:18px 0 44px}
+.mohead.semfoto .grad{background:linear-gradient(transparent 30%,rgba(16,20,24,.86))}
+.mohead .grad{position:absolute;inset:0;background:linear-gradient(transparent 42%,rgba(16,20,24,.92));pointer-events:none}
+.mohead .info{position:absolute;left:0;right:0;bottom:0;padding:18px 22px;color:#fff;z-index:2;pointer-events:none}
+.mohead h2{font-size:21px;color:#fff}
+.mohead .loc{font-size:12.5px;opacity:.9}
+.mohead .pr{font-family:var(--disp);font-size:29px;font-weight:600;margin-top:4px;letter-spacing:-.025em}
+.fechar{position:absolute;top:14px;right:14px;z-index:3;width:38px;height:38px;border-radius:10px;
+  background:rgba(255,255,255,.94);border:0;cursor:pointer;font-size:17px}
+.corpo{padding:22px}
+
+.dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:1px;background:var(--linha);
+  border:1px solid var(--linha);border-radius:12px;overflow:hidden}
+.dgrid div{background:var(--surf);padding:13px 10px;text-align:center}
+.dgrid b{font-family:var(--ui);font-size:16px;font-weight:600;display:block;letter-spacing:-.01em}
+.dgrid span{font-size:11px;color:var(--mut)}
+.desc{margin-top:18px;color:var(--tinta2);font-size:14.5px}
+.itens{display:flex;flex-wrap:wrap;gap:7px;margin-top:15px}
+.itens span{font-size:12.5px;background:var(--surf);border:1px solid var(--linha);border-radius:8px;
+  padding:6px 11px;color:var(--tinta2)}
+.tituloS{font-family:var(--ui);font-size:13px;font-weight:600;letter-spacing:.02em;margin:22px 0 10px;display:flex;
+  justify-content:space-between;align-items:center}
+.tituloS span{font-size:12px;font-weight:500;color:var(--mut)}
+.galeria{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.galeria button{border:0;padding:0;background:#e4e1da;border-radius:9px;overflow:hidden;cursor:zoom-in;
+  aspect-ratio:1;transition:transform .2s}
+.galeria button:hover{transform:scale(1.03)}
+.galeria img{width:100%;height:100%;object-fit:cover}
+
+/* ---- lightbox ---- */
+.lb{position:fixed;inset:0;z-index:120;display:none;background:rgba(10,13,16,.96);
+  align-items:center;justify-content:center}
+.lb.on{display:flex}
+.lb img{max-width:94vw;max-height:86vh;object-fit:contain;border-radius:6px}
+.lb .x,.lb .nav{position:absolute;background:rgba(255,255,255,.14);border:0;color:#fff;cursor:pointer;
+  border-radius:50%;width:46px;height:46px;font-size:20px;display:grid;place-items:center;transition:background .2s}
+.lb .x:hover,.lb .nav:hover{background:rgba(255,255,255,.3)}
+.lb .x{top:18px;right:18px}
+.lb .ant{left:18px;top:50%;transform:translateY(-50%)}
+.lb .prox{right:18px;top:50%;transform:translateY(-50%)}
+.lb .cont{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:#cfd6dc;font-size:13px;
+  background:rgba(0,0,0,.5);padding:6px 14px;border-radius:99px}
+
+/* ---- formulário ---- */
+.trilha{display:flex;gap:6px;margin-bottom:20px}
+.trilha div{flex:1;height:4px;border-radius:99px;background:var(--linha2);transition:background .3s}
+.trilha div.on{background:var(--ac)}
+.etapa h3{font-size:19px;margin-bottom:5px}
+.etapa .aj{color:var(--tinta2);font-size:14px;margin-bottom:18px}
+.escolhas{display:grid;gap:10px}
+.escolha{display:flex;align-items:flex-start;gap:12px;padding:15px 16px;border:1.5px solid var(--linha2);
+  border-radius:12px;background:var(--surf);cursor:pointer;transition:.2s;text-align:left;width:100%;font-family:var(--ui)}
+.escolha:hover{border-color:var(--ac)}
+.escolha[aria-pressed=true]{border-color:var(--ac);background:var(--acclaro)}
+.escolha .ic{width:22px;height:22px;border-radius:50%;border:2px solid var(--linha2);flex:0 0 22px;margin-top:1px;
+  display:grid;place-items:center;transition:.2s}
+.escolha[aria-pressed=true] .ic{border-color:var(--ac);background:var(--ac)}
+.escolha[aria-pressed=true] .ic::after{content:"";width:8px;height:8px;border-radius:50%;background:#fff}
+.escolha b{font-size:15px;font-weight:600;display:block}
+.escolha small{font-size:12.5px;color:var(--mut);display:block;margin-top:2px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.fcampo{display:flex;flex-direction:column;gap:6px}
+.fcampo.full{grid-column:1/-1}
+.fcampo label{font-size:12.5px;font-weight:600;color:var(--tinta2)}
+.fcampo .dica{font-size:11.5px;color:var(--mut);font-weight:400}
+.opcoes{display:flex;gap:7px;flex-wrap:wrap}
+.opcoes button{font-family:var(--ui);font-size:13px;font-weight:500;padding:9px 15px;border-radius:9px;
+  border:1px solid var(--linha2);background:var(--surf);color:var(--tinta2);cursor:pointer;transition:.18s}
+.opcoes button:hover{border-color:var(--ac)}
+.opcoes button[aria-pressed=true]{background:var(--ac);border-color:var(--ac);color:#fff}
+.privacidade{font-size:12px;color:var(--mut);background:var(--surf2);border:1px solid var(--linha);
+  border-radius:10px;padding:12px 14px;margin-top:16px}
+.nav-f{display:flex;justify-content:space-between;gap:10px;margin-top:22px}
+.erro{color:var(--risco);font-size:12.5px;margin-top:8px;display:none}
+.erro.on{display:block}
+
+.fim{text-align:center}
+.fim .ok{width:60px;height:60px;border-radius:50%;background:var(--acclaro);color:var(--ac);
+  display:grid;place-items:center;font-size:28px;margin:0 auto 14px}
+.fim h3{font-size:21px}
+.fim p{color:var(--tinta2);font-size:14.5px;margin-top:7px}
+.resumo{text-align:left;background:var(--surf);border:1px solid var(--linha);border-radius:12px;
+  padding:16px 18px;margin-top:18px}
+.resumo h4{font-family:var(--ui);font-size:11.5px;font-weight:600;color:var(--mut);text-transform:uppercase;
+  letter-spacing:.04em;margin-bottom:10px}
+.rl{display:flex;justify-content:space-between;gap:14px;padding:7px 0;font-size:13.5px;border-bottom:1px solid var(--linha)}
+.rl:last-child{border-bottom:0}
+.rl span{color:var(--mut)}.rl b{font-weight:600;text-align:right}
+.acoes{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;justify-content:center}
+.disc{font-size:11.5px;color:var(--mut);margin-top:16px;padding-top:14px;border-top:1px solid var(--linha)}
+
+footer{background:#15191d;color:#9aa3ac;padding:44px 0 26px;font-size:13px;margin-top:60px}
+footer .fr{display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap}
+footer a{color:#cfd6dc}
+.fbase{border-top:1px solid rgba(255,255,255,.1);margin-top:26px;padding-top:18px;font-size:11.5px;
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:#79838d}
+
+/* ---- PDF ---- */
+#pdf{display:none}
+@media print{
+  @page{size:A4;margin:12mm}
+  body{background:#fff}
+  .demo,header.top,.hero,.filtros,.grade,footer,.mo,.lb{display:none!important}
+  #pdf{display:block;color:#15191d;font-family:"Inter",sans-serif}
+  #pdf .cab{display:flex;justify-content:space-between;align-items:flex-start;
+    border-bottom:2.5px solid #0e7a5c;padding-bottom:11px}
+  #pdf .cab .q{font-family:"Inter",sans-serif;font-size:17px;font-weight:600;letter-spacing:-.01em}
+  #pdf .cab .s{font-size:10.5px;color:#6d7681}
+  #pdf .cab .d{font-size:10.5px;color:#6d7681;text-align:right}
+  #pdf h1{font-family:"Outfit",sans-serif;font-weight:600;font-size:22px;letter-spacing:-.02em;margin:16px 0 2px}
+  #pdf .sub{font-size:11.5px;color:#6d7681;margin-bottom:14px}
+  #pdf .imo{display:flex;gap:14px;border:1px solid #a8e0c5;background:#e6f4ef;border-radius:8px;
+    padding:12px;margin-bottom:11px;break-inside:avoid}
+  #pdf .imo img{width:190px;height:132px;object-fit:cover;border-radius:6px;flex:0 0 190px}
+  #pdf .imo .dd{flex:1}
+  #pdf .imo h2{font-family:"Inter",sans-serif;font-size:14.5px;font-weight:600;margin-bottom:4px}
+  #pdf .imo .lo{font-size:11.5px;color:#3f4750}
+  #pdf .imo .vv{font-family:"Outfit",sans-serif;font-weight:600;font-size:22px;letter-spacing:-.02em;color:#08402f;margin-top:6px}
+  #pdf .imo .cf{font-size:11.5px;color:#3f4750;margin-top:4px}
+  #pdf .bloco{border:1px solid #d5d1c8;border-radius:8px;padding:12px 14px;margin-bottom:10px;break-inside:avoid}
+  #pdf .bloco h2{font-family:"Inter",sans-serif;font-size:10.5px;font-weight:600;text-transform:uppercase;
+    letter-spacing:.06em;color:#0e7a5c;margin-bottom:8px}
+  #pdf .li{display:flex;justify-content:space-between;gap:16px;padding:4.5px 0;font-size:12px;
+    border-bottom:1px solid #efece6}
+  #pdf .li:last-child{border-bottom:0}
+  #pdf .li span{color:#6d7681}
+  #pdf .li b{font-weight:600;text-align:right}
+  #pdf .obs{font-size:11.5px;color:#3f4750;white-space:pre-wrap}
+  #pdf .rod{margin-top:14px;padding-top:8px;border-top:1px solid #d5d1c8;font-size:9.5px;color:#8a9199;
+    display:flex;justify-content:space-between}
+}
+
+@media(max-width:900px){.grade{grid-template-columns:1fr 1fr}.fgrid{grid-template-columns:1fr}
+  .galeria{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:600px){.grade{grid-template-columns:1fr}.mo{padding:0}.mocx{border-radius:0;min-height:100%}
+  .corpo{padding:16px}.hero{padding:28px 0 16px}.lb .nav{width:40px;height:40px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap"><div class="row">
+  <div class="marca"><img class="av" src="img/mp-icone.png" alt="Matheus Padilha">
+    <span><b>Matheus Padilha</b><small>Corretor de Imóveis · CRECI 83206-F</small></span></div>
+  <div class="dir"><a class="btn btn-w" id="waTopo" href="#imoveis"><span class="so-desk">Falar no&nbsp;</span>WhatsApp</a></div>
+</div></div></header>
+
+<section class="hero"><div class="wrap"><div class="hero-grid">
+  <div class="hero-txt">
+    <span class="tag">Cruz Alta e região<span class="so-desk"> · CRECI 83206-F</span></span>
+    <h1>Encontro o imóvel<br>ideal para você.</h1>
+    <p>Investir em imóveis é plantar segurança para colher liberdade.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-p" href="#imoveis">Ver imóveis disponíveis</a>
+    </div>
+  </div>
+  <figure class="retrato" id="retrato">
+    <img src="img/matheus.jpg" alt="Matheus Padilha, corretor de imóveis" id="fotoM">
+    <figcaption><b>Matheus Padilha</b><span>Corretor de Imóveis · CRECI 83206-F</span></figcaption>
+  </figure>
+</div></div></section>
+
+<section class="faixa">
+  <div class="wrap"><div class="faixa-grid">
+    <article class="ben">
+      <div class="ben-ic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5.5h4V20"/></svg>
+      </div>
+      <div class="ben-tx">
+        <span class="ben-et">Especialista</span>
+        <h3>Minha Casa Minha Vida</h3>
+        <p>Enquadramento, subsídio, FGTS e documentação — do começo até a chave na mão.</p>
+      </div>
+    </article>
+    <article class="ben ben-net">
+      <div class="ben-ic net-logo" id="netLogo">
+        <img src="img/netmania.png" alt="NetMania" id="imgNet">
+        <span class="net-txt">NetMania</span>
+      </div>
+      <div class="ben-tx">
+        <span class="ben-et destaque">Exclusivo · NetMania</span>
+        <h3>1 ano de internet grátis</h3>
+        <p>Comprou um imóvel comigo, ganha um ano de internet na casa nova.
+           <span class="cond">Parceria NetMania · consulte as condições.</span></p>
+      </div>
+    </article>
+  </div></div>
+</section>
+
+<div class="wrap" id="imoveis">
+  <div class="filtros">
+    <div class="campo"><label for="fTipo">Tipo</label><select id="fTipo"></select></div>
+    <div class="campo"><label for="fQuartos">Dormitórios</label><select id="fQuartos">
+      <option value="0">Qualquer</option><option value="2">2+</option><option value="3">3+</option></select></div>
+    <div class="campo"><label for="fPreco">Valor até</label><select id="fPreco">
+      <option value="0">Qualquer valor</option><option value="250000">até R$ 250 mil</option>
+      <option value="400000">até R$ 400 mil</option><option value="600000">até R$ 600 mil</option>
+      <option value="1000000">até R$ 1 milhão</option></select></div>
+    <span class="contagem"><b id="qtd">0</b> imóveis</span>
+  </div>
+  <div class="grade" id="grade"></div>
+
+</div>
+
+<footer><div class="wrap">
+  <div class="fr">
+    <div style="max-width:300px">
+      <div class="marca" style="margin-bottom:10px"><img class="av" src="img/mp-icone.png" alt="">
+        <span><b style="color:#fff">Matheus Padilha</b><small style="color:#9aa3ac">Corretor de Imóveis</small></span></div>
+      <p>Venda e financiamento de imóveis em Cruz Alta e região — RS.</p>
+    </div>
+    <div><p><b style="color:#fff">Contato</b><br>(55) 99172-6085<br><a href="https://www.instagram.com/matheus_padilha_corretor" target="_blank" rel="noopener">@matheus_padilha_corretor</a></p></div>
+  </div>
+  <div class="fbase">
+    <span>© 2026 · site demonstrativo. Dados de anúncio ilustrativos.</span>
+    <span>Protótipo por <a href="https://padilhapablo00.github.io/pabloluz/">Pablo Luz</a></span>
+  </div>
+</div></footer>
+
+<div class="mo" id="mo">
+  <div class="fundo" id="moFundo"></div>
+  <div class="mocx">
+    <button class="fechar" id="moX" aria-label="Fechar">✕</button>
+    <div class="mohead" id="moHead"><img id="moIm" alt=""><div class="grad"></div>
+      <div class="info"><div class="loc" id="moLoc"></div><h2 id="moTit"></h2>
+        <div class="pr num" id="moPreco"></div></div></div>
+    <div class="corpo" id="moCorpo"></div>
+  </div>
+</div>
+
+<div class="lb" id="lb">
+  <button class="x" id="lbX" aria-label="Fechar">✕</button>
+  <button class="nav ant" id="lbAnt" aria-label="Anterior">‹</button>
+  <img id="lbIm" alt="">
+  <button class="nav prox" id="lbProx" aria-label="Próxima">›</button>
+  <div class="cont" id="lbCont"></div>
+</div>
+
+<div id="pdf"></div>
+
+<script>
+(function(){
+"use strict";
+/* ==========================================================================
+   CONFIGURAÇÃO — trocar pelos dados reais
+   ========================================================================== */
+// 55 (Brasil) + 55 (DDD) + numero. Trocar pelo WhatsApp do Matheus quando ele aprovar.
+const WHATS = "5555991726085";
+const CORRETOR = "Matheus Padilha";
+const CRECI = "83206-F";
+const P = "img/imoveis/";              // pasta das fotos
+
+/* Fotos são REAIS; texto, valores e endereços são de demonstração. */
+const IMOVEIS = [
+  {id:1,cod:"CA-101",tit:"Casa de esquina com terreno amplo",tipo:"Casa",cidade:"Cruz Alta",bairro:"",end:"",preco:650000,q:3,banh:2,vg:2,area:215,terreno:500,pasta:"im1",n:17,
+   desc:"Casa de esquina com 215 m² de área construída, em terreno com mais de 500 m². Excelente oportunidade para investidor: o terreno comporta a construção de kitnets.",
+   itens:["3 quartos","2 banheiros","Casa de esquina","Terreno +500 m²","Potencial para kitnets","Ótima para investidor"]},
+  {id:2,cod:"CA-102",tit:"Casa com garagem no subsolo",tipo:"Casa",cidade:"Cruz Alta",bairro:"São Miguel",end:"",preco:299000,q:2,banh:1,vg:1,area:0,terreno:0,pasta:"im2",n:11,
+   desc:"Casa bem localizada, espaçosa e próxima ao centro. Terreno grande e garagem no subsolo.",
+   itens:["2 quartos","Sala","Cozinha","Banheiro","Garagem no subsolo","Terreno grande"]},
+  {id:3,cod:"CA-103",tit:"Casa de esquina com piscina",tipo:"Casa",cidade:"Cruz Alta",bairro:"Bonini 2",end:"",preco:480000,q:2,banh:1,vg:3,area:0,terreno:330,pasta:"im3",n:16,
+   desc:"Casa de esquina com ótimo espaço externo e área de lazer para aproveitar com a família. Terreno de 11 x 30 m.",
+   itens:["2 quartos, sendo 1 suíte","2 salas","Cozinha","Garagem para 3 carros","Lavanderia","Piscina de 18 mil litros"]},
+  {id:4,cod:"CA-104",tit:"Casa alto padrão mobiliada",tipo:"Casa",cidade:"Cruz Alta",bairro:"Loteamento Bela Vista",end:"",preco:550000,q:2,banh:2,vg:2,area:132,terreno:312,pasta:"im4",n:11,
+   desc:"Casa pronta para morar, vendida totalmente mobiliada, com móveis planejados em todos os ambientes. Região tranquila e valorizada da cidade. Terreno de 12,5 x 25 m.",
+   itens:["2 quartos","2 banheiros","Sala integrada à cozinha","Móveis planejados","Quiosque mobiliado","Piscina com aquecimento","2 vagas","Portões eletrônicos","Murado e gradeado"]},
+  {id:5,cod:"AP-105",tit:"Apartamento no Edifício Torino",tipo:"Apartamento",cidade:"Cruz Alta",bairro:"Centro",end:"",preco:650000,q:2,banh:2,vg:1,area:0,terreno:0,pasta:"im5",n:11,
+   desc:"No coração de Cruz Alta, em um dos endereços mais desejados da cidade. Conforto e localização que poucos apartamentos entregam.",
+   itens:["2 dormitórios","Suíte com closet","Sala ampla","Churrasqueira interna","Lavanderia","Água quente e chuveiros a gás","Garagem coberta"]},
+  {id:6,cod:"CA-106",tit:"Casa com pátio no Ferroviário",tipo:"Casa",cidade:"Cruz Alta",bairro:"Ferroviário",end:"",preco:318000,q:2,banh:1,vg:1,area:0,terreno:0,pasta:"im6",n:7,
+   desc:"Excelente oportunidade para quem busca conforto, praticidade e um ótimo espaço para morar. Estuda propostas.",
+   itens:["2 quartos","Sala ampla","Cozinha","Banheiro social","Área de serviço","Vaga de garagem","Pátio"]},
+  {id:7,cod:"CA-107",tit:"Casa completa com piscina",tipo:"Casa",cidade:"Cruz Alta",bairro:"Lizabel",end:"",preco:390000,q:2,banh:1,vg:1,area:102,terreno:0,pasta:"im7",n:9,
+   desc:"Imóvel pronto para morar, com conforto, espaço e excelente área de lazer. 102,20 m² de área privativa. Aceita financiamento e estuda propostas.",
+   itens:["2 dormitórios","Banheiro social","Sala com lareira","Cozinha funcional","Garagem","Piso laminado","Piscina","Churrasqueira"]},
+  {id:8,cod:"CA-108",tit:"Casa com terreno arborizado",tipo:"Casa",cidade:"Cruz Alta",bairro:"",end:"",preco:480000,q:2,banh:1,vg:3,area:131,terreno:0,pasta:"im8",n:17,
+   desc:"Localizada em bairro tranquilo, seguro e próximo de escola. Terreno amplo e arborizado com árvores frutíferas. Valor com placa solar: R$ 530 mil. Estuda proposta com imóvel de até R$ 250 mil como parte do pagamento.",
+   itens:["2 quartos (1 com ar-condicionado)","Banheiro social","Sala de estar","Sala principal","Cozinha ampla","Lavanderia","Lareira","Churrasqueira elétrica","Garagem para 3 carros","Portão eletrônico"]},
+  {id:9,cod:"CA-109",tit:"Casa na Boa Parada",tipo:"Casa",cidade:"Cruz Alta",bairro:"Boa Parada",end:"",preco:215000,q:2,banh:1,vg:0,area:0,terreno:390,pasta:"im9",n:13,
+   desc:"A apenas 2 quadras da Xavantes, rua asfaltada e calçada em toda a volta. Terreno de 12 x 32,5 m. Aceita caminhonete no negócio. Não financia no momento.",
+   itens:["2 quartos","Sala","Cozinha mista","Banheiro","Terreno 12x32,5","Rua asfaltada"]},
+  {id:10,cod:"AP-110",tit:"Apartamento exclusivo — andar inteiro",tipo:"Apartamento",cidade:"Cruz Alta",bairro:"Edifício Bela Vista",end:"",preco:1750000,q:3,banh:4,vg:2,area:268,terreno:0,pasta:"im10",n:9,
+   desc:"Um apartamento por andar: 7º andar inteiro exclusivo, em empreendimento com apenas 8 moradores. 268 m² de área privativa e 328 m² de área total. Estuda proposta.",
+   itens:["3 quartos","Suíte principal com banheira","4 banheiros","2 vagas","Sala de estar ampla","Sala de jantar","Lavanderia","Churrasqueira","Lareira","Sacada frontal e lateral","Salão de festas"]},
+  {id:11,cod:"TE-111",tit:"Terreno com casa — ótima localização",tipo:"Terreno",cidade:"Cruz Alta",bairro:"",end:"",preco:150000,q:0,banh:0,vg:0,area:63,terreno:280,pasta:"im11",n:1,
+   desc:"Terreno com excelente localização, ideal para moradia ou investimento. Medidas de 9,50 x 29,49 m, com 63 m² construídos. Próximo ao São Vicente de Paulo, Delegacia e Escola CIEP.",
+   itens:["Terreno 9,50 x 29,49 m","63 m² construídos","Localização estratégica","Ideal para investimento"]},
+  {id:12,cod:"CA-112",tit:"Casa de esquina com piscina e quiosque",tipo:"Casa",cidade:"Cruz Alta",bairro:"",end:"",preco:630000,q:2,banh:2,vg:1,area:0,terreno:0,pasta:"im12",n:30,
+   desc:"Localização estratégica, próxima a mercado e à Delegacia Civil. Aceita financiamento, proposta à vista, entrada + parcelamento safra (entrada mínima R$ 350.000) e permuta por apartamento no litoral.",
+   itens:["2 dormitórios, sendo 1 suíte","2 banheiros","Cozinha funcional","Lavanderia","Quiosque","Piscina","Casa de esquina"]},
+  {id:13,cod:"CA-113",tit:"Casa com terreno amplo no Ferroviário",tipo:"Casa",cidade:"Cruz Alta",bairro:"Ferroviário",end:"",preco:280000,q:2,banh:1,vg:0,area:65,terreno:372,pasta:"im13",n:9,
+   desc:"Casa de aproximadamente 65 m² em terreno amplo de 372,50 m², com frente para a Rua Borges do Canto. Entra no programa Minha Casa Minha Vida. Excelente para quem busca espaço ou deseja ampliar.",
+   itens:["2 dormitórios","Sala com lareira","Cozinha","Despensa","Banheiro social","Terreno 372,50 m²","Minha Casa Minha Vida"]}
+];
+
+/* ========================================================================== */
+const SEM_FOTO = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e9e6df'/%3E%3Cg fill='none' stroke='%23a9a49a' stroke-width='6' stroke-linejoin='round'%3E%3Cpath d='M120 155 L200 100 L280 155'/%3E%3Cpath d='M138 148 L138 205 L262 205 L262 148'/%3E%3Cpath d='M182 205 L182 168 L218 168 L218 205'/%3E%3C/g%3E%3Ctext x='200' y='245' text-anchor='middle' fill='%238b867c' font-family='Inter,sans-serif' font-size='16'%3EFotos em breve%3C/text%3E%3C/svg%3E";
+const $ = id => document.getElementById(id);
+const nf = new Intl.NumberFormat('pt-BR');
+const brl = v => 'R$ ' + nf.format(Math.round(v));
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const foto  = (im,i) => P+im.pasta+'-'+String(i).padStart(2,'0')+'.jpg';
+const thumb = (im,i) => P+im.pasta+'-'+String(i).padStart(2,'0')+'t.jpg';
+const capa  = im => im.n>0 ? P+im.pasta+'-capa.jpg' : SEM_FOTO;
+const local = (im,comEnd) => [comEnd?im.end:'', im.bairro, im.cidade+' — RS'].filter(Boolean).join(' · ');
+
+/* ---------- grade ---------- */
+function preencheFiltros(){
+  const tp=[...new Set(IMOVEIS.map(i=>i.tipo))].sort();
+  $('fTipo').innerHTML='<option value="">Todos</option>'+tp.map(x=>`<option>${esc(x)}</option>`).join('');
+}
+function renderGrade(){
+  const c=$('fTipo').value,q=+$('fQuartos').value,p=+$('fPreco').value;
+  const lista=IMOVEIS.filter(i=>(!c||i.tipo===c)&&(!q||i.q>=q)&&(!p||i.preco<=p));
+  $('qtd').textContent=lista.length;
+  $('grade').innerHTML = lista.length ? lista.map(i=>{
+    const temFotos=i.n>0;
+    // so' pede as miniaturas que existem (imovel com 1 foto nao pode pedir 3)
+    const nMini=Math.min(3,i.n), extra=i.n-nMini;
+    const minis=temFotos?Array.from({length:nMini},(_,k)=>
+      `<div class="mini"><img src="${thumb(i,k+1)}" alt="" loading="lazy"></div>`).join(''):'';
+    return `<article class="card" data-id="${i.id}" tabindex="0" role="button">
+      <div class="capa"><img src="${capa(i)}" alt="${esc(i.tit)}" loading="lazy">
+        <span class="cod">${esc(i.cod)}</span>
+        ${temFotos?`<span class="nfotos">${i.n+1} fotos</span>`:''}</div>
+      ${temFotos?`<div class="strip" style="grid-template-columns:repeat(${nMini+(extra>0?1:0)},1fr)">${minis}${
+        extra>0?`<div class="mini mais">+${extra}</div>`:''}</div>`:''}
+      <div class="txt">
+        <div class="loc">${esc(local(i,false))}</div>
+        <h3>${esc(i.tit)}</h3>
+        <div class="preco num">${brl(i.preco)}</div>
+        <div class="specs">
+          ${i.q?`<span><b>${i.q}</b> dorm.</span>`:''}${i.banh?`<span><b>${i.banh}</b> banh.</span>`:''}
+          ${i.area?`<span><b>${i.area}</b> m²</span>`:''}${i.terreno?`<span>terreno <b>${i.terreno}</b> m²</span>`:''}
+        </div>
+        <div class="acoesCard">
+          <button class="ver" type="button" data-acao="ver">${temFotos?`Ver as ${i.n+1} fotos`:'Ver detalhes'} <i>→</i></button>
+          <button class="quero" type="button" data-acao="quero">Tenho interesse</button>
+        </div>
+      </div></article>`;}).join('')
+    : '<div class="vazio">Nenhum imóvel com esses filtros.</div>';
+}
+['fTipo','fQuartos','fPreco'].forEach(id=>$(id).addEventListener('change',renderGrade));
+$('grade').addEventListener('click',e=>{
+  const c=e.target.closest('.card'); if(!c) return;
+  const b=e.target.closest('[data-acao]');
+  // "Tenho interesse" pula direto pro formulario; o resto do card abre as fotos
+  abrir(+c.dataset.id, b && b.dataset.acao==='quero');});
+$('grade').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){
+  const c=e.target.closest('.card');if(c){e.preventDefault();abrir(+c.dataset.id);}}});
+
+/* ---------- modal ---------- */
+let AT=null, R={}, ETAPA=0;
+const mo=$('mo');
+function abrir(id, direto){
+  AT=IMOVEIS.find(i=>i.id===id); if(!AT) return;
+  R={}; ETAPA=direto?1:0;
+  $('moIm').src=capa(AT); $('moIm').alt=AT.tit;
+  $('moHead').classList.toggle('semfoto', !(AT.n>0));
+  $('moTit').textContent=AT.tit;
+  $('moLoc').textContent=AT.cod+' · '+local(AT,true);
+  $('moPreco').textContent=brl(AT.preco);
+  direto ? telaForm() : telaImovel();
+  mo.classList.add('on'); document.body.style.overflow='hidden';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>mo.classList.add('show')));
+}
+function fechar(){mo.classList.remove('show');document.body.style.overflow='';
+  setTimeout(()=>mo.classList.remove('on'),340);}
+$('moX').onclick=fechar; $('moFundo').onclick=fechar;
+$('moHead').onclick=()=>{if(AT&&AT.n>0)abrirLb(0);};
+
+/* ---------- lightbox ---------- */
+let LBI=0;
+function listaFotos(){ return [capa(AT)].concat(
+  Array.from({length:AT.n},(_,k)=>foto(AT,k+1))); }
+function abrirLb(i){ LBI=i; mostrarLb(); $('lb').classList.add('on'); }
+function mostrarLb(){ const L=listaFotos();
+  LBI=(LBI+L.length)%L.length; $('lbIm').src=L[LBI];
+  $('lbCont').textContent=(LBI+1)+' de '+L.length; }
+$('lbX').onclick=()=>$('lb').classList.remove('on');
+$('lbAnt').onclick=e=>{e.stopPropagation();LBI--;mostrarLb();};
+$('lbProx').onclick=e=>{e.stopPropagation();LBI++;mostrarLb();};
+$('lb').addEventListener('click',e=>{if(e.target.id==='lb')$('lb').classList.remove('on');});
+document.addEventListener('keydown',e=>{
+  if($('lb').classList.contains('on')){
+    if(e.key==='Escape')$('lb').classList.remove('on');
+    if(e.key==='ArrowLeft'){LBI--;mostrarLb();}
+    if(e.key==='ArrowRight'){LBI++;mostrarLb();}
+    return;
+  }
+  if(e.key==='Escape'&&mo.classList.contains('on'))fechar();
+});
+
+/* ---------- tela 1: imóvel + galeria ---------- */
+function telaImovel(){
+  const gal=Array.from({length:AT.n},(_,k)=>
+    `<button type="button" data-i="${k+1}"><img src="${thumb(AT,k+1)}" alt="Foto ${k+1}" loading="lazy"></button>`).join('');
+  $('moCorpo').innerHTML=`
+    <div class="dgrid">
+      <div><b class="num">${brl(AT.preco)}</b><span>Valor</span></div>
+      ${AT.area?`<div><b class="num">${AT.area} m²</b><span>Construída</span></div>`:''}
+      ${AT.q?`<div><b class="num">${AT.q}</b><span>Dormitórios</span></div>`:''}
+      ${AT.banh?`<div><b class="num">${AT.banh}</b><span>Banheiros</span></div>`:''}
+      <div><b class="num">${AT.terreno?AT.terreno+' m²':AT.vg}</b><span>${AT.terreno?'Terreno':'Vagas'}</span></div>
+    </div>
+    <p class="desc">${esc(AT.desc)}</p>
+    <div class="itens">${AT.itens.map(x=>`<span>${esc(x)}</span>`).join('')}</div>
+    ${AT.n>0?`<div class="tituloS">Fotos do imóvel <span>clique para ampliar</span></div>
+    <div class="galeria" id="gal">${gal}</div>`:''}
+    <div class="nav-f"><span></span>
+      <button class="btn btn-p" id="btnInteresse">Tenho interesse nesta casa →</button></div>`;
+  const elGal=$('gal');
+  if(elGal) elGal.addEventListener('click',e=>{const b=e.target.closest('button');if(b)abrirLb(+b.dataset.i);});
+  $('btnInteresse').onclick=()=>{ETAPA=1;telaForm();};
+}
+
+/* ---------- formulário ---------- */
+const OPCOES_COMPRA=[
+  {v:"pre",    t:"Já tenho financiamento pré-aprovado", s:"O banco já aprovou meu crédito"},
+  {v:"precisa",t:"Vou precisar de financiamento",       s:"Ainda não fui ao banco"},
+  {v:"vista",  t:"Vou pagar à vista",                   s:"Sem financiamento"}
+];
+const trilha=n=>`<div class="trilha">${[1,2,3].map(i=>`<div class="${i<=n?'on':''}"></div>`).join('')}</div>`;
+
+function telaForm(){
+  const c=$('moCorpo');
+  if(ETAPA===1){
+    c.innerHTML=trilha(1)+`<div class="etapa">
+      <h3>Como você pretende comprar?</h3>
+      <p class="aj">Essa é a informação que mais muda o próximo passo.</p>
+      <div class="escolhas" id="escCompra">
+        ${OPCOES_COMPRA.map(o=>`<button class="escolha" type="button" data-v="${o.v}"
+          aria-pressed="${R.compra===o.v}"><span class="ic"></span>
+          <span><b>${o.t}</b><small>${o.s}</small></span></button>`).join('')}
+      </div>
+      <div class="erro" id="err1">Escolha uma opção para continuar.</div>
+      <div class="nav-f"><button class="btn btn-g" id="volta">← Voltar</button>
+        <button class="btn btn-p" id="avanca">Continuar →</button></div></div>`;
+    $('escCompra').addEventListener('click',e=>{
+      const b=e.target.closest('.escolha'); if(!b) return;
+      R.compra=b.dataset.v;
+      [...e.currentTarget.children].forEach(x=>x.setAttribute('aria-pressed',x===b));
+      $('err1').classList.remove('on');});
+    $('volta').onclick=()=>{ETAPA=0;telaImovel();};
+    $('avanca').onclick=()=>{if(!R.compra){$('err1').classList.add('on');return;}ETAPA=2;telaForm();};
+  }
+  else if(ETAPA===2){
+    c.innerHTML=trilha(2)+`<div class="etapa">${blocoCondicao()}
+      <div class="erro" id="err2">Preencha os campos obrigatórios (*).</div>
+      <div class="nav-f"><button class="btn btn-g" id="volta">← Voltar</button>
+        <button class="btn btn-p" id="avanca">Continuar →</button></div></div>`;
+    ligaOpcoes();
+    $('volta').onclick=()=>{ETAPA=1;telaForm();};
+    $('avanca').onclick=()=>{if(!validaCondicao()){$('err2').classList.add('on');return;}ETAPA=3;telaForm();};
+  }
+  else if(ETAPA===3){
+    c.innerHTML=trilha(3)+`<div class="etapa">
+      <h3>Como falo com você?</h3><p class="aj">Só isso e eu já te retorno.</p>
+      <div class="fgrid">
+        <div class="fcampo"><label>Seu nome *</label><input type="text" id="qNome" value="${esc(R.nome||'')}"></div>
+        <div class="fcampo"><label>WhatsApp *</label><input type="tel" id="qFone" placeholder="(00) 00000-0000" value="${esc(R.fone||'')}"></div>
+        <div class="fcampo full"><label>E-mail <span class="dica">opcional</span></label>
+          <input type="email" id="qEmail" value="${esc(R.email||'')}"></div>
+        <div class="fcampo full"><label>Quando pretende comprar?</label>
+          <div class="opcoes" data-g="prazo">${["Até 30 dias","1 a 3 meses","3 a 6 meses","Sem pressa"]
+            .map(v=>`<button type="button" data-v="${v}" aria-pressed="${R.prazo===v}">${v}</button>`).join('')}</div></div>
+        <div class="fcampo full"><label>Quer dizer mais alguma coisa? <span class="dica">opcional</span></label>
+          <textarea id="qObs" rows="2">${esc(R.obs||'')}</textarea></div>
+      </div>
+      <div class="privacidade">🔒 Seus dados <b>não são salvos em nenhum servidor</b>. Eles geram o PDF
+        e a mensagem que você mesmo envia — você vê tudo antes.</div>
+      <div class="erro" id="err3">Preencha nome e WhatsApp.</div>
+      <div class="nav-f"><button class="btn btn-g" id="volta">← Voltar</button>
+        <button class="btn btn-p" id="finalizar">Finalizar</button></div></div>`;
+    ligaOpcoes();
+    $('volta').onclick=()=>{guardaContato();ETAPA=2;telaForm();};
+    $('finalizar').onclick=()=>{guardaContato();
+      if(!R.nome||!R.fone){$('err3').classList.add('on');return;}
+      ETAPA=4; telaFim(false);};
+  }
+}
+function blocoCondicao(){
+  if(R.compra==='pre') return `
+    <h3>Sobre o seu crédito aprovado</h3><p class="aj">Com isso eu já sei o que dá pra fechar.</p>
+    <div class="fgrid">
+      <div class="fcampo"><label>Banco *</label><input type="text" id="qBanco" placeholder="Ex.: Caixa, Banrisul..." value="${esc(R.banco||'')}"></div>
+      <div class="fcampo"><label>Valor aprovado *</label><input type="number" id="qAprovado" inputmode="numeric" placeholder="Ex.: 300000" value="${R.aprovado||''}"></div>
+      <div class="fcampo full"><label>Quanto tem de entrada disponível?</label>
+        <input type="number" id="qEntrada" inputmode="numeric" placeholder="Ex.: 60000" value="${R.entrada||''}"></div>
+      <div class="fcampo full"><label>Tem imóvel para dar na negociação?</label>
+        <div class="opcoes" data-g="permuta">${["Não","Sim"].map(v=>
+          `<button type="button" data-v="${v}" aria-pressed="${R.permuta===v}">${v}</button>`).join('')}</div></div>
+    </div>`;
+  if(R.compra==='vista') return `
+    <h3>Compra à vista</h3><p class="aj">Só mais dois detalhes.</p>
+    <div class="fgrid">
+      <div class="fcampo full"><label>Tem imóvel para dar na negociação?</label>
+        <div class="opcoes" data-g="permuta">${["Não","Sim"].map(v=>
+          `<button type="button" data-v="${v}" aria-pressed="${R.permuta===v}">${v}</button>`).join('')}</div></div>
+      <div class="fcampo full"><label>Quando poderia fechar?</label>
+        <div class="opcoes" data-g="fechar">${["Imediato","Em 30 dias","Depois de vender outro"].map(v=>
+          `<button type="button" data-v="${v}" aria-pressed="${R.fechar===v}">${v}</button>`).join('')}</div></div>
+    </div>`;
+  return `
+    <h3>Vamos ver o que dá pra fazer</h3>
+    <p class="aj">São respostas rápidas. Quanto mais certinho, mais rápido eu te retorno.</p>
+    <div class="fgrid">
+      <div class="fcampo"><label>Renda familiar bruta por mês *
+        <span class="dica">soma de quem entra no financiamento</span></label>
+        <input type="number" id="qRenda" inputmode="numeric" placeholder="Ex.: 5000" value="${R.renda||''}"></div>
+      <div class="fcampo"><label>Entrada disponível <span class="dica">quanto tem hoje</span></label>
+        <input type="number" id="qEntrada" inputmode="numeric" placeholder="Ex.: 40000" value="${R.entrada||''}"></div>
+      <div class="fcampo full"><label>Tem dívida ou restrição no nome? *
+        <span class="dica">Serasa, SPC, protesto — o banco consulta</span></label>
+        <div class="opcoes" data-g="divida">${["Não tenho","Tenho","Já tive, está quitado","Não sei"].map(v=>
+          `<button type="button" data-v="${v}" aria-pressed="${R.divida===v}">${v}</button>`).join('')}</div></div>
+      <div class="fcampo"><label>Tem FGTS para usar?</label>
+        <div class="opcoes" data-g="fgts">${["Sim","Não","Não sei"].map(v=>
+          `<button type="button" data-v="${v}" aria-pressed="${R.fgts===v}">${v}</button>`).join('')}</div></div>
+      <div class="fcampo"><label>É o seu primeiro imóvel?</label>
+        <div class="opcoes" data-g="primeiro">${["Sim","Não"].map(v=>
+          `<button type="button" data-v="${v}" aria-pressed="${R.primeiro===v}">${v}</button>`).join('')}</div></div>
+      <div class="fcampo full"><label>Como é a sua renda?</label>
+        <div class="opcoes" data-g="vinculo">${["CLT","Autônomo","Empresário","Servidor","Aposentado"].map(v=>
+          `<button type="button" data-v="${v}" aria-pressed="${R.vinculo===v}">${v}</button>`).join('')}</div></div>
+      <div class="fcampo full"><label>Tem imóvel para dar na negociação?</label>
+        <div class="opcoes" data-g="permuta">${["Não","Sim"].map(v=>
+          `<button type="button" data-v="${v}" aria-pressed="${R.permuta===v}">${v}</button>`).join('')}</div></div>
+    </div>`;
+}
+function ligaOpcoes(){
+  document.querySelectorAll('#moCorpo .opcoes').forEach(g=>{
+    g.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+      R[g.dataset.g]=b.dataset.v;
+      [...g.children].forEach(x=>x.setAttribute('aria-pressed',x===b));});});
+}
+function validaCondicao(){
+  const g=id=>$(id)?$(id).value.trim():'';
+  if(R.compra==='pre'){R.banco=g('qBanco');R.aprovado=g('qAprovado');R.entrada=g('qEntrada');
+    return !!(R.banco&&R.aprovado);}
+  if(R.compra==='vista') return true;
+  R.renda=g('qRenda');R.entrada=g('qEntrada');
+  return !!(R.renda&&R.divida);
+}
+function guardaContato(){
+  const g=id=>$(id)?$(id).value.trim():'';
+  R.nome=g('qNome');R.fone=g('qFone');R.email=g('qEmail');R.obs=g('qObs');
+}
+
+/* ---------- final ---------- */
+const rotuloCompra=v=>({pre:'Já tem financiamento pré-aprovado',
+  precisa:'Vai precisar de financiamento',vista:'Compra à vista'})[v]||'—';
+function linhasResumo(){
+  const L=[['Como pretende comprar',rotuloCompra(R.compra)]];
+  if(R.compra==='pre'){
+    L.push(['Banco',R.banco||'—']);
+    if(R.aprovado)L.push(['Valor aprovado',brl(+R.aprovado)]);
+    if(R.entrada)L.push(['Entrada disponível',brl(+R.entrada)]);
+  }else if(R.compra==='precisa'){
+    if(R.renda)L.push(['Renda familiar',brl(+R.renda)]);
+    if(R.entrada)L.push(['Entrada disponível',brl(+R.entrada)]);
+    if(R.divida)L.push(['Dívida / restrição',R.divida]);
+    if(R.fgts)L.push(['FGTS',R.fgts]);
+    if(R.primeiro)L.push(['Primeiro imóvel',R.primeiro]);
+    if(R.vinculo)L.push(['Tipo de renda',R.vinculo]);
+  }else if(R.compra==='vista'){
+    if(R.fechar)L.push(['Poderia fechar',R.fechar]);
+  }
+  if(R.permuta)L.push(['Imóvel na negociação',R.permuta]);
+  if(R.prazo)L.push(['Pretende comprar',R.prazo]);
+  return L;
+}
+function telaFim(abriu){
+  const L=linhasResumo();
+  $('moCorpo').innerHTML=`<div class="fim">
+    <div class="ok">✓</div>
+    <h3>Prontinho, ${esc((R.nome||'').split(' ')[0]||'tudo certo')}!</h3>
+    <p>Toque abaixo para me enviar a ficha completa — vai a <b>imagem com todos os dados</b>
+       junto com a mensagem.</p>
+    <div class="resumo"><h4>Imóvel</h4>
+      <div class="rl"><span>${esc(AT.cod)}</span><b>${esc(AT.tit)}</b></div>
+      <div class="rl"><span>Local</span><b>${esc(local(AT,true))}</b></div>
+      <div class="rl"><span>Valor</span><b class="num">${brl(AT.preco)}</b></div></div>
+    <div class="resumo"><h4>Suas respostas</h4>
+      ${L.map(l=>`<div class="rl"><span>${esc(l[0])}</span><b>${esc(l[1])}</b></div>`).join('')}</div>
+    <div class="acoes">
+      <a class="btn btn-w" id="btnWa" href="#">Enviar ficha no WhatsApp</a>
+      <button class="btn btn-g" id="btnPdf">Imprimir / PDF</button>
+      <button class="btn btn-g" id="btnEditar">← Corrigir</button>
+    </div>
+    <p class="disc">Site demonstrativo. As informações são usadas apenas para gerar a mensagem
+      e o PDF — nada é armazenado em servidor.</p></div>`;
+  const wa=$('btnWa');
+  wa.href='#';
+  wa.onclick=e=>{ e.preventDefault(); enviarFicha(); };
+  $('btnEditar').onclick=()=>{ETAPA=3;telaForm();};
+  $('btnPdf').onclick=gerarPDF;
+}
+function montarMensagem(){
+  // *texto* fica em negrito no WhatsApp
+  const L=['Olá '+CORRETOR+'! Preenchi a ficha no site.','',
+    '*IMÓVEL DE INTERESSE*',
+    AT.cod+' — '+AT.tit, local(AT,true), '*'+brl(AT.preco)+'*',
+    [AT.q?AT.q+' dorm.':'', AT.banh?AT.banh+' banh.':'', AT.area?AT.area+' m²':'', AT.terreno?'terreno '+AT.terreno+' m²':''].filter(Boolean).join(' · ')+(AT.terreno?' · terreno '+AT.terreno+' m²':''),
+    '', '*MINHA SITUAÇÃO*'];
+  linhasResumo().forEach(l=>L.push('• '+l[0]+': '+l[1]));
+  L.push('','*CONTATO*','• Nome: '+(R.nome||'—'));
+  if(R.fone)  L.push('• WhatsApp: '+R.fone);
+  if(R.email) L.push('• E-mail: '+R.email);
+  if(R.obs)   L.push('','*OBSERVAÇÃO*','_'+R.obs+'_');
+  return L.join('\n');
+}
+const linkWhats = () => 'https://wa.me/'+WHATS+'?text='+encodeURIComponent(montarMensagem());
+
+/* ---------- ficha em IMAGEM (para enviar como arquivo no WhatsApp) ---------- */
+function carregarImg(src){
+  return new Promise(res=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=()=>res(null); i.src=src; });
+}
+function quebrar(ctx, txt, larg){
+  const p = String(txt).split(' '); const linhas=[]; let l='';
+  for(const w of p){ const teste = l ? l+' '+w : w;
+    if(ctx.measureText(teste).width > larg && l){ linhas.push(l); l=w; } else l=teste; }
+  if(l) linhas.push(l); return linhas;
+}
+async function gerarImagemFicha(){
+  const W=1000, L=linhasResumo();
+  const foto = await carregarImg(capa(AT));
+  const logo = await carregarImg('img/mp-icone.png');
+  const alturaFoto = foto ? 400 : 0;
+  const H = 150 + alturaFoto + 260 + (L.length+4)*46 + (R.obs?160:0);
+  const c = document.createElement('canvas'); c.width=W; c.height=H;
+  const x = c.getContext('2d');
+  x.fillStyle='#ffffff'; x.fillRect(0,0,W,H);
+
+  // cabecalho
+  if(logo) x.drawImage(logo, 44, 34, 74, 74);
+  x.fillStyle='#15181c'; x.font='700 30px Inter, sans-serif';
+  x.fillText('MATHEUS PADILHA', 136, 68);
+  x.fillStyle='#767d85'; x.font='400 19px Inter, sans-serif';
+  x.fillText('Corretor de Imóveis · CRECI 83206-F', 136, 98);
+  x.fillStyle='#cf2626'; x.fillRect(0, 138, W, 6);
+  let y = 144;
+
+  // foto do imovel
+  if(foto){
+    const r = Math.max(W/foto.width, alturaFoto/foto.height);
+    const fw = foto.width*r, fh = foto.height*r;
+    x.save(); x.beginPath(); x.rect(0,y,W,alturaFoto); x.clip();
+    x.drawImage(foto, (W-fw)/2, y+(alturaFoto-fh)/2, fw, fh);
+    x.fillStyle='rgba(21,24,28,.55)'; x.fillRect(0, y+alturaFoto-96, W, 96);
+    x.fillStyle='#fff'; x.font='700 34px Inter, sans-serif';
+    x.fillText(brl(AT.preco), 40, y+alturaFoto-52);
+    x.font='400 20px Inter, sans-serif';
+    x.fillText(AT.cod+' · '+local(AT,false), 40, y+alturaFoto-22);
+    x.restore(); y += alturaFoto;
+  }
+
+  // titulo
+  y += 54; x.fillStyle='#15181c'; x.font='700 32px Inter, sans-serif';
+  quebrar(x, AT.tit, W-80).slice(0,2).forEach(l=>{ x.fillText(l, 40, y); y+=40; });
+  y += 8; x.fillStyle='#767d85'; x.font='600 16px Inter, sans-serif';
+  x.fillText('FICHA DE INTERESSE · '+new Date().toLocaleDateString('pt-BR'), 40, y);
+  y += 34;
+
+  // dados
+  function secao(titulo){
+    y += 18; x.fillStyle='#cf2626'; x.font='700 16px Inter, sans-serif';
+    x.fillText(titulo.toUpperCase(), 40, y); y += 12;
+    x.strokeStyle='#e7e3dc'; x.lineWidth=1;
+    x.beginPath(); x.moveTo(40,y); x.lineTo(W-40,y); x.stroke(); y += 14;
+  }
+  function linha(rot, val){
+    y += 30; x.fillStyle='#767d85'; x.font='400 20px Inter, sans-serif';
+    x.fillText(rot, 40, y);
+    x.fillStyle='#15181c'; x.font='600 20px Inter, sans-serif';
+    x.textAlign='right'; x.fillText(String(val), W-40, y); x.textAlign='left';
+    y += 10; x.strokeStyle='#f2efe9';
+    x.beginPath(); x.moveTo(40,y); x.lineTo(W-40,y); x.stroke();
+  }
+  secao('Cliente');
+  linha('Nome', R.nome||'—');
+  linha('WhatsApp', R.fone||'—');
+  if(R.email) linha('E-mail', R.email);
+  secao('Condição de compra');
+  L.forEach(l=>linha(l[0], l[1]));
+  if(R.obs){
+    secao('Observação'); y += 26;
+    x.fillStyle='#454d55'; x.font='400 19px Inter, sans-serif';
+    quebrar(x, R.obs, W-80).slice(0,3).forEach(l=>{ x.fillText(l,40,y); y+=28; });
+  }
+  y += 34; x.fillStyle='#a3a8ae'; x.font='400 16px Inter, sans-serif';
+  x.fillText('Ficha preenchida pelo cliente no site', 40, y);
+  y += 26;
+  // recorta na altura real (evita sobra em branco no fim)
+  const fin = document.createElement('canvas'); fin.width=W; fin.height=Math.min(H, Math.ceil(y));
+  const fx = fin.getContext('2d');
+  fx.fillStyle='#ffffff'; fx.fillRect(0,0,fin.width,fin.height);
+  fx.drawImage(c, 0,0);
+  // JPEG: mesma leitura, arquivo bem menor para o WhatsApp
+  return new Promise(res=>fin.toBlob(res,'image/jpeg',0.92));
+}
+async function enviarFicha(){
+  const btn = $('btnWa'); const txtOriginal = btn.textContent;
+  try{
+    btn.textContent = 'Preparando...';
+    const blob = await gerarImagemFicha();
+    const arq = new File([blob], 'ficha-'+AT.cod+'.jpg', {type:'image/jpeg'});
+    // Web Share: manda a FICHA como arquivo direto pro WhatsApp (celular)
+    if(navigator.canShare && navigator.canShare({files:[arq]})){
+      await navigator.share({files:[arq], text: montarMensagem()});
+      btn.textContent = txtOriginal; return;
+    }
+    // computador: baixa a ficha e abre o WhatsApp com o texto
+    const u = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href=u; a.download=arq.name;
+    document.body.appendChild(a); a.click(); a.remove();   // precisa estar no DOM
+    setTimeout(()=>URL.revokeObjectURL(u), 4000);
+    if(WHATS) window.open(linkWhats(),'_blank');
+    btn.textContent = txtOriginal;
+  }catch(e){
+    btn.textContent = txtOriginal;
+    if(e && e.name==='AbortError') return;      // usuario cancelou o compartilhamento
+    console.error('ficha:', e);
+    if(WHATS) window.open(linkWhats(),'_blank');
+  }
+}
+
+function gerarPDF(){
+  const agora=new Date().toLocaleString('pt-BR'), L=linhasResumo();
+  $('pdf').innerHTML=`
+    <div class="cab">
+      <div><div class="q">${esc(CORRETOR)}</div>
+        <div class="s">Corretor de Imóveis · CRECI ${esc(CRECI)}</div></div>
+      <div class="d">Gerado em ${esc(agora)}<br>Ficha ${esc(AT.cod)}-${Date.now().toString().slice(-5)}</div>
+    </div>
+    <h1>Ficha de interesse</h1>
+    <div class="sub">Preenchida pelo próprio cliente no site.</div>
+    <div class="imo">
+      <img src="${capa(AT)}" alt="">
+      <div class="dd">
+        <h2>${esc(AT.tit)}</h2>
+        <div class="lo">${esc(AT.cod)} · ${esc(local(AT,true))}</div>
+        <div class="vv">${brl(AT.preco)}</div>
+        <div class="cf">${AT.q?AT.q+" dorm.":""}${AT.banh?" · "+AT.banh+" banh.":""}${AT.area?" · "+AT.area+" m²":""}${AT.terreno?' · terreno '+AT.terreno+' m²':''}</div>
+      </div>
+    </div>
+    <div class="bloco"><h2>Cliente</h2>
+      <div class="li"><span>Nome</span><b>${esc(R.nome||'—')}</b></div>
+      <div class="li"><span>WhatsApp</span><b>${esc(R.fone||'—')}</b></div>
+      <div class="li"><span>E-mail</span><b>${esc(R.email||'—')}</b></div>
+      <div class="li"><span>Pretende comprar</span><b>${esc(R.prazo||'—')}</b></div></div>
+    <div class="bloco"><h2>Condição de compra</h2>
+      ${L.filter(l=>l[0]!=='Pretende comprar')   // ja' consta no bloco do cliente
+         .map(l=>`<div class="li"><span>${esc(l[0])}</span><b>${esc(l[1])}</b></div>`).join('')}</div>
+    ${R.obs?`<div class="bloco"><h2>Observações do cliente</h2><div class="obs">${esc(R.obs)}</div></div>`:''}
+    <div class="rod"><span>Ficha gerada pelo site — confirme os dados com o cliente.</span>
+      <span>Site demonstrativo</span></div>`;
+  const img=$('pdf').querySelector('img');
+  if(img && !img.complete){ img.onload=()=>window.print(); img.onerror=()=>window.print(); }
+  else window.print();
+}
+
+// se a foto/logo ainda nao foram enviadas, some com o elemento em vez de mostrar imagem quebrada.
+// checa TAMBEM o que ja' falhou antes deste script rodar (imagem no HTML carrega primeiro).
+function seFalhar(img, aoFalhar){
+  if(img.complete && img.naturalWidth===0) aoFalhar();
+  img.addEventListener('error', aoFalhar);
+}
+seFalhar($('fotoM'), ()=>$('retrato').classList.add('semfoto'));
+seFalhar($('imgNet'), ()=>$('netLogo').classList.add('semlogo'));
+preencheFiltros(); renderGrade();
+$('waTopo').href = WHATS ? 'https://wa.me/'+WHATS : '#imoveis';
+})();
+</script>
+</body>
+</html>

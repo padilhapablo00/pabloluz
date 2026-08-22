@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reserva Botânica · Meridiano Incorporadora</title>
+<meta name="description" content="Reserva Botânica — residências de 3 e 4 suítes em Balneário Camboriú. Demonstração de site por Pablo Luz.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde:#08251a; --verde2:#0d3527; --verde3:#124132;
+  --ouro:#c9a227; --ouro2:#e0bd54; --creme:#f5efe1; --creme2:#ebe3d2;
+  --tinta:#0b1a14; --mut:#8a9a91; --mut2:#6f7f77;
+  --disp:"Cormorant Garamond",Georgia,serif;
+  --sans:"Jost",-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--creme);color:var(--tinta);font-family:var(--sans);font-weight:300;
+  line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:1220px;margin:0 auto;padding:0 28px}
+.eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--ouro);font-weight:500}
+h1,h2,h3{font-family:var(--disp);font-weight:400;line-height:1.08;letter-spacing:-.01em}
+h2{font-size:clamp(32px,4.6vw,54px)}
+h2 em{font-style:italic;color:var(--ouro)}
+.lead{font-size:16.5px;color:#3d4c45;max-width:62ch}
+
+/* ---------- topo ---------- */
+.nav{position:fixed;inset:0 0 auto;z-index:60;background:rgba(8,37,26,.92);backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(201,162,39,.22);transition:background .3s}
+.nav .row{display:flex;align-items:center;gap:28px;height:78px}
+.logo{display:flex;align-items:center;gap:11px;color:var(--creme)}
+.logo .m{width:26px;height:34px;flex:0 0 26px}
+.logo b{font-family:var(--disp);font-size:21px;font-weight:500;letter-spacing:.3em;line-height:1}
+.logo small{display:block;font-size:8.5px;letter-spacing:.34em;color:var(--ouro);margin-top:3px}
+.links{display:flex;gap:26px;margin-left:auto;font-size:12.5px;letter-spacing:.06em;color:#cfdbd4}
+.links a{padding:6px 0;position:relative;transition:color .2s}
+.links a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--ouro);transition:width .3s}
+.links a:hover{color:#fff}.links a:hover::after{width:100%}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:var(--sans);
+  font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;cursor:pointer;
+  padding:14px 26px;border:1px solid var(--ouro);color:var(--ouro);background:transparent;
+  border-radius:2px;transition:background .3s,color .3s,transform .2s}
+.btn:hover{background:var(--ouro);color:var(--verde);transform:translateY(-1px)}
+.btn.solid{background:var(--ouro);color:var(--verde)}
+.btn.solid:hover{background:var(--ouro2);border-color:var(--ouro2)}
+.burger{display:none;margin-left:auto;background:none;border:1px solid rgba(245,239,225,.3);
+  color:var(--creme);width:44px;height:40px;border-radius:2px;font-size:17px;cursor:pointer}
+
+/* ---------- herói ---------- */
+.hero{position:relative;min-height:94vh;display:flex;align-items:flex-end;padding:120px 0 58px;
+  background:var(--verde);overflow:hidden}
+/* render da torre + camadas: o ceu do render e' azul, o vEu verde puxa pra identidade
+   da marca; o degrade escuro a' esquerda garante a leitura do titulo */
+.hero .bg{position:absolute;inset:0;background:#061a12 url("img/meridiano-torre.jpg") 68% center/cover no-repeat}
+.hero .tint{position:absolute;inset:0;background:linear-gradient(172deg,#1d6b4c,#0e4030 62%,#0a2e20);
+  mix-blend-mode:multiply;opacity:.34}
+.hero .scrim{position:absolute;inset:0;background:
+  linear-gradient(96deg,rgba(4,18,12,.93) 0%,rgba(5,22,15,.78) 26%,rgba(6,26,18,.28) 52%,transparent 74%),
+  linear-gradient(180deg,rgba(4,18,12,.7) 0%,transparent 20%,transparent 66%,rgba(4,17,11,.82) 100%)}
+.hero .grain{position:absolute;inset:0;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.hero .wrap{position:relative;z-index:2}
+.crumb{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:#7f9288;margin-bottom:26px}
+.crumb b{color:var(--ouro);font-weight:400}
+.hero h1{font-size:clamp(46px,8.4vw,104px);color:var(--creme);margin:14px 0 0;max-width:13ch}
+.hero h1 em{font-style:italic;color:var(--ouro2)}
+.hero .sub{color:#bccdc4;font-size:17px;margin-top:20px;max-width:44ch;font-weight:300}
+.hero .ctas{display:flex;gap:14px;margin-top:38px;flex-wrap:wrap}
+.hero .loc{margin-top:34px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#7f9288;
+  display:flex;align-items:center;gap:10px}
+.hero .loc::before{content:"";width:26px;height:1px;background:var(--ouro)}
+
+/* ---------- barra de seções ---------- */
+.secnav{position:sticky;top:114px;z-index:50;background:var(--verde2);border-bottom:1px solid rgba(201,162,39,.2)}
+.secnav .in{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.secnav .in::-webkit-scrollbar{display:none}
+.secnav a{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#9db0a6;
+  padding:17px 20px;white-space:nowrap;border-bottom:2px solid transparent;transition:.25s}
+.secnav a:hover,.secnav a.on{color:var(--ouro);border-bottom-color:var(--ouro)}
+.secnav .baixar{margin-left:auto;color:var(--ouro)}
+
+/* ---------- seções ---------- */
+section{padding:96px 0}
+.sechead{max-width:66ch}
+.sechead h2{margin-top:14px}
+.sechead .lead{margin-top:20px}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;margin-top:56px;
+  background:var(--creme2);border:1px solid var(--creme2)}
+.stat{background:var(--creme);padding:24px 20px;text-align:center}
+.stat b{display:block;font-family:var(--disp);font-size:31px;font-weight:500;color:var(--verde)}
+.stat span{display:block;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut2);margin-top:7px}
+
+.sec-verde{background:var(--verde);color:var(--creme)}
+.sec-verde .lead{color:#b9cac1}
+.sec-verde h2{color:var(--creme)}
+.amen{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:54px;background:rgba(245,239,225,.13)}
+.amen div{background:var(--verde);padding:22px 20px;font-size:13.5px;color:#d6e2db;display:flex;gap:12px;
+  align-items:flex-start;transition:background .3s}
+.amen div:hover{background:var(--verde3)}
+.amen div::before{content:"";width:5px;height:5px;margin-top:8px;flex:0 0 5px;background:var(--ouro);
+  transform:rotate(45deg)}
+
+/* plantas */
+.abas{display:flex;gap:8px;margin-top:44px;flex-wrap:wrap}
+.abas button{font-family:var(--sans);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  padding:13px 24px;border:1px solid var(--creme2);background:transparent;color:var(--mut2);
+  cursor:pointer;border-radius:2px;transition:.25s}
+.abas button:hover{border-color:var(--ouro);color:var(--verde)}
+.abas button[aria-selected=true]{background:var(--verde);border-color:var(--verde);color:var(--creme)}
+.planta{display:grid;grid-template-columns:1.15fr .85fr;gap:52px;margin-top:44px;align-items:start}
+.planta .desenho{border:1px solid var(--creme2);background:#fbf8f1;padding:26px}
+.specs{display:flex;flex-direction:column}
+.specs .li{display:flex;justify-content:space-between;gap:18px;padding:17px 0;border-bottom:1px solid var(--creme2)}
+.specs .li span{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut2)}
+.specs .li b{font-family:var(--disp);font-size:19px;font-weight:500}
+.metragem{margin-top:26px;padding:22px;background:var(--verde);color:var(--creme)}
+.metragem b{font-family:var(--disp);font-size:34px;font-weight:500;color:var(--ouro2);display:block}
+.metragem span{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#a8bcb2}
+
+/* galeria */
+.gal{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:190px;gap:10px;margin-top:52px}
+.gal figure{position:relative;overflow:hidden;background:var(--verde3)}
+.gal figure:nth-child(1){grid-column:span 2;grid-row:span 2}
+.gal figure:nth-child(4){grid-column:span 2}
+.gal .art{position:absolute;inset:0;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.gal figure:hover .art{transform:scale(1.06)}
+.gal figcaption{position:absolute;left:0;right:0;bottom:0;padding:16px 18px;z-index:2;
+  font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#fff;
+  background:linear-gradient(transparent,rgba(5,23,16,.82))}
+
+/* localização */
+.conect{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:52px;background:var(--creme2);
+  border:1px solid var(--creme2)}
+.conect div{background:var(--creme);padding:26px 24px}
+.conect h4{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ouro);font-weight:500}
+.conect ul{list-style:none;margin-top:14px}
+.conect li{font-size:13.5px;color:#40514a;padding:6px 0;display:flex;justify-content:space-between;gap:14px}
+.conect li b{font-weight:400;color:var(--mut2);font-size:12px}
+
+/* formulário */
+.form-sec{background:var(--verde);color:var(--creme)}
+.fgrid{display:grid;grid-template-columns:.85fr 1.15fr;gap:64px;align-items:start}
+.fcontato{margin-top:34px}
+.fcontato a{display:flex;align-items:center;gap:13px;padding:15px 0;border-bottom:1px solid rgba(245,239,225,.15);
+  font-size:15px;color:var(--creme);transition:color .2s}
+.fcontato a:hover{color:var(--ouro2)}
+.fcontato .ic{width:17px;height:17px;flex:0 0 17px;stroke:var(--ouro);fill:none;stroke-width:1.5}
+form{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.campo{display:flex;flex-direction:column;gap:9px}
+.campo.full{grid-column:1/-1}
+label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#9db0a6}
+input,textarea,select{font-family:var(--sans);font-size:14.5px;font-weight:300;color:var(--creme);
+  background:transparent;border:0;border-bottom:1px solid rgba(245,239,225,.28);padding:11px 0;
+  transition:border-color .3s}
+input:focus,textarea:focus,select:focus{outline:none;border-bottom-color:var(--ouro)}
+textarea{resize:vertical;min-height:78px}
+select option{background:var(--verde2)}
+.aviso{font-size:11.5px;color:#8a9d93;grid-column:1/-1}
+.ok{grid-column:1/-1;display:none;padding:15px 18px;border:1px solid var(--ouro);color:var(--ouro2);font-size:13.5px}
+.ok.on{display:block}
+
+/* rodapé */
+footer{background:#051710;color:#93a79d;padding:64px 0 30px;font-size:13px}
+.frow{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}
+footer .logo{margin-bottom:18px}
+footer h5{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ouro);margin-bottom:14px;font-weight:500}
+footer ul{list-style:none}footer li{padding:5px 0}
+footer a:hover{color:var(--creme)}
+.fbase{border-top:1px solid rgba(245,239,225,.1);margin-top:44px;padding-top:22px;font-size:11.5px;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:#6f847a}
+.demo{background:var(--ouro);color:var(--verde);text-align:center;padding:9px 16px;font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;position:relative;z-index:70}
+
+.rv{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+@media(max-width:1000px){
+  .links,.nav .btn{display:none}.burger{display:block}
+  .stats{grid-template-columns:repeat(3,1fr)}
+  .amen{grid-template-columns:repeat(2,1fr)}
+  .planta,.fgrid{grid-template-columns:1fr;gap:34px}
+  .conect{grid-template-columns:1fr 1fr}
+  .gal{grid-template-columns:1fr 1fr;grid-auto-rows:150px}
+}
+/* no celular o texto cai SOBRE a torre -> veu vertical uniforme em vez do lateral */
+@media(max-width:760px){
+  .hero .bg{background-position:74% center}
+  .hero .scrim{background:linear-gradient(180deg,rgba(4,18,12,.9) 0%,rgba(5,22,15,.74) 34%,
+    rgba(5,22,15,.8) 68%,rgba(4,17,11,.94) 100%)}
+}
+@media(max-width:600px){
+  section{padding:64px 0}.wrap{padding:0 20px}
+  .stats,.amen,.conect{grid-template-columns:1fr 1fr}
+  form{grid-template-columns:1fr}
+  .gal figure:nth-child(1){grid-column:span 2}
+}
+@media(prefers-reduced-motion:reduce){.rv{transition:none;opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<nav class="nav">
+<div class="demo">Site demonstrativo · empreendimento fictício criado para portfólio — Pablo Luz</div>
+<div class="wrap"><div class="row">
+  <a class="logo" href="#topo">
+    <svg class="m" viewBox="0 0 26 34" aria-hidden="true">
+      <path d="M13 1 L23 9 L23 33 L16 33 L16 19 L10 19 L10 33 L3 33 L3 9 Z" fill="none" stroke="#c9a227" stroke-width="1.4"/>
+      <path d="M13 1 L13 19" stroke="#c9a227" stroke-width="1.4"/>
+    </svg>
+    <span><b>MERIDIANO</b><small>INCORPORADORA</small></span>
+  </a>
+  <div class="links">
+    <a href="#visao">O empreendimento</a><a href="#dif">Diferenciais</a>
+    <a href="#plantas">Plantas</a><a href="#galeria">Galeria</a><a href="#local">Localização</a>
+  </div>
+  <a class="btn" href="#contato">Agende uma visita</a>
+  <button class="burger" id="burger" aria-label="Menu">☰</button>
+</div></div></nav>
+
+<header class="hero" id="topo">
+  <div class="bg"></div>
+  <div class="tint"></div>
+  <div class="scrim"></div>
+  <div class="grain"></div>
+  <div class="wrap">
+    <div class="crumb">Início &nbsp;/&nbsp; Empreendimentos &nbsp;/&nbsp; <b>Reserva Botânica</b></div>
+    <div class="eyebrow">Lançamento · Torre única</div>
+    <h1>Reserva <em>Botânica</em></h1>
+    <p class="sub">Residências de 3 e 4 suítes com vista permanente para a mata atlântica, a 400 m do mar.</p>
+    <div class="ctas">
+      <a class="btn solid" href="#contato">Falar com um consultor</a>
+      <a class="btn" href="#plantas">Ver as plantas</a>
+    </div>
+    <div class="loc">Bairro Praia Brava · Balneário Camboriú — SC</div>
+  </div>
+</header>
+
+<div class="secnav"><div class="wrap"><div class="in" id="secnav">
+  <a href="#visao">Visão geral</a><a href="#dif">Diferenciais</a><a href="#plantas">Plantas</a>
+  <a href="#galeria">Galeria</a><a href="#local">Localização</a><a href="#contato">Contato</a>
+  <a class="baixar" href="#contato">↓ Baixar o book</a>
+</div></div></div>
+
+<section id="visao"><div class="wrap">
+  <div class="sechead rv">
+    <div class="eyebrow">Visão geral</div>
+    <h2>Uma torre única,<br>cercada de <em>mata nativa</em>.</h2>
+    <p class="lead">O Reserva Botânica nasce de um terreno de 4.200 m² preservado em 60% de vegetação
+      nativa. São apenas 32 residências — duas por andar — pensadas para quem quer silêncio, luz natural
+      e a praia a poucos minutos a pé. Arquitetura assinada, acabamento entregue pronto para morar.</p>
+  </div>
+  <div class="stats rv">
+    <div class="stat"><b>32</b><span>Residências</span></div>
+    <div class="stat"><b>4</b><span>Suítes</span></div>
+    <div class="stat"><b>3</b><span>Vagas cobertas</span></div>
+    <div class="stat"><b>248m²</b><span>Área privativa</span></div>
+    <div class="stat"><b>2028</b><span>Entrega prevista</span></div>
+    <div class="stat"><b>RI</b><span>Registro em cartório</span></div>
+  </div>
+</div></section>
+
+<section class="sec-verde" id="dif"><div class="wrap">
+  <div class="sechead rv">
+    <div class="eyebrow">Diferenciais</div>
+    <h2>O necessário — e o<br><em>indispensável</em>.</h2>
+    <p class="lead">Cada item foi escolhido para uso diário, não para folder.</p>
+  </div>
+  <div class="amen rv">
+    <div>Duas residências por andar</div><div>Hall privativo com antessala</div>
+    <div>Varanda gourmet com churrasqueira</div><div>Vista permanente protegida por lei</div>
+    <div>Piscina aquecida com raia de 25 m</div><div>Spa com sauna úmida e seca</div>
+    <div>Academia equipada Technogym</div><div>Salão de festas com cozinha de apoio</div>
+    <div>Coworking e sala de reuniões</div><div>Cinema privativo</div>
+    <div>Playground e brinquedoteca</div><div>Pet place com banho</div>
+    <div>Gerador para toda a torre</div><div>Carregador para carro elétrico</div>
+    <div>Portaria 24h com dupla eclusa</div><div>Elevadores de alta performance</div>
+    <div>Automação de iluminação e clima</div><div>Reuso de água pluvial</div>
+    <div>Bicicletário coberto</div><div>Depósito privativo por unidade</div>
+  </div>
+</div></section>
+
+<section id="plantas"><div class="wrap">
+  <div class="sechead rv">
+    <div class="eyebrow">Plantas</div>
+    <h2>Escolha o seu <em>andar</em>.</h2>
+    <p class="lead">Três configurações, o mesmo cuidado com circulação, ventilação cruzada e
+      posição solar. Todas entregues com piso, marcenaria e climatização.</p>
+  </div>
+  <div class="abas rv" id="abas" role="tablist">
+    <button role="tab" aria-selected="true" data-p="tipo">Planta tipo</button>
+    <button role="tab" aria-selected="false" data-p="garden">Garden</button>
+    <button role="tab" aria-selected="false" data-p="cobertura">Cobertura duplex</button>
+  </div>
+  <div class="planta rv">
+    <div class="desenho"><svg viewBox="0 0 620 430" width="100%" aria-label="Desenho da planta" id="svgplanta"></svg></div>
+    <div>
+      <div class="specs" id="specs"></div>
+      <div class="metragem"><b id="mArea">248 m²</b><span id="mDesc">área privativa · 4 suítes</span></div>
+      <a class="btn" style="margin-top:26px;border-color:var(--verde);color:var(--verde)" href="#contato">Solicitar planta detalhada →</a>
+    </div>
+  </div>
+</div></section>
+
+<section id="galeria" style="padding-top:0"><div class="wrap">
+  <div class="sechead rv"><div class="eyebrow">Galeria</div><h2>Perspectivas <em>ilustradas</em>.</h2></div>
+  <div class="gal rv">
+    <figure><div class="art" style="background:#0a2b1e url('img/meridiano-fachada.jpg') center/cover no-repeat"></div><figcaption>Fachada · vista noroeste</figcaption></figure>
+    <figure><div class="art" style="background:#0a2b1e url('img/meridiano-living.jpg') center/cover no-repeat"></div><figcaption>Living integrado</figcaption></figure>
+    <figure><div class="art" style="background:#0a2b1e url('img/meridiano-piscina.jpg') center/cover no-repeat"></div><figcaption>Piscina aquecida</figcaption></figure>
+    <figure><div class="art" style="background:#0a2b1e url('img/meridiano-varanda.jpg') center/cover no-repeat"></div><figcaption>Varanda gourmet</figcaption></figure>
+  </div>
+</div></section>
+
+<section class="sec-verde" id="local"><div class="wrap">
+  <div class="sechead rv">
+    <div class="eyebrow">Localização</div>
+    <h2>Praia Brava — o melhor<br>endereço de <em>Balneário</em>.</h2>
+    <p class="lead">Um bairro planejado, sem trânsito de passagem, com tudo a poucos minutos.</p>
+  </div>
+  <div class="conect rv" style="background:rgba(245,239,225,.13);border-color:rgba(245,239,225,.13)">
+    <div style="background:var(--verde)"><h4>Praia &amp; lazer</h4><ul>
+      <li>Praia Brava <b>400 m</b></li><li>Molhe da Barra Sul <b>3,5 km</b></li><li>Parque Unipraias <b>4 km</b></li></ul></div>
+    <div style="background:var(--verde)"><h4>Educação</h4><ul>
+      <li>Colégio Energia <b>1,8 km</b></li><li>Univali <b>6 km</b></li><li>Escola Bilíngue Camboriú <b>2,4 km</b></li></ul></div>
+    <div style="background:var(--verde)"><h4>Saúde</h4><ul>
+      <li>Hospital Unimed <b>3,2 km</b></li><li>Clínica Santa Helena <b>2,1 km</b></li><li>Pronto-atendimento 24h <b>1,5 km</b></li></ul></div>
+    <div style="background:var(--verde)"><h4>Compras</h4><ul>
+      <li>Balneário Shopping <b>4,5 km</b></li><li>Avenida Atlântica <b>3 km</b></li><li>Mercado Angeloni <b>1,2 km</b></li></ul></div>
+    <div style="background:var(--verde)"><h4>Gastronomia</h4><ul>
+      <li>Restaurantes da Brava <b>600 m</b></li><li>Barra Sul <b>3,6 km</b></li><li>Marina Tedesco <b>5 km</b></li></ul></div>
+    <div style="background:var(--verde)"><h4>Acessos</h4><ul>
+      <li>BR-101 <b>7 km</b></li><li>Aeroporto de Navegantes <b>18 km</b></li><li>Itajaí <b>12 km</b></li></ul></div>
+  </div>
+</div></section>
+
+<section class="form-sec" id="contato"><div class="wrap">
+  <div class="fgrid">
+    <div class="rv">
+      <div class="eyebrow">Contato</div>
+      <h2 style="margin-top:14px">Agende uma<br><em>visita</em>.</h2>
+      <p class="lead" style="margin-top:18px">Nosso consultor retorna em até 1 dia útil com o book
+        completo, tabela de valores e condições de pagamento.</p>
+      <div class="fcontato">
+        <a href="tel:+554730000000"><svg class="ic" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>(47) 3000-0000</a>
+        <a href="#"><svg class="ic" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M4 6l8 6 8-6"/></svg>contato@meridiano.com.br</a>
+        <a href="#"><svg class="ic" viewBox="0 0 24 24"><path d="M21 10c0 6-9 13-9 13s-9-7-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Rua das Araucárias, 1200 · Praia Brava</a>
+      </div>
+    </div>
+    <form class="rv" id="form" novalidate>
+      <div class="campo"><label for="n">Nome completo</label><input id="n" name="nome" required></div>
+      <div class="campo"><label for="t">Telefone</label><input id="t" name="tel" inputmode="tel" required></div>
+      <div class="campo full"><label for="e">E-mail</label><input id="e" name="email" type="email" required></div>
+      <div class="campo full"><label for="i">Tenho interesse em</label><select id="i" name="interesse">
+        <option>Planta tipo · 4 suítes</option><option>Garden · 3 suítes</option>
+        <option>Cobertura duplex</option><option>Ainda estou avaliando</option></select></div>
+      <div class="campo full"><label for="m">Mensagem</label><textarea id="m" name="msg" rows="3"></textarea></div>
+      <div class="aviso">Ao enviar você concorda com nossa política de privacidade.</div>
+      <div class="campo full"><button class="btn solid" type="submit" style="width:100%;padding:17px">Enviar solicitação</button></div>
+      <div class="ok" id="ok">Recebido — este é um site <b>demonstrativo</b>, nenhum dado foi enviado.</div>
+    </form>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="frow">
+    <div style="max-width:290px">
+      <a class="logo" href="#topo">
+        <svg class="m" viewBox="0 0 26 34" aria-hidden="true">
+          <path d="M13 1 L23 9 L23 33 L16 33 L16 19 L10 19 L10 33 L3 33 L3 9 Z" fill="none" stroke="#c9a227" stroke-width="1.4"/>
+          <path d="M13 1 L13 19" stroke="#c9a227" stroke-width="1.4"/></svg>
+        <span><b style="color:#f5efe1">MERIDIANO</b><small>INCORPORADORA</small></span></a>
+      <p style="margin-top:8px">Incorporação e construção de residências de alto padrão no litoral de Santa Catarina desde 1998.</p>
+    </div>
+    <div><h5>Empreendimento</h5><ul>
+      <li><a href="#visao">Visão geral</a></li><li><a href="#dif">Diferenciais</a></li>
+      <li><a href="#plantas">Plantas</a></li><li><a href="#galeria">Galeria</a></li></ul></div>
+    <div><h5>Institucional</h5><ul>
+      <li><a href="#">A incorporadora</a></li><li><a href="#">Entregues</a></li>
+      <li><a href="#">Trabalhe conosco</a></li><li><a href="#contato">Contato</a></li></ul></div>
+    <div><h5>Atendimento</h5><ul>
+      <li>(47) 3000-0000</li><li>contato@meridiano.com.br</li>
+      <li>Seg a sex · 9h às 19h</li><li>Sáb · 9h às 13h</li></ul></div>
+  </div>
+  <div class="fbase">
+    <span>© 2026 Meridiano Incorporadora — demonstração fictícia.</span>
+    <span>Site por <a href="https://padilhapablo00.github.io/pabloluz/" style="color:#c9a227">Pablo Luz</a></span>
+  </div>
+</div></footer>
+
+<script>
+(function(){
+  var reduz=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  // revelar ao rolar
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},
+    {threshold:.1,rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+
+  // ---- plantas ----
+  var PLANTAS={
+    tipo:{area:'248 m²',desc:'área privativa · 4 suítes',
+      specs:[['Living e jantar','Mármore Bianco'],['Suítes','Madeira engenheirada'],
+             ['Cozinha','Bancada em quartzo'],['Varanda','Porcelanato antiderrapante'],
+             ['Climatização','VRF em todos os ambientes'],['Marcenaria','Entregue instalada']],
+      // parede externa, divisórias, aberturas
+      d:'M40 40 H580 V390 H40 Z M40 165 H250 M250 40 V310 M250 310 H420 M420 165 V390 M420 165 H580 M310 310 V390'
+       +' M130 165 V390 M130 280 H250',
+      rot:[[145,105,'LIVING · JANTAR'],[330,105,'VARANDA GOURMET'],[500,105,'SUÍTE MASTER'],
+           [500,300,'SUÍTE 2'],[335,230,'COZINHA'],[85,230,'SUÍTE 3'],[85,350,'SUÍTE 4'],[365,355,'HALL']]},
+    garden:{area:'312 m²',desc:'área privativa + 90 m² de jardim · 3 suítes',
+      specs:[['Living e jardim','Piso contínuo'],['Suítes','Madeira engenheirada'],
+             ['Cozinha','Bancada em quartzo'],['Jardim privativo','Grama esmeralda'],
+             ['Climatização','VRF em todos os ambientes'],['Piscina privativa','Opcional']],
+      d:'M40 40 H580 V390 H40 Z M40 210 H330 M330 40 V390 M330 210 H580 M180 210 V390 M460 40 V210',
+      rot:[[185,120,'LIVING AMPLIADO'],[455,120,'JARDIM PRIVATIVO'],[520,120,'DECK'],
+           [455,300,'SUÍTE MASTER'],[110,300,'SUÍTE 2'],[255,300,'SUÍTE 3']]},
+    cobertura:{area:'486 m²',desc:'duplex · 4 suítes + rooftop',
+      specs:[['Living pé-direito duplo','Mármore Bianco'],['Rooftop','Deck em cumaru'],
+             ['Piscina privativa','Borda infinita'],['Cozinha','Ilha central em quartzo'],
+             ['Climatização','VRF + lareira ecológica'],['Elevador privativo','Acesso direto']],
+      d:'M40 40 H580 V390 H40 Z M40 150 H580 M200 40 V150 M400 40 V150 M300 150 V390 M300 270 H580 M40 270 H300',
+      rot:[[115,95,'ESCADA'],[300,95,'LIVING DUPLO'],[490,95,'ROOFTOP · PISCINA'],
+           [165,210,'SUÍTE MASTER'],[440,210,'COZINHA ILHA'],[165,330,'SUÍTE 2'],[440,330,'SUÍTES 3 e 4']]}
+  };
+  function desenhar(k){
+    var p=PLANTAS[k],svg=document.getElementById('svgplanta');
+    svg.innerHTML='<rect x="0" y="0" width="620" height="430" fill="#fbf8f1"/>'
+      +'<path d="'+p.d+'" fill="none" stroke="#0b2a1e" stroke-width="2.4" stroke-linejoin="round"/>'
+      +p.rot.map(function(r){return '<text x="'+r[0]+'" y="'+r[1]+'" text-anchor="middle" fill="#7b8a82"'
+        +' font-family="Jost,sans-serif" font-size="10.5" letter-spacing="1.4">'+r[2]+'</text>';}).join('')
+      +'<g stroke="#c9a227" stroke-width="1.2">'
+      +'<path d="M40 415 H580"/><path d="M40 410 V420"/><path d="M580 410 V420"/></g>'
+      +'<text x="310" y="408" text-anchor="middle" fill="#c9a227" font-family="Jost,sans-serif" font-size="10"'
+      +' letter-spacing="1.6">'+p.area+'</text>';
+    document.getElementById('specs').innerHTML=p.specs.map(function(s){
+      return '<div class="li"><span>'+s[0]+'</span><b>'+s[1]+'</b></div>';}).join('');
+    document.getElementById('mArea').textContent=p.area;
+    document.getElementById('mDesc').textContent=p.desc;
+  }
+  document.getElementById('abas').addEventListener('click',function(e){
+    var b=e.target.closest('button');if(!b)return;
+    [].forEach.call(this.children,function(x){x.setAttribute('aria-selected',x===b);});
+    desenhar(b.dataset.p);});
+  desenhar('tipo');
+
+  // ---- navegação de seções ----
+  var alvos=[].map.call(document.querySelectorAll('section[id]'),function(s){return s;});
+  var links=document.querySelectorAll('#secnav a');
+  addEventListener('scroll',function(){
+    var y=scrollY+180,at=null;
+    alvos.forEach(function(s){if(s.offsetTop<=y)at=s.id;});
+    links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+at);});
+  },{passive:true});
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      var id=a.getAttribute('href');if(id.length<2)return;
+      var t=document.querySelector(id);if(!t)return;e.preventDefault();
+      scrollTo({top:t.getBoundingClientRect().top+scrollY-120,behavior:reduz?'auto':'smooth'});});});
+
+  // ---- formulário (demo: não envia nada) ----
+  document.getElementById('form').addEventListener('submit',function(e){
+    e.preventDefault();document.getElementById('ok').classList.add('on');this.reset();});
+  document.getElementById('burger').addEventListener('click',function(){
+    document.querySelector('.links').style.cssText=
+      'display:flex;position:absolute;top:78px;left:0;right:0;flex-direction:column;gap:0;'
+      +'background:#0d3527;padding:14px 28px;margin:0';});
+})();
+</script>
+</body>
+</html>

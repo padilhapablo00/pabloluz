@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURORA · Semana Amarela — só até domingo</title>
+<!-- DEMO · loja fictícia AURORA. Na venda real: logo, fotos, % e WhatsApp da vendedora entram no lugar. wa.me placeholder: 5555991234567 -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#101010;--ink:#f4f4f2;--yl:#ffd400;--mut:#9a9a94}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.5;overflow-x:hidden}
+  .wrap{max-width:960px;margin:0 auto;padding:0 22px}
+  .marq{background:var(--yl);color:#111;overflow:hidden;white-space:nowrap;padding:9px 0;font-weight:800;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase}
+  .marq div{display:inline-block;animation:roll 16s linear infinite}
+  @keyframes roll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  header{display:flex;justify-content:space-between;align-items:center;padding:22px 0}
+  .logo{font-family:'Anton',sans-serif;font-size:20px;letter-spacing:.3em;text-indent:.3em}
+  .tag{font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--yl);border:1.5px solid var(--yl);padding:6px 13px;border-radius:4px}
+  .hero{text-align:center;padding:52px 0 46px}
+  .hero h1{font-family:'Anton',sans-serif;font-size:clamp(58px,13vw,132px);line-height:.94;text-transform:uppercase}
+  .hero h1 span{color:var(--yl)}
+  .hero p{color:var(--mut);font-size:15.5px;max-width:430px;margin:20px auto 0}
+  .hero p b{color:var(--ink)}
+  .count{display:flex;justify-content:center;gap:10px;margin-top:26px}
+  .cnt{background:#1b1b1a;border:1px solid rgba(255,212,0,.28);border-radius:10px;padding:10px 14px;min-width:72px}
+  .cnt b{display:block;font-family:'Anton',sans-serif;font-size:26px;color:var(--yl)}
+  .cnt span{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut)}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:14px 0 60px}
+  .look{position:relative;background:#171716;border:1px solid rgba(255,255,255,.09);border-radius:14px;overflow:hidden;transition:.16s}
+  .look:hover{transform:translateY(-4px);border-color:rgba(255,212,0,.5)}
+  .ph{position:relative;aspect-ratio:3/3.6;background:
+      repeating-linear-gradient(-45deg,rgba(255,212,0,.05) 0 3px,transparent 3px 14px),
+      linear-gradient(160deg,#2c2c2a,#191918)}
+  .off{position:absolute;top:10px;left:10px;background:var(--yl);color:#111;font-family:'Anton',sans-serif;font-size:17px;padding:6px 10px;border-radius:6px;transform:rotate(-4deg)}
+  .ph .num{position:absolute;right:12px;bottom:6px;font-family:'Anton',sans-serif;font-size:44px;color:rgba(244,244,242,.14);line-height:1}
+  .tx{padding:12px 13px 14px}
+  .tx h3{font-size:13.5px;font-weight:800;text-transform:uppercase;letter-spacing:.03em}
+  .tx p{color:var(--mut);font-size:11px;margin-top:2px}
+  .res{display:block;margin-top:10px;text-align:center;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#111;background:var(--yl);text-decoration:none;padding:9px 6px;border-radius:8px}
+  .res:hover{filter:brightness(1.08)}
+  .rules{text-align:center;color:var(--mut);font-size:11.5px;padding-bottom:40px}
+  footer{border-top:1px solid rgba(255,255,255,.1);text-align:center;padding:42px 22px 52px}
+  footer .logo{font-size:17px}
+  footer p{color:var(--mut);font-size:12px;margin-top:7px}
+  .wab{display:inline-flex;align-items:center;gap:9px;margin-top:18px;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#111;background:var(--yl);text-decoration:none;padding:14px 28px;border-radius:10px}
+  .wab svg{width:16px;height:16px;fill:#111}
+  @media (max-width:760px){ .grid{grid-template-columns:1fr 1fr;gap:11px} }
+</style>
+</head>
+<body>
+  <div class="marq"><div>SÓ ATÉ DOMINGO · SEMANA AMARELA · PEÇAS SELECIONADAS · SÓ ATÉ DOMINGO · SEMANA AMARELA · PEÇAS SELECIONADAS · SÓ ATÉ DOMINGO · SEMANA AMARELA · PEÇAS SELECIONADAS · </div></div>
+
+  <div class="wrap">
+    <header>
+      <div class="logo">AURORA</div>
+      <div class="tag">Promoção da semana</div>
+    </header>
+
+    <section class="hero">
+      <h1>Semana<br><span>Amarela</span></h1>
+      <p>Peças selecionadas com desconto de verdade. <b>Acabou o tamanho, acabou a oferta</b> — reserva pelo WhatsApp antes de vir.</p>
+      <div class="count">
+        <div class="cnt"><b>03</b><span>dias</span></div>
+        <div class="cnt"><b>14</b><span>horas</span></div>
+        <div class="cnt"><b>26</b><span>min</span></div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="look"><div class="ph"><span class="off">-40%</span><span class="num">01</span></div>
+        <div class="tx"><h3>Jaquetas jeans</h3><p>Todas as lavagens</p>
+        <a class="res" href="https://wa.me/5555991234567?text=Oi!%20Quero%20reservar%20uma%20jaqueta%20jeans%20da%20Semana%20Amarela%20(-40%25)." target="_blank" rel="noopener">Reservar</a></div></div>
+      <div class="look"><div class="ph"><span class="off">-30%</span><span class="num">02</span></div>
+        <div class="tx"><h3>Vestidos midi</h3><p>Modelos selecionados</p>
+        <a class="res" href="https://wa.me/5555991234567?text=Oi!%20Quero%20reservar%20um%20vestido%20midi%20da%20Semana%20Amarela%20(-30%25)." target="_blank" rel="noopener">Reservar</a></div></div>
+      <div class="look"><div class="ph"><span class="off">-30%</span><span class="num">03</span></div>
+        <div class="tx"><h3>Calças wide</h3><p>Sarja e alfaiataria</p>
+        <a class="res" href="https://wa.me/5555991234567?text=Oi!%20Quero%20reservar%20uma%20cal%C3%A7a%20wide%20da%20Semana%20Amarela%20(-30%25)." target="_blank" rel="noopener">Reservar</a></div></div>
+      <div class="look"><div class="ph"><span class="off">-20%</span><span class="num">04</span></div>
+        <div class="tx"><h3>Camisetas básicas</h3><p>Leve 3, o desconto dobra</p>
+        <a class="res" href="https://wa.me/5555991234567?text=Oi!%20Quero%20reservar%20camisetas%20b%C3%A1sicas%20da%20Semana%20Amarela." target="_blank" rel="noopener">Reservar</a></div></div>
+    </section>
+
+    <div class="rules">Válido até domingo, 23h59, ou enquanto durar o estoque. Descontos sobre a etiqueta, na loja e pelo WhatsApp.</div>
+  </div>
+
+  <footer>
+    <div class="logo">AURORA</div>
+    <p>Rua das Andradas, 000 · Centro · seg a sáb, 9h–19h · @lojaaurora</p>
+    <a class="wab" href="https://wa.me/5555991234567?text=Oi!%20Vi%20a%20Semana%20Amarela%20no%20site%20e%20quero%20aproveitar." target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24z"/></svg>
+      Garantir pelo WhatsApp
+    </a>
+  </footer>
+</body>
+</html>
