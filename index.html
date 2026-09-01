@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050506">
+<meta name="description" content="Pablo Luz — sites, dashboards e automação sob medida.">
 <title>Pablo Luz — Tecnologia, sites & automação</title>
 <style>
 :root{
@@ -178,6 +185,8 @@
 @media(prefers-reduced-motion:reduce){.rev{transition:none;opacity:1;transform:none}
   .scrollcue .ln,.awin .live .dot{animation:none}}
 </style>
+</head>
+<body>
 
 <div class="pl">
   <canvas id="field"></canvas>
@@ -390,6 +399,11 @@
       r:(Math.random()*1.5+.5)*DPR,a:Math.random()*.4+.18});}
   window.addEventListener('mousemove',function(e){mouse.x=e.clientX*DPR;mouse.y=e.clientY*DPR;});
   window.addEventListener('mouseout',function(){mouse.x=mouse.y=-9999;});
+  // toque: o dedo empurra as particulas igual o cursor no desktop
+  function touchPos(e){if(e.touches&&e.touches.length){mouse.x=e.touches[0].clientX*DPR;mouse.y=e.touches[0].clientY*DPR;}}
+  window.addEventListener('touchstart',touchPos,{passive:true});
+  window.addEventListener('touchmove',touchPos,{passive:true});
+  window.addEventListener('touchend',function(){mouse.x=mouse.y=-9999;},{passive:true});
   function frame(){
     ctx.clearRect(0,0,W,H);
     var R=150*DPR;
@@ -428,3 +442,5 @@
   }else{frame();}
 })();
 </script>
+</body>
+</html>
