@@ -148,6 +148,16 @@ body{margin:0;background:var(--bg)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 .awin img{width:100%;height:auto;display:block}
 
+/* SOBRE */
+.about{display:grid;grid-template-columns:1fr;background:var(--card);border:1px solid var(--line);border-radius:34px;overflow:hidden;box-shadow:var(--sh);position:relative;z-index:2}
+.about .ph{position:relative;background:#efe7d8;height:380px;overflow:hidden}
+.about .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 12%}
+.about .tx{padding:28px 24px 30px}
+.about h2{font-size:clamp(30px,8vw,46px);margin:10px 0 0}
+.about p.lead{margin-top:14px}
+.about .ctas{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
+.about .ctas .btn{flex:1 1 auto}
+
 /* SERVICOS */
 .svcs{display:flex;gap:12px;margin:32px -22px 0;padding:4px 22px 18px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
 .svcs::-webkit-scrollbar{display:none}
@@ -226,6 +236,10 @@ body{margin:0;background:var(--bg)}
   .svc{flex:none;max-width:none}
   .steps{grid-template-columns:repeat(3,1fr);gap:28px;border-top:0;margin-top:44px}
   .step{grid-template-columns:1fr;border:1px solid var(--line);border-radius:26px;padding:28px 26px;background:var(--card);gap:16px}
+  .about{grid-template-columns:.85fr 1.15fr;border-radius:40px}
+  .about .ph{height:auto;min-height:480px}
+  .about .tx{padding:56px 52px;align-self:center}
+  .about .ctas .btn{flex:0 0 auto}
   .cta{padding:72px 40px;border-radius:44px}
   .cta .ctas{flex-direction:row;max-width:none;justify-content:center}
   .cta .btn{min-width:200px}
@@ -241,12 +255,12 @@ body{margin:0;background:var(--bg)}
 
   <nav class="nav"><div class="wrap"><div class="row">
     <a class="logo" href="#top"><img class="pmark" src="assets/logo-p.png" alt="P">ablo&nbsp;Luz</a>
-    <div class="navlinks"><a href="#trabalhos">Projetos</a><a href="#alpha">Alpha</a><a href="#servicos">Serviços</a><a href="#contato">Contato</a></div>
+    <div class="navlinks"><a href="#trabalhos">Projetos</a><a href="#alpha">Alpha</a><a href="#sobre">Sobre</a><a href="#servicos">Serviços</a><a href="#contato">Contato</a></div>
     <a class="btn btn-p btn-s" href="#contato">Fale comigo</a>
     <button class="burger" id="burger" aria-label="menu">☰</button>
   </div></div></nav>
   <div class="mmenu" id="mmenu">
-    <a class="l" href="#trabalhos">Projetos</a><a class="l" href="#alpha">Alpha</a><a class="l" href="#servicos">Serviços</a><a class="l" href="#contato">Contato</a>
+    <a class="l" href="#trabalhos">Projetos</a><a class="l" href="#alpha">Alpha</a><a class="l" href="#sobre">Sobre</a><a class="l" href="#servicos">Serviços</a><a class="l" href="#contato">Contato</a>
     <a class="btn btn-p" href="https://wa.me/5555992091409?text=Oi%20Pablo!%20Vi%20o%20seu%20site%20e%20quero%20conversar." target="_blank" rel="noopener">Chamar no WhatsApp</a>
   </div>
 
@@ -309,6 +323,21 @@ body{margin:0;background:var(--bg)}
       <div class="awin rev d2">
         <div class="bar"><i></i><i></i><i></i><span class="live"><span class="dot"></span>Ao vivo</span></div>
         <img src="assets/alpha.jpg" width="1360" height="860" loading="lazy" alt="Painel Alpha — Monitor de Preços">
+      </div>
+    </div>
+  </div></section>
+
+  <!-- SOBRE -->
+  <section class="sec" id="sobre" style="padding-top:8px"><div class="wrap">
+    <div class="about rev">
+      <div class="ph"><img src="assets/pablo.jpg" width="800" height="1000" loading="lazy" alt="Pablo Luz"></div>
+      <div class="tx">
+        <div class="eyebrow">Sobre</div>
+        <h2>Oi, eu sou o Pablo.</h2>
+        <p class="lead">Sou de Cruz Alta, RS. Crio sites, painéis e automações sob medida — e só entrego quando você vê funcionando.</p>
+        <div class="ctas">
+          <a class="btn btn-p" href="https://wa.me/5555992091409?text=Oi%20Pablo!%20Vi%20o%20seu%20site%20e%20quero%20conversar." target="_blank" rel="noopener">Falar comigo</a>
+        </div>
       </div>
     </div>
   </div></section>
