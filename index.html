@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f6f1e8">
-<title>Pablo Luz — Automação, dashboards e sites</title>
-<meta name="description" content="Soluções e projetos inovadores sob medida: automações, dashboards e sites. Veja projetos funcionando, de verdade, sem sair da página.">
+<title>Pablo Luz — Automação, dados e produtos digitais</title>
+<meta name="description" content="Soluções e projetos inovadores sob medida: automações, dados e produtos digitais. Veja projetos funcionando, de verdade, sem sair da página.">
 <link rel="canonical" href="https://padilhapablo00.github.io/pabloluz/">
 <link rel="icon" type="image/png" href="assets/logo-p.png">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="Pablo Luz">
-<meta property="og:title" content="Pablo Luz — Automação, dashboards e sites">
+<meta property="og:title" content="Pablo Luz — Automação, dados e produtos digitais">
 <meta property="og:description" content="Soluções e projetos inovadores sob medida. Projetos funcionando, de verdade.">
 <meta property="og:url" content="https://padilhapablo00.github.io/pabloluz/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,7 +26,7 @@
   --blue:#3b6cff; --blued:#2a55e0;
   --font:"Inter",-apple-system,"Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;
   --serif:"Newsreader",Georgia,"Times New Roman",serif;
-  --wrap:1120px;
+  --wrap:1240px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
@@ -38,7 +38,7 @@ body{margin:0;background:var(--bg)}
 .pl p{margin:0}.pl img{max-width:100%;display:block}
 .pl h1,.pl h2,.pl h3{margin:0;font-family:var(--serif);font-weight:600;letter-spacing:-.02em;line-height:1.03;text-wrap:balance}
 .pl :focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px}
-.wrap{max-width:var(--wrap);margin:0 auto;padding:0 22px;position:relative;z-index:2}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px;position:relative;z-index:2}
 #field{position:fixed;inset:0;z-index:0;pointer-events:none;display:block}
 
 /* BOTOES */
@@ -68,7 +68,7 @@ body{margin:0;background:var(--bg)}
 .mmenu .btn{margin-top:26px}
 
 /* HERO */
-.hero{padding:40px 0 56px;position:relative}
+.hero{padding:48px 0 76px;position:relative}
 .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 152px;grid-template-areas:"t p" "s p" "c c";
   grid-template-rows:auto 1fr auto;gap:16px 20px;align-items:start}
 .hero-tx{display:contents}
@@ -91,25 +91,27 @@ body{margin:0;background:var(--bg)}
 .hero .sub{animation-delay:.12s}.hero .ctas{animation-delay:.24s}.pic{animation-delay:.18s}
 
 /* SECOES */
-.sec{padding:72px 0;position:relative;z-index:2}
-.sec h2{font-size:clamp(30px,7.6vw,54px)}
-.lead{color:var(--mut);font-size:clamp(16px,4.2vw,18px);max-width:42ch;margin-top:14px;line-height:1.55}
+.sec{padding:104px 0;position:relative;z-index:2}
+.sec h2{font-size:clamp(36px,9vw,68px)}
+.lead{color:var(--mut);font-size:clamp(16px,4.2vw,18px);max-width:44ch;margin-top:22px;line-height:1.6}
 
 /* VITRINE */
-.seg{display:flex;gap:4px;background:rgba(20,32,58,.07);border-radius:999px;padding:5px;margin-top:28px;max-width:440px}
-.sg{flex:1;height:42px;border:0;border-radius:999px;background:transparent;font:inherit;font-size:14.5px;font-weight:600;color:var(--mut);
+.seg{display:flex;gap:4px;background:rgba(20,32,58,.07);border-radius:999px;padding:5px;margin-top:48px;max-width:560px}
+.sg{flex:1;height:48px;line-height:1.15;padding:0 6px;border:0;border-radius:999px;background:transparent;font:inherit;font-size:14.5px;font-weight:600;color:var(--mut);
   cursor:pointer;transition:.22s}
 .sg.on{background:var(--ink);color:var(--bg)}
-.show{display:grid;grid-template-columns:240px minmax(0,1fr);gap:20px;margin-top:18px}
+.show{display:grid;grid-template-columns:360px minmax(0,1fr);gap:28px;margin-top:28px}
 .sel{display:flex;flex-direction:column;align-self:start}
-.si{width:100%;text-align:left;border:0;border-top:1px solid var(--line);background:transparent;padding:15px 4px;
-  cursor:pointer;font:inherit;color:var(--ink);transition:padding .2s,color .2s}
+.si{width:100%;text-align:left;border:0;border-top:1px solid var(--line);background:transparent;padding:28px 18px 28px 20px;min-height:92px;
+  cursor:pointer;font:inherit;color:var(--ink);transition:background .2s;display:grid;grid-template-columns:34px minmax(0,1fr) 18px;column-gap:10px;align-items:center}
 .si:last-child{border-bottom:1px solid var(--line)}
-.si .nm{display:block;font-size:17px;font-weight:700;letter-spacing:-.025em}
-.si .kd{display:block;font-size:13.5px;color:var(--mut);margin-top:1px}
-.si:hover{padding-left:10px}
-.si.on{padding-left:14px;box-shadow:inset 3px 0 0 var(--blue)}
-.stage{border:1px solid var(--line);border-radius:22px;overflow:hidden;background:var(--paper);position:relative;
+.si .nm{display:block;font-size:20px;font-weight:700;letter-spacing:-.025em;line-height:1.15}
+.si .kd{display:block;font-size:14px;color:var(--mut);margin-top:4px}
+.si .ix{font-size:12.5px;color:var(--dim);font-variant-numeric:tabular-nums}
+.si .ar{font-size:15px;color:var(--dim);opacity:.7;justify-self:end}
+.si:hover{background:rgba(20,32,58,.035)}
+.si.on{background:var(--paper);box-shadow:inset 3px 0 0 var(--blue)}
+.stage{border:1px solid var(--line);border-radius:28px;overflow:hidden;background:var(--paper);position:relative;
   box-shadow:0 30px 60px -30px rgba(20,32,58,.35)}
 .prog{position:absolute;left:0;top:0;height:3px;width:100%;background:var(--blue);transform-origin:left;transform:scaleX(0);z-index:5;pointer-events:none}
 .prog.run{animation:prog 9s linear forwards}
@@ -132,13 +134,13 @@ body{margin:0;background:var(--bg)}
 .exit{position:absolute;right:12px;bottom:12px;z-index:4;display:none;font:inherit;font-size:13px;font-weight:600;color:#fff;
   background:rgba(20,32,58,.9);border:0;border-radius:999px;padding:10px 16px;cursor:pointer}
 .view.live .exit{display:block}
-.scopy{padding:20px 22px 22px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center}
-.scopy h3{font-size:clamp(21px,5.4vw,27px)}
-.scopy p{color:var(--mut);font-size:15px;line-height:1.5;margin-top:6px;max-width:56ch}
+.scopy{padding:32px 32px 36px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:26px;align-items:center}
+.scopy h3{font-size:clamp(26px,6vw,36px)}
+.scopy p{color:var(--mut);font-size:16px;line-height:1.55;margin-top:10px;max-width:56ch}
 .scopy .note{font-size:13px;color:var(--dim);margin-top:8px}
 
 /* ALPHA: o unico bloco de cor cheia da pagina */
-.feature{background:var(--blue);color:#fff;border-radius:30px;padding:30px 22px 24px;display:grid;grid-template-columns:1fr;gap:28px;align-items:center;position:relative;z-index:2}
+.feature{background:var(--blue);color:#fff;border-radius:30px;padding:44px 24px 32px;display:grid;grid-template-columns:1fr;gap:36px;align-items:center;position:relative;z-index:2}
 .feature h2{font-size:clamp(32px,8.4vw,54px)}
 .feature .lead{color:rgba(255,255,255,.88);margin-top:12px}
 .stat{display:flex;gap:28px;margin-top:22px;flex-wrap:wrap}
@@ -159,28 +161,28 @@ body{margin:0;background:var(--bg)}
 .awin img{width:100%;height:auto;display:block}
 
 /* SOBRE */
-.about{display:grid;grid-template-columns:1fr;gap:28px;position:relative;z-index:2}
+.about{display:grid;grid-template-columns:1fr;gap:40px;position:relative;z-index:2}
 .about .ph{background:#efe7d8;border-radius:24px;overflow:hidden}
 .about .ph img{width:100%;height:auto;display:block}
 .about .lead{max-width:46ch}
 
 /* LISTAS (servicos e etapas) */
-.rows{margin-top:30px;border-top:1.5px solid var(--ink)}
-.rw{display:grid;grid-template-columns:1fr;gap:6px;padding:24px 0;border-bottom:1px solid var(--line)}
-.rw h3{font-size:clamp(26px,6.6vw,34px)}
+.rows{margin-top:52px;border-top:1.5px solid var(--ink)}
+.rw{display:grid;grid-template-columns:1fr;gap:8px;padding:36px 0;border-bottom:1px solid var(--line)}
+.rw h3{font-size:clamp(30px,7.4vw,42px)}
 .rw p{color:var(--mut);font-size:16px;max-width:44ch}
 .rw .n{font-size:15px;font-weight:700;color:var(--blued)}
 
 /* CONTATO (faixa cheia + rodape) */
-.contact{background:var(--ink);color:var(--bg);position:relative;z-index:2;padding:72px 0 0}
-.contact h2{font-size:clamp(34px,9vw,64px);max-width:14ch}
+.contact{background:var(--ink);color:var(--bg);position:relative;z-index:2;padding:120px 0 0}
+.contact h2{font-size:clamp(40px,10.4vw,80px);max-width:14ch}
 .contact .lead{color:#b8c0d2;margin-top:16px}
 .contact .ctas{display:flex;flex-direction:column;gap:10px;margin-top:30px;max-width:360px}
 .contact .btn{border-color:rgba(246,241,232,.5);color:var(--bg)}
 .contact .btn:hover{background:var(--bg);color:var(--ink);border-color:var(--bg)}
 .contact .btn-p{border-color:var(--blue);color:#fff}
 .contact .btn-p:hover{background:#fff;color:var(--blued);border-color:#fff}
-.foot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:64px;padding:22px 0 calc(28px + env(safe-area-inset-bottom));
+.foot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:100px;padding:22px 0 calc(28px + env(safe-area-inset-bottom));
   border-top:1px solid rgba(246,241,232,.16);font-size:13.5px;color:#8f99ad}
 .foot b{color:#c9d0de;font-weight:600}
 
@@ -209,11 +211,12 @@ body{margin:0;background:var(--bg)}
 
 /* ---- RESPONSIVO ---- */
 @media(max-width:1000px){
-  .show{grid-template-columns:1fr;gap:14px}
-  .sel{flex-direction:row;overflow-x:auto;scrollbar-width:none;margin:0 -22px;padding:0 22px;gap:8px}
+  .show{grid-template-columns:1fr;gap:18px}
+  .sel{flex-direction:row;overflow-x:auto;scrollbar-width:none;margin:0 -24px;padding:0 24px;gap:10px}
   .sel::-webkit-scrollbar{display:none}
-  .si,.si:last-child{width:auto;min-width:160px;flex:0 0 auto;border:1.5px solid var(--line);border-radius:14px;padding:12px 16px}
-  .si:hover,.si.on{padding:12px 16px}
+  .si,.si:last-child{width:auto;min-width:200px;min-height:0;flex:0 0 auto;border:1.5px solid var(--line);border-radius:16px;padding:18px 20px;display:block}
+  .si .ix,.si .ar{display:none}
+  .si:hover{background:transparent}
   .si.on{background:var(--ink);color:var(--bg);border-color:var(--ink);box-shadow:none}
   .si.on .kd{color:#b8c0d2}
 }
@@ -225,8 +228,8 @@ body{margin:0;background:var(--bg)}
   .ftop .u{display:none}.ftop .op{margin-left:auto}
 }
 @media(min-width:701px){
-  .wrap{padding:0 32px}
-  .hero{padding:96px 0 72px}
+  .wrap{padding:0 48px}
+  .hero{padding:140px 0 120px}
   .hero-grid{grid-template-columns:1.15fr .85fr;grid-template-areas:none;grid-template-rows:auto;gap:64px;align-items:center}
   .hero-tx{display:block}
   .hero h1{font-size:clamp(50px,5.7vw,80px)}
@@ -237,13 +240,13 @@ body{margin:0;background:var(--bg)}
   .pic img{border-radius:28px}
   .pic figcaption{left:12px;right:12px;bottom:12px;border-radius:18px;padding:12px 16px}
   .pic figcaption b{font-size:16px}.pic figcaption span{font-size:13px}
-  .sec{padding:104px 0}
-  .feature{padding:56px 52px;grid-template-columns:.9fr 1.1fr;gap:56px;border-radius:38px}
+  .sec{padding:152px 0}
+  .feature{padding:88px 76px;grid-template-columns:.9fr 1.1fr;gap:80px;border-radius:40px}
   .feature .ctas .btn{flex:0 0 auto}
-  .about{grid-template-columns:.8fr 1.2fr;gap:64px;align-items:center}
-  .rw{grid-template-columns:.9fr 1.1fr;gap:32px;align-items:baseline;padding:30px 0}
+  .about{grid-template-columns:.8fr 1.2fr;gap:104px;align-items:center}
+  .rw{grid-template-columns:.9fr 1.1fr;gap:32px;align-items:baseline;padding:52px 0}
   .rw.step{grid-template-columns:56px .9fr 1.1fr}
-  .contact{padding-top:104px}
+  .contact{padding-top:172px}
   .contact .ctas{flex-direction:row;max-width:none}
   .contact .btn{min-width:210px}
 }
@@ -281,7 +284,7 @@ body{margin:0;background:var(--bg)}
     </div>
     <figure class="pic">
       <img src="assets/pablo.jpg" width="800" height="1109" alt="Pablo Luz" fetchpriority="high">
-      <figcaption><b>Pablo Luz</b><span>Automação, dados e sites</span></figcaption>
+      <figcaption><b>Pablo Luz</b><span>Dados e produtos digitais</span></figcaption>
     </figure>
   </div></header>
 
@@ -353,8 +356,8 @@ body{margin:0;background:var(--bg)}
     <h2>O que eu faço.</h2>
     <div class="rows">
       <div class="rw"><h3>Automações</h3><p>Coleta de dados de vários sites ao mesmo tempo e relatórios que rodam sozinhos.</p></div>
-      <div class="rw"><h3>Dashboards</h3><p>Vendas, estoque e margem num só lugar, com análises que mostram o que fazer.</p></div>
-      <div class="rw"><h3>Sites</h3><p>Sites que fogem do modelo padrão, como uma imobiliária em que o cliente explora as casas num mapa.</p></div>
+      <div class="rw"><h3>Data e Performance</h3><p>Vendas, estoque e margem num só lugar, com análises que mostram o que fazer.</p></div>
+      <div class="rw"><h3>Produtos Digitais</h3><p>Sites que fogem do modelo padrão, como uma imobiliária em que o cliente explora as casas num mapa.</p></div>
     </div>
   </div></section>
 
@@ -405,7 +408,7 @@ body{margin:0;background:var(--bg)}
   function $(id){return document.getElementById(id);}
 
   // ---- projetos (vitrine ao vivo) ----
-  var CATS=[['dashboards','Dashboards'],['catalogos','Catálogos'],['sites','Sites']];
+  var CATS=[['dashboards','Data e Performance'],['catalogos','Catálogos'],['sites','Produtos Digitais']];
   var N_SITE='Projeto de demonstração, marca fictícia.',N_LOJA='Projeto de demonstração, loja fictícia.',N_DASH='Dashboard de demonstração, empresa e dados fictícios.';
   var PROJ=[
     {c:'sites',name:'Meridiano',kind:'Imobiliária',title:'Reserva Botânica',
@@ -454,7 +457,7 @@ body{margin:0;background:var(--bg)}
     sel.innerHTML='';
     list().forEach(function(p,i){
       var b=document.createElement('button');b.type='button';b.className='si';
-      b.innerHTML='<span class="nm">'+p.name+'</span><span class="kd">'+p.kind+'</span>';
+      b.innerHTML='<span class="ix">'+String(i+1).padStart(2,'0')+'</span><span><span class="nm">'+p.name+'</span><span class="kd">'+p.kind+'</span></span><span class="ar">↗</span>';
       b.onclick=function(){idx=i;manual=true;render();stopAuto();};
       sel.appendChild(b);
     });
