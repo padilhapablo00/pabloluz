@@ -16,7 +16,7 @@
 <meta property="og:url" content="https://padilhapablo00.github.io/pabloluz/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&display=swap" rel="stylesheet">
 <style>
 :root{
   color-scheme:light;
@@ -24,7 +24,8 @@
   --ink:#14203a; --mut:#586276; --dim:#8a92a3;
   --line:rgba(20,32,58,.14);
   --blue:#3b6cff; --blued:#2a55e0;
-  --font:"Onest",-apple-system,"Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;
+  --font:"Inter",-apple-system,"Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
   --wrap:1120px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -35,7 +36,7 @@ body{margin:0;background:var(--bg)}
 .pl ::selection{background:var(--ink);color:var(--bg)}
 .pl a{color:inherit;text-decoration:none}
 .pl p{margin:0}.pl img{max-width:100%;display:block}
-.pl h1,.pl h2,.pl h3{margin:0;font-weight:700;letter-spacing:-.035em;line-height:1.04;text-wrap:balance}
+.pl h1,.pl h2,.pl h3{margin:0;font-family:var(--serif);font-weight:600;letter-spacing:-.02em;line-height:1.03;text-wrap:balance}
 .pl :focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px}
 .wrap{max-width:var(--wrap);margin:0 auto;padding:0 22px;position:relative;z-index:2}
 #field{position:fixed;inset:0;z-index:0;pointer-events:none;display:block}
@@ -63,7 +64,7 @@ body{margin:0;background:var(--bg)}
 .mmenu{display:none;position:fixed;inset:64px 0 0;z-index:55;background:var(--bg);padding:12px 22px calc(28px + env(safe-area-inset-bottom));
   flex-direction:column;overflow:auto}
 .mmenu.on{display:flex}
-.mmenu a.l{font-size:30px;font-weight:700;letter-spacing:-.035em;padding:16px 0;border-bottom:1px solid var(--line)}
+.mmenu a.l{font-family:var(--serif);font-size:32px;font-weight:600;letter-spacing:-.02em;padding:16px 0;border-bottom:1px solid var(--line)}
 .mmenu .btn{margin-top:26px}
 
 /* HERO */
@@ -71,7 +72,7 @@ body{margin:0;background:var(--bg)}
 .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 152px;grid-template-areas:"t p" "s p" "c c";
   grid-template-rows:auto 1fr auto;gap:16px 20px;align-items:start}
 .hero-tx{display:contents}
-.hero h1{grid-area:t;font-size:clamp(26px,7.5vw,72px);font-weight:800;line-height:1.02;letter-spacing:-.04em}
+.hero h1{grid-area:t;font-size:clamp(29px,8.6vw,78px);font-weight:600;line-height:1;letter-spacing:-.025em}
 .hero .sub{grid-area:s;margin:0;font-size:12.5px;line-height:2.15;font-weight:500}
 .hero .sub span{background:var(--ink);color:var(--bg);padding:.28em .6em;border-radius:5px;
   -webkit-box-decoration-break:clone;box-decoration-break:clone}
@@ -141,7 +142,7 @@ body{margin:0;background:var(--bg)}
 .feature h2{font-size:clamp(32px,8.4vw,54px)}
 .feature .lead{color:rgba(255,255,255,.88);margin-top:12px}
 .stat{display:flex;gap:28px;margin-top:22px;flex-wrap:wrap}
-.stat .n{font-size:30px;font-weight:800;letter-spacing:-.035em;line-height:1}
+.stat .n{font-family:var(--serif);font-size:34px;font-weight:600;letter-spacing:-.02em;line-height:1}
 .stat .n small{display:block;font-size:13px;font-weight:500;letter-spacing:0;color:rgba(255,255,255,.8);margin-top:6px}
 .feature .ctas{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap}
 .feature .ctas .btn{flex:1 1 auto}
@@ -200,7 +201,7 @@ body{margin:0;background:var(--bg)}
 .pvbar .t{font-size:15px;font-weight:700}
 .pvbar button{font:inherit;font-size:14px;font-weight:600;color:var(--ink);background:transparent;border:1.5px solid var(--ink);border-radius:999px;padding:8px 16px;cursor:pointer}
 .hwbody{padding:22px 24px 28px;overflow:auto}
-.hwhead{font-size:26px;font-weight:800;letter-spacing:-.035em;line-height:1.08;margin-bottom:8px}
+.hwhead{font-family:var(--serif);font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1.08;margin-bottom:8px}
 .hwstep{display:flex;gap:16px;padding:16px 0;border-top:1px solid var(--line)}
 .hwstep .hn{font-size:15px;font-weight:700;color:var(--blued);min-width:22px}
 .hwstep b{font-size:17px;font-weight:700;letter-spacing:-.02em}
@@ -228,7 +229,7 @@ body{margin:0;background:var(--bg)}
   .hero{padding:96px 0 72px}
   .hero-grid{grid-template-columns:1.15fr .85fr;grid-template-areas:none;grid-template-rows:auto;gap:64px;align-items:center}
   .hero-tx{display:block}
-  .hero h1{font-size:clamp(46px,5.2vw,68px)}
+  .hero h1{font-size:clamp(50px,5.7vw,80px)}
   .hero .sub{font-size:15px;margin-top:26px;max-width:36ch}
   .hero .ctas{margin-top:30px}
   .pic{grid-area:auto;margin:0 14px 14px 0;max-width:420px;justify-self:end}
@@ -259,12 +260,12 @@ body{margin:0;background:var(--bg)}
 
   <nav class="nav"><div class="wrap"><div class="row">
     <a class="logo" href="#top"><img class="pmark" src="assets/logo-p.png" alt="P">ablo&nbsp;Luz</a>
-    <div class="navlinks"><a href="#alpha">Alpha</a><a href="#trabalhos">Projetos</a><a href="#sobre">Sobre</a><a href="#servicos">Serviços</a><a href="#contato">Contato</a></div>
+    <div class="navlinks"><a href="#trabalhos">Projetos</a><a href="#alpha">Alpha</a><a href="#sobre">Sobre</a><a href="#servicos">Serviços</a><a href="#contato">Contato</a></div>
     <a class="btn btn-p btn-s" href="#contato">Fale comigo</a>
     <button class="burger" id="burger" aria-label="Abrir menu">☰</button>
   </div></div></nav>
   <div class="mmenu" id="mmenu">
-    <a class="l" href="#alpha">Alpha</a><a class="l" href="#trabalhos">Projetos</a><a class="l" href="#sobre">Sobre</a><a class="l" href="#servicos">Serviços</a><a class="l" href="#contato">Contato</a>
+    <a class="l" href="#trabalhos">Projetos</a><a class="l" href="#alpha">Alpha</a><a class="l" href="#sobre">Sobre</a><a class="l" href="#servicos">Serviços</a><a class="l" href="#contato">Contato</a>
     <a class="btn btn-p" href="https://wa.me/5555992091409?text=Oi%20Pablo!%20Vi%20o%20seu%20site%20e%20quero%20conversar." target="_blank" rel="noopener">Chamar no WhatsApp</a>
   </div>
 
@@ -283,29 +284,6 @@ body{margin:0;background:var(--bg)}
       <figcaption><b>Pablo Luz</b><span>Automação, dados e sites</span></figcaption>
     </figure>
   </div></header>
-
-  <!-- ALPHA -->
-  <section class="sec" id="alpha" style="padding-top:8px"><div class="wrap">
-    <div class="feature">
-      <div>
-        <h2>Alpha, o monitor de preços.</h2>
-        <p class="lead">Uma automação que coleta preços de diversos sites ao mesmo tempo e ainda gera análises para achar a melhor oportunidade do dia.</p>
-        <div class="stat">
-          <div class="n">3.400<small>produtos por dia</small></div>
-          <div class="n">5<small>lojas</small></div>
-          <div class="n">451 mil<small>preços</small></div>
-        </div>
-        <div class="ctas">
-          <a class="btn btn-w" href="https://padilhapablo00.github.io/AlphaGames/" target="_blank" rel="noopener">Ver ao vivo</a>
-          <button class="btn" id="hwbtn" type="button">Como funciona</button>
-        </div>
-      </div>
-      <div class="awin">
-        <div class="bar"><i></i><i></i><i></i><span class="live"><span class="dot"></span>Ao vivo</span></div>
-        <img src="assets/alpha.jpg" width="1360" height="860" loading="lazy" alt="Painel Alpha, monitor de preços">
-      </div>
-    </div>
-  </div></section>
 
   <!-- PROJETOS -->
   <section class="sec" id="trabalhos"><div class="wrap">
@@ -330,6 +308,29 @@ body{margin:0;background:var(--bg)}
           </div>
           <a class="btn" id="go" target="_blank" rel="noopener">Abrir projeto</a>
         </div>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- ALPHA -->
+  <section class="sec" id="alpha" style="padding-top:8px"><div class="wrap">
+    <div class="feature">
+      <div>
+        <h2>Alpha, o monitor de preços.</h2>
+        <p class="lead">Uma automação que coleta preços de diversos sites ao mesmo tempo e ainda gera análises para achar a melhor oportunidade do dia.</p>
+        <div class="stat">
+          <div class="n">3.400<small>produtos por dia</small></div>
+          <div class="n">5<small>lojas</small></div>
+          <div class="n">451 mil<small>preços</small></div>
+        </div>
+        <div class="ctas">
+          <a class="btn btn-w" href="https://padilhapablo00.github.io/AlphaGames/" target="_blank" rel="noopener">Ver ao vivo</a>
+          <button class="btn" id="hwbtn" type="button">Como funciona</button>
+        </div>
+      </div>
+      <div class="awin">
+        <div class="bar"><i></i><i></i><i></i><span class="live"><span class="dot"></span>Ao vivo</span></div>
+        <img src="assets/alpha.jpg" width="1360" height="860" loading="lazy" alt="Painel Alpha, monitor de preços">
       </div>
     </div>
   </div></section>
@@ -405,7 +406,7 @@ body{margin:0;background:var(--bg)}
 
   // ---- projetos (vitrine ao vivo) ----
   var CATS=[['dashboards','Dashboards'],['catalogos','Catálogos'],['sites','Sites']];
-  var N_SITE='Projeto de demonstração, marca fictícia.',N_LOJA='Projeto de demonstração, loja fictícia.';
+  var N_SITE='Projeto de demonstração, marca fictícia.',N_LOJA='Projeto de demonstração, loja fictícia.',N_DASH='Dashboard de demonstração, empresa e dados fictícios.';
   var PROJ=[
     {c:'sites',name:'Meridiano',kind:'Imobiliária',title:'Reserva Botânica',
      text:'Lançamento de alto padrão, com verde profundo e dourado.',url:'projetos/meridiano.html',note:N_SITE},
@@ -423,8 +424,16 @@ body{margin:0;background:var(--bg)}
      text:'Convite digital pro lançamento da coleção.',url:'colecoes/evento.html',note:N_LOJA},
     {c:'catalogos',name:'Dia dos Namorados',kind:'Campanha',title:'Guia de presentes',
      text:'Guia pra quem está indeciso decidir mais rápido.',url:'colecoes/campanha.html',note:N_LOJA},
-    {c:'dashboards',name:'Alpha Produtos',kind:'Painel de vendas',title:'Inteligência de Vendas',
-     text:'Vendas, produtos e períodos com filtros na hora.',url:'projetos/alpha-produtos.html',note:'Painel de demonstração.'}
+    {c:'dashboards',name:'Alpha Produtos',kind:'Vendas',title:'Inteligência de Vendas',
+     text:'Vendas, produtos e períodos com filtros que respondem na hora.',url:'projetos/alpha-produtos.html',note:N_DASH},
+    {c:'dashboards',name:'Ventania Transportes',kind:'Frota e transporte',title:'Frota e transporte',
+     text:'Receita, margem e pontualidade por rota, veículo e motorista.',url:'projetos/dash-ventania.html',note:N_DASH},
+    {c:'dashboards',name:'Ateliê Verbena',kind:'Receita e mapa',title:'Receita por categoria e estado',
+     text:'Cosméticos vendidos por categoria, faixa etária e estado, num mapa do Brasil que filtra tudo.',url:'projetos/dash-verbena.html',note:N_DASH},
+    {c:'dashboards',name:'Distribuidora Pedroso',kind:'Estoque semanal',title:'Relatório semanal de estoque',
+     text:'Quanto há em estoque, onde está o dinheiro e o que está parado há mais de 90 dias.',url:'projetos/dash-pedroso.html',note:N_DASH},
+    {c:'dashboards',name:'Marlin Distribuição',kind:'Inventário e curva ABC',title:'Inventário e logística 360',
+     text:'Capital imobilizado, giro e curva ABC, com leitura automática do que fazer.',url:'projetos/dash-marlin.html',note:N_DASH}
   ];
 
   var AUTO=9000,cat='dashboards',idx=0,timer=null,paused=false,live=false,manual=false,visible=false,started=false;

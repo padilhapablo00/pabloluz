@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ateliê Verbena · Receita</title>
+<meta name="description" content="Dashboard de demonstração: receita de uma marca de cosméticos. Empresa fictícia, dados ilustrativos. Por Pablo Luz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dash/dash.css">
+<style>
+:root{
+  --bg:#dbe7ed; --card:#ffffff; --ink:#173447; --mut:#557080; --dim:#86a0ae;
+  --line:rgba(23,52,71,.10);
+  --side:#1f6a86; --sidefg:#eaf7fa; --sidemut:#a9d3df; --slbg:rgba(255,255,255,.12); --slon:#b9efe9; --slonfg:#0f3a4a; --accent:#1f7a8c;
+  --c1:#1d5f7a; --c2:#2a9db0; --c3:#7fd6d3; --c4:#b9efe9; --c5:#8e2a8e; --c6:#c8d8e0;
+  --kn:4;
+}
+.kpi.mint{background:#b9efe9;border-color:transparent}
+.kpi.dark{background:#26394a;color:#fff;border-color:transparent}
+.kpi.dark .k,.kpi.dark .n{color:#b7c6d2}
+.kpi.mint .k,.kpi.mint .n{color:#3e6b70}
+.kpi .v{font-size:clamp(26px,2.4vw,34px)}
+.tiles{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:5px;margin-top:14px}
+.tile{aspect-ratio:1;border-radius:11px;display:grid;place-items:center;font-size:11px;font-weight:700;cursor:pointer;border:2px solid transparent;
+  transition:transform .15s;user-select:none;padding:0;background:#e6f1f4;color:#173447}
+.tile:hover{transform:scale(1.07)}
+.tile.on{border-color:var(--c5);box-shadow:0 0 0 2px #fff inset}
+.scale{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--dim);margin-top:12px}
+.scale i{display:block;height:8px;flex:1;max-width:160px;border-radius:99px;background:linear-gradient(90deg,#e6f1f4,#1d5f7a)}
+.uf-note{font-size:12.5px;color:var(--mut);margin-top:10px}
+@media(max-width:1000px){.tiles{gap:4px}.tile{font-size:9.5px;border-radius:8px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><span class="gl">V</span><div><b>Ateliê Verbena</b><small>Cosméticos naturais</small></div></div>
+    <button class="fbtn" id="fbtn" type="button"><span>Filtros</span></button>
+    <div class="fpanel" id="fpanel">
+      <div id="slCat"></div><div id="slCan"></div><div id="slMes"></div>
+    </div>
+    <p class="filters-note">Projeto de demonstração. Empresa e dados fictícios.</p>
+  </aside>
+
+  <main class="main">
+    <div class="dhead">
+      <div>
+        <h1 class="dtitle">Receita</h1>
+        <p class="dq">O que a marca vende, para quem e em quais estados. Clique num estado do mapa para filtrar tudo.</p>
+      </div>
+      <div class="tabs" id="tabs"><button class="on" data-p="pDash" type="button">Dashboard</button><button data-p="pBase" type="button">Produtos</button></div>
+    </div>
+
+    <section class="panel" id="pDash">
+      <div class="kpis" id="kpis"></div>
+      <div class="read" id="read"></div>
+      <div class="grid">
+        <div class="card s5"><h3>Receita por categoria</h3><div class="sub">participação no total</div><div class="ch tall"><canvas id="cCat"></canvas></div></div>
+        <div class="card s7 rs2"><h3>Receita por estado</h3><div class="sub">quanto mais escuro, maior a receita</div>
+          <div class="tiles" id="tiles"></div>
+          <div class="scale"><span>menor</span><i></i><span>maior</span></div>
+          <p class="uf-note" id="ufNote">Todos os estados.</p></div>
+        <div class="card s5"><h3>Receita por faixa etária</h3><div class="sub">perfil estimado de quem compra</div><div class="ch short"><canvas id="cAge"></canvas></div></div>
+        <div class="card s6"><h3>Mais vendidos</h3><div class="sub">5 produtos com maior receita</div><div class="ch short"><canvas id="cTop"></canvas></div></div>
+        <div class="card s6"><h3>Menos vendidos</h3><div class="sub">5 produtos com menor receita, hora de rever</div><div class="ch short"><canvas id="cBot"></canvas></div></div>
+      </div>
+    </section>
+
+    <section class="panel" id="pBase" hidden>
+      <div class="card" style="margin-top:20px"><h3>Produtos</h3><div class="sub">todos os itens, no filtro atual</div>
+        <div class="tbl-wrap" id="tabela"></div></div>
+    </section>
+
+    <div class="foot"><span>Ateliê Verbena é uma marca fictícia; dados ilustrativos, gerados para demonstração.</span>
+      <span>Painel por <a href="https://padilhapablo00.github.io/pabloluz/" target="_blank" rel="noopener">Pablo Luz</a></span></div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="dash/dash.js"></script>
+<script>
+(function(){
+"use strict";
+var D=window.DASH;
+var MESES=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+var SEASON=[.9,.85,.9,.95,1.1,1,.95,.95,1,1.05,1.2,1.35];
+var CATS=['Skincare','Haircare','Maquiagem','Perfumaria'];
+var CANAIS=[{n:'Site próprio',w:.45,d:.05},{n:'Marketplace',w:.4,d:.1},{n:'Revenda',w:.15,d:.22}];
+// nome, categoria, preço, custo (fração do preço), volume base mensal (Brasil todo)
+var SKU=[
+ ['Sérum Vitamina C 30ml',0,139,.27,150],['Hidratante Facial FPS 50',0,89,.30,230],['Creme Antissinais Noturno',0,159,.26,90],['Água Micelar 200ml',0,49,.34,300],['Protetor Solar Gel 60g',0,79,.31,260],
+ ['Shampoo Nutrição 300ml',1,54,.33,240],['Máscara de Reconstrução 250g',1,79,.30,140],['Leave-in de Argan 150ml',1,69,.31,170],['Óleo Capilar Reparador 60ml',1,64,.29,110],['Condicionador Cachos 300ml',1,54,.33,150],
+ ['Base Fluida Matte',2,89,.36,120],['Batom Cremoso Nude',2,45,.35,280],['Máscara de Cílios Volume',2,59,.34,190],['Iluminador Líquido',2,69,.35,80],['Paleta de Sombras Terra',2,99,.38,60],
+ ['Eau de Parfum Flora 50ml',3,189,.24,90],['Colônia Cítrica 100ml',3,109,.27,130],['Body Splash Baunilha',3,59,.32,200],['Óleo Corporal Perfumado',3,89,.29,70],['Sabonete Líquido Verbena',3,32,.36,320]];
+var UF=[['RR',2,0,.002],['AP',4,0,.003],['AM',1,1,.012],['PA',3,1,.015],['MA',4,1,.01],['PI',5,1,.007],['CE',6,1,.028],['RN',7,1,.01],
+ ['AC',0,2,.003],['RO',1,2,.006],['MT',2,2,.015],['TO',3,2,.005],['BA',5,2,.045],['PE',6,2,.03],['PB',7,2,.01],
+ ['GO',3,3,.03],['DF',4,3,.03],['MG',5,3,.09],['ES',6,3,.02],['AL',7,3,.008],
+ ['MS',2,4,.012],['SP',4,4,.30],['RJ',5,4,.10],['SE',7,4,.006],['PR',4,5,.055],['SC',4,6,.05],['RS',3,6,.055]];
+var AGE=['18 a 24','25 a 34','35 a 44','45+'];
+var AGESH=[[.10,.30,.36,.24],[.16,.34,.30,.20],[.30,.38,.20,.12],[.14,.30,.30,.26]];
+
+// ---- dados sintéticos ----
+var R=D.rng(7702),rows=[];
+for(var s=0;s<SKU.length;s++)for(var m=0;m<12;m++){
+  var k=SKU[s],seas=SEASON[m];
+  if(k[1]===3&&m===11)seas*=1.6;if(k[1]===3&&m===5)seas*=1.3;if((k[1]===0||k[1]===3)&&m===4)seas*=1.3;
+  for(var c=0;c<3;c++)for(var u=0;u<UF.length;u++){
+    var un=k[4]*seas*CANAIS[c].w*UF[u][3]*(.7+.6*R());
+    var price=k[2]*(1-CANAIS[c].d);
+    rows.push({s:s,m:m,c:c,u:u,cat:k[1],un:un,rev:un*price,cost:un*k[2]*k[3]});
+  }
+}
+
+var F={cat:new Set(),can:new Set(),mes:new Set(),uf:new Set()};
+function base(){return rows.filter(function(x){return D.pass(F.cat,String(x.cat))&&D.pass(F.can,String(x.c))&&D.pass(F.mes,String(x.m));});}
+function sums(rs){var a={un:0,rev:0,cost:0};rs.forEach(function(x){a.un+=x.un;a.rev+=x.rev;a.cost+=x.cost;});return a;}
+function sorted(l){return l.slice().sort(function(a,b){return b.v-a.v;});}
+
+var chCat,chAge,chTop,chBot;
+function init(){
+  D.chartInit();
+  chCat=D.mk('cCat','pie',{plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:10,boxHeight:10,padding:12,usePointStyle:true}},
+    tooltip:{callbacks:{label:function(c){return ' '+c.label+': '+D.brlc(c.parsed);}}}}});
+  chAge=D.mk('cAge','bar',{});chTop=D.mk('cTop','bar',{indexAxis:'y'});chBot=D.mk('cBot','bar',{indexAxis:'y'});
+}
+function bars(ch,labels,vals,horizontal){
+  var val={grid:{color:D.grid()},border:{display:false},ticks:{callback:function(v){return D.brlc(v);},maxTicksLimit:4}};
+  var cat={grid:{display:false},border:{display:false},ticks:{autoSkip:false,font:{size:innerWidth<600?9.5:11.5}}};
+  ch.options.scales=horizontal?{x:val,y:cat}:{x:cat,y:val};
+  ch.options.plugins.tooltip={callbacks:{label:function(c){return ' '+D.brl(c.parsed[horizontal?'x':'y']);}}};
+  var mx=Math.max.apply(null,vals.concat([0]));
+  ch.set(labels,[{data:vals,backgroundColor:vals.map(function(v,i){return (horizontal?i===0:v===mx)?D.css('--c5'):D.css('--c2');}),borderRadius:6,maxBarThickness:horizontal?16:38}]);
+}
+function heat(t){ // 0..1 → cor
+  var a=[230,241,244],b=[29,95,122],p=Math.sqrt(t);
+  return 'rgb('+a.map(function(x,i){return Math.round(x+(b[i]-x)*p);}).join(',')+')';}
+
+var tilesEl=document.getElementById('tiles'),tileEls=[];
+UF.forEach(function(u,i){
+  var b=document.createElement('button');b.type='button';b.className='tile';b.textContent=u[0];
+  b.style.gridColumn=String(u[1]+1);b.style.gridRow=String(u[2]+1);
+  b.onclick=function(){var k=String(i);if(F.uf.has(k))F.uf.delete(k);else F.uf.add(k);render();};
+  tilesEl.appendChild(b);tileEls.push(b);
+});
+
+function render(){
+  var bs=base(),rs=bs.filter(function(x){return D.pass(F.uf,String(x.u));}),a=sums(rs);
+  updCount(F.cat.size+F.can.size+F.mes.size+F.uf.size);
+  document.getElementById('kpis').innerHTML=[
+    ['mint','Receita gerada',D.brlc(a.rev),D.int(rs.length?a.un:0)+' unidades'],
+    ['dark','Produtos vendidos',D.int(a.un),'unidades'],
+    ['dark','Custos',D.brlc(a.cost),'custo dos produtos vendidos'],
+    ['mint','Margem bruta',a.rev?D.dec((a.rev-a.cost)/a.rev*100,1)+'%':'-','receita menos custos']
+  ].map(function(x){return '<div class="kpi '+x[0]+'"><div class="k">'+x[1]+'</div><div class="v num">'+x[2]+'</div><div class="n">'+x[3]+'</div></div>';}).join('');
+  // categoria
+  var gc=D.group(rs,function(x){return x.cat;}),cv=CATS.map(function(n,i){var g=gc.get(i);return g?sums(g).rev:0;});
+  chCat.set(CATS,[{data:cv,backgroundColor:[D.css('--c1'),D.css('--c2'),D.css('--c3'),D.css('--c5')],borderColor:'#fff',borderWidth:2}]);
+  // faixa etária (estimada pelo perfil de cada categoria)
+  var ag=[0,0,0,0];CATS.forEach(function(n,i){var g=gc.get(i);if(!g)return;var r=sums(g).rev;AGESH[i].forEach(function(p,j){ag[j]+=r*p;});});
+  bars(chAge,AGE,ag,false);
+  // mapa
+  var gu=D.group(bs,function(x){return x.u;}),mx=0,uv=UF.map(function(u,i){var g=gu.get(i),v=g?sums(g).rev:0;if(v>mx)mx=v;return v;});
+  tileEls.forEach(function(t,i){var f=mx?uv[i]/mx:0;t.style.background=heat(f);t.style.color=f>.45?'#fff':'#173447';
+    t.title=UF[i][0]+': '+D.brlc(uv[i]);t.classList.toggle('on',F.uf.has(String(i)));});
+  var sel=Array.from(F.uf).map(function(k){return UF[+k][0];});
+  document.getElementById('ufNote').textContent=sel.length?'Filtrando por: '+sel.join(', ')+'. Clique de novo para remover.':'Todos os estados.';
+  // produtos
+  var gs=D.group(rs,function(x){return x.s;}),ps=[];
+  SKU.forEach(function(k,i){var g=gs.get(i);if(g){var s=sums(g);ps.push({n:k[0],cat:CATS[k[1]],un:s.un,rev:s.rev,cost:s.cost,v:s.rev});}});
+  var so=sorted(ps),top=so.slice(0,5),bot=so.slice(-5).reverse().reverse();
+  bars(chTop,top.map(function(x){return x.n;}),top.map(function(x){return x.v;}),true);
+  var bt=so.slice(-5).sort(function(x,y){return x.v-y.v;});
+  bars(chBot,bt.map(function(x){return x.n;}),bt.map(function(x){return x.v;}),true);
+  // leitura
+  var topCat=CATS.map(function(n,i){return {n:n,v:cv[i]};}).sort(function(x,y){return y.v-x.v;})[0];
+  var topUF=UF.map(function(u,i){return {n:u[0],v:uv[i]};}).sort(function(x,y){return y.v-x.v;})[0];
+  var totBase=uv.reduce(function(p,q){return p+q;},0);
+  document.getElementById('read').innerHTML=a.rev?('<b>Leitura:</b> <em>'+topCat.n+'</em> lidera com '+D.pct(topCat.v/a.rev,0)+' da receita. O maior estado é <em>'+topUF.n+'</em>, com '+D.pct(totBase?topUF.v/totBase:0,0)+' das vendas do filtro.'):'<b>Leitura:</b> sem vendas para o filtro escolhido.';
+  D.table(document.getElementById('tabela'),[
+    {h:'Produto',f:function(r){return r.n;}},{h:'Categoria',f:function(r){return r.cat;}},
+    {h:'Unidades',r:1,f:function(r){return D.int(r.un);}},{h:'Receita',r:1,f:function(r){return D.brl(r.rev);}},
+    {h:'Margem',r:1,f:function(r){return D.dec((r.rev-r.cost)/r.rev*100,1)+'%';}}],so);
+}
+
+var updCount=D.filterToggle(document.getElementById('fbtn'),document.getElementById('fpanel'),function(){return F.cat.size+F.can.size+F.mes.size+F.uf.size;});
+D.slicer(document.getElementById('slCat'),{title:'Categoria',items:CATS.map(function(n,i){return {v:i,label:n};}),sel:F.cat,onChange:render});
+D.slicer(document.getElementById('slCan'),{title:'Canal',items:CANAIS.map(function(c,i){return {v:i,label:c.n};}),sel:F.can,onChange:render});
+D.slicer(document.getElementById('slMes'),{title:'Mês',items:MESES.map(function(n,i){return {v:i,label:n};}),sel:F.mes,onChange:render});
+D.tabs(document.getElementById('tabs'));
+init();render();
+})();
+</script>
+</body>
+</html>

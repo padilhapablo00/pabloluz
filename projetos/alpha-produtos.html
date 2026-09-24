@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Alpha Produtos · Inteligência de Vendas</title>
 <meta name="description" content="Painel de inteligência de vendas — Alpha Produtos. Demonstração por Pablo Luz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    ALPHA PRODUTOS — painel de vendas
@@ -19,7 +22,8 @@
   --s1:#4d8dff; --s2:#e2703a; --s3:#1fae7d; --s4:#c98500; --s5:#d55181; --s6:#9085e9;
   /* sequencial (mapa de calor): um único matiz azul — definido no JS em RAMPA */
   --good:#22c55e; --bad:#f0645f;
-  --ui:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --ui:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
   --mono:"Cascadia Code","SF Mono",Consolas,ui-monospace,monospace;
 }
 *{box-sizing:border-box}
@@ -80,7 +84,7 @@
   background:linear-gradient(135deg,var(--surf2),var(--surf) 58%);border:1px solid var(--line);
   border-radius:16px;padding:22px 24px;overflow:hidden}
 .hero .lbl{font-size:11.5px;color:var(--mut);letter-spacing:.1em;text-transform:uppercase;font-weight:600}
-.hero .big{font-size:clamp(38px,4.6vw,58px);font-weight:700;letter-spacing:-.03em;line-height:1.02;margin-top:8px}
+.hero .big{font-family:var(--serif);font-size:clamp(44px,5.2vw,68px);font-weight:600;letter-spacing:-.02em;line-height:1;margin-top:8px}
 .hero .sub2{font-size:12.5px;color:var(--ink2);margin-top:10px;max-width:26ch}
 .delta{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;
   border-radius:7px;padding:5px 10px;margin-top:12px}
@@ -94,7 +98,7 @@
   transition:border-color .22s,transform .22s}
 .kpi:hover{border-color:var(--line2);transform:translateY(-2px)}
 .kpi .k{font-size:11px;color:var(--mut);letter-spacing:.06em;text-transform:uppercase;font-weight:600}
-.kpi .v{font-size:23px;font-weight:700;letter-spacing:-.02em;margin-top:6px}
+.kpi .v{font-family:var(--serif);font-size:28px;font-weight:600;letter-spacing:-.015em;margin-top:6px;line-height:1.05}
 .kpi .foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px}
 .kpi .d{font-size:11.5px;font-weight:600}
 .kpi .d.up{color:var(--good)} .kpi .d.dn{color:var(--bad)} .kpi .d.flat{color:var(--mut)}
@@ -175,7 +179,30 @@ tbody td.nome{color:var(--ink);max-width:280px;overflow:hidden;text-overflow:ell
   .hero{grid-template-columns:1fr;gap:18px}
   .g2,.g2b{grid-template-columns:1fr}
 }
-@media(max-width:560px){.wrap{padding:0 14px}.kpis{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){
+  .wrap{padding:0 14px}
+  .top .row{height:auto;padding:10px 0;flex-wrap:wrap;gap:6px 14px}
+  .mark{white-space:nowrap}
+  .top .per{margin-left:0;width:100%;font-size:11.5px;flex-wrap:wrap;gap:4px 6px}
+  .filtros{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding-top:12px}
+  .filtros .seg{grid-column:1/-1;display:flex}
+  .filtros .seg button{flex:1;padding:10px 6px}
+  .fsel,.fsel select{display:block;width:100%}
+  .fsel select{text-overflow:ellipsis}
+  .limpar{width:100%}
+  .fcount{grid-column:1/-1;margin-left:0;text-align:center}
+  .hero{padding:18px 16px;gap:10px}
+  .hero .big{font-size:clamp(34px,10.4vw,46px);white-space:nowrap}
+  .kpis{grid-template-columns:1fr 1fr;gap:9px}
+  .kpi{padding:13px 13px}
+  .kpi .v{font-size:21px;white-space:nowrap}
+  .chead{flex-wrap:wrap}
+  .kpi .foot{flex-direction:column;align-items:flex-start;gap:6px}
+  .card{padding:15px 14px}
+  #chHeat{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  #chHeat svg{min-width:600px}
+  .rodape{flex-direction:column}
+}
 @media(prefers-reduced-motion:reduce){.rv{animation:none;opacity:1;transform:none}
   .bar,.hcell{transition:none}}
 </style>
@@ -406,7 +433,7 @@ function spark(vals,cor){
 function barras(el,itens,alt,mostrarValor){
   if(!itens.length){el.innerHTML='<div class="vazio">Sem dados no filtro.</div>';return;}
   const max=Math.max(...itens.map(i=>i.v))||1,alturaLinha=31,W=el.clientWidth||520;
-  const labW=Math.min(210,Math.max(112,W*.34)),valW=86,barMax=Math.max(30,W-labW-valW-12);
+  const labW=Math.min(210,Math.max(W<480?96:112,W*.34)),valW=W<480?128:86,barMax=Math.max(30,W-labW-valW-12);
   el.innerHTML=`<svg viewBox="0 0 ${W} ${itens.length*alturaLinha}" width="100%"
     height="${itens.length*alturaLinha}" role="img" aria-label="${esc(alt)}">`+
     itens.map((it,i)=>{const w=Math.max(3,it.v/max*barMax),yy=i*alturaLinha;
@@ -457,7 +484,7 @@ function donut(el,leg,itens){
 // ---------- mapa de calor ----------
 function heat(el,mat,linhasNome,colsNome){
   const vals=mat.flat().filter(v=>v>0),max=Math.max(...vals,1);
-  const W=el.clientWidth||860,labW=Math.min(112,Math.max(76,W*.13)),cw=Math.max(16,(W-labW-6)/colsNome.length);
+  const W=Math.max(el.clientWidth||860,600),labW=Math.min(124,Math.max(104,W*.13)),cw=Math.max(16,(W-labW-6)/colsNome.length);
   const ch=27,H=linhasNome.length*ch+20;
   const cor=v=>v<=0?'#101828':RAMPA[Math.min(RAMPA.length-1,Math.floor(v/max*RAMPA.length*.999))];
   let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" role="img" aria-label="Receita por mês e categoria">`;

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Distribuidora Pedroso · Relatório semanal de estoque</title>
+<meta name="description" content="Dashboard de demonstração: relatório semanal de estoque. Empresa fictícia, dados ilustrativos. Por Pablo Luz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dash/dash.css">
+<style>
+:root{
+  --bg:#ebebf7; --card:#ffffff; --ink:#22264f; --mut:#62678f; --dim:#9296b8;
+  --line:rgba(34,38,79,.09); --r:22px;
+  --side:#f8f8fd; --sidefg:#2b2f5c; --sidemut:#7d82a9; --sideline:rgba(34,38,79,.1);
+  --slbg:#e8e8f7; --slon:#5b4fd6; --slonfg:#fff; --accent:#5b4fd6;
+  --c1:#5b4fd6; --c2:#4fc3ea; --c3:#9d94ee; --c4:#b7ecf7; --c5:#3b6fe0; --c6:#dcdaf5;
+}
+.side{border-right:1px solid var(--sideline)}
+.brand .gl{border-radius:50%}
+.kg{background:linear-gradient(140deg,#56d3f2,#3b6fe0 78%);color:#fff;border-radius:var(--r);padding:22px 22px 20px;box-shadow:0 18px 36px -20px rgba(59,111,224,.7);display:flex;flex-direction:column;gap:18px}
+.kg .it .k{font-size:13px;opacity:.85;font-weight:500}
+.kg .it .v{font-family:var(--serif);font-size:clamp(30px,3vw,40px);font-weight:600;letter-spacing:-.02em;line-height:1.05;margin-top:4px}
+.kg hr{border:0;border-top:1px solid rgba(255,255,255,.35);margin:0}
+.kg .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.kg .row2 .v{font-size:clamp(22px,2.2vw,28px)}
+.slow{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:12px}
+.slow li{display:grid;grid-template-columns:1fr auto;gap:2px 10px;font-size:13px}
+.slow .n{font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.slow .d{color:var(--bad);font-weight:700;font-variant-numeric:tabular-nums}
+.slow .m{grid-column:1/-1;font-size:11.5px;color:var(--dim)}
+.slow .bar{grid-column:1/-1;height:6px;border-radius:9px;background:var(--c6);overflow:hidden}
+.slow .bar i{display:block;height:100%;background:linear-gradient(90deg,#9d94ee,#5b4fd6);border-radius:9px}
+.wk{font-size:13px;color:var(--mut);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-weight:600}
+@media(max-width:1000px){.kg{padding:18px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><span class="gl">P</span><div><b>Pedroso</b><small>Distribuição de materiais</small></div></div>
+    <button class="fbtn" id="fbtn" type="button"><span>Filtros</span></button>
+    <div class="fpanel" id="fpanel">
+      <div id="slSem"></div><div id="slCd"></div><div id="slCat"></div>
+    </div>
+    <p class="filters-note">Projeto de demonstração. Empresa e dados fictícios.</p>
+  </aside>
+
+  <main class="main">
+    <div class="dhead">
+      <div>
+        <h1 class="dtitle">Relatório semanal de estoque</h1>
+        <p class="dq">Quanto temos em estoque, onde está o dinheiro e o que está parado há mais de 90 dias.</p>
+      </div>
+      <div class="wk" id="wk">Semana</div>
+    </div>
+
+    <div class="grid">
+      <div class="kg s4" id="kg"></div>
+      <div class="card s8"><h3>Estoque por categoria</h3><div class="sub">valor em R$ (colunas) e quantidade (linha)</div><div class="ch tall"><canvas id="cCat"></canvas></div></div>
+      <div class="card s8"><h3>Estoque por fornecedor</h3><div class="sub">valor em R$ (colunas) e quantidade (linha)</div><div class="ch tall"><canvas id="cFor"></canvas></div></div>
+      <div class="card s4"><h3>Baixo giro</h3><div class="sub">itens com mais de 90 dias sem venda, por valor parado</div><ul class="slow" id="slow"></ul></div>
+    </div>
+    <div class="read" id="read"></div>
+
+    <div class="foot"><span>Distribuidora Pedroso é uma empresa fictícia; dados ilustrativos, gerados para demonstração.</span>
+      <span>Painel por <a href="https://padilhapablo00.github.io/pabloluz/" target="_blank" rel="noopener">Pablo Luz</a></span></div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="dash/dash.js"></script>
+<script>
+(function(){
+"use strict";
+var D=window.DASH;
+var CDS=['Central','Leste','Norte','Oeste','Sul'],CDW=[1.25,.95,.7,.9,1.0];
+var CATS=['Ferramentas','Elétrica','Hidráulica','Tintas','Jardim','Ferragens','Iluminação','EPI'];
+var FORN=['Ferrotec','Voltária','Hidrofluxo','Colorama','Verdejar','Parafix','Lumiar','SegurMais','Trevo'];
+// nome, categoria, fornecedor, custo unitário, quantidade base por CD
+var SKU=[
+ ['Furadeira de Impacto 650W',0,0,229,26],['Parafusadeira a Bateria 12V',0,0,189,30],['Serra Circular 7¼"',0,0,349,14],['Jogo de Chaves 40 peças',0,5,79,60],
+ ['Trena 8 m',0,5,24,180],['Alicate Universal 8"',0,5,32,150],['Martelo Unha 27 mm',0,0,38,110],['Nível a Laser 15 m',0,0,159,22],
+ ['Disjuntor 32A',1,1,18,420],['Fio Flexível 2,5 mm 100 m',1,1,269,50],['Tomada 10A',1,1,6,900],['Interruptor Duplo',1,1,9,700],
+ ['Quadro de Distribuição 12',1,1,74,60],['Extensão 5 m',1,1,29,140],['Fita Isolante 20 m',1,1,5,1100],
+ ['Registro Esfera 1/2"',2,2,21,300],['Tubo PVC 50 mm 6 m',2,2,48,160],['Torneira de Metal',2,2,64,120],['Sifão Flexível',2,2,12,380],
+ ['Caixa d\'água 500 L',2,2,410,18],['Válvula de Descarga',2,2,137,45],['Joelho PVC 50 mm',2,2,3,1500],
+ ['Tinta Acrílica 18 L Branca',3,3,289,44],['Massa Corrida 25 kg',3,3,79,80],['Selador Acrílico 18 L',3,3,199,30],['Rolo de Lã 23 cm',3,3,14,320],
+ ['Pincel 3"',3,3,9,420],['Solvente 900 ml',3,3,17,260],
+ ['Mangueira 30 m',4,4,89,70],['Regador 10 L',4,4,26,100],['Tesoura de Poda',4,4,44,80],['Carrinho de Mão',4,4,176,20],
+ ['Adubo Orgânico 5 kg',4,4,29,150],['Aspersor Giratório',4,4,33,90],
+ ['Kit Parafuso Sextavado',5,5,42,140],['Bucha de Nylon 8 mm (cx)',5,5,11,600],['Dobradiça 3"',5,5,8,700],['Fechadura Externa',5,5,96,55],
+ ['Cadeado 40 mm',5,5,22,210],['Corrente de Aço 6 mm (m)',5,5,19,260],
+ ['Lâmpada LED 9 W',6,6,7,1300],['Refletor LED 50 W',6,6,58,110],['Luminária de Emergência',6,1,84,60],['Fita LED 5 m',6,6,49,120],
+ ['Plafon LED 24 W',6,6,42,130],['Pendente Industrial',6,6,118,40],
+ ['Capacete de Obra',7,7,26,210],['Luva de Vaqueta',7,7,14,480],['Óculos de Proteção',7,7,9,650],['Bota de Segurança',7,8,118,90],
+ ['Protetor Auricular',7,7,4,1400],['Colete Refletivo',7,8,24,260]];
+var SLOW={4:150,13:170,19:210,23:120,28:135,31:190,34:105,42:160,47:125,20:140}; // sku → dias base sem venda
+var WEEKS=[];for(var w=0;w<12;w++){var d=new Date(2025,5,30+w*7);WEEKS.push(('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2));}
+
+// ---- dados sintéticos ----
+var R=D.rng(9141),rows=[];
+for(var w=0;w<12;w++)for(var c=0;c<5;c++)for(var s=0;s<SKU.length;s++){
+  var k=SKU[s],slow=SLOW[s]!=null,drift=1+Math.sin((w+s)*.9)*.08+(R()-.5)*.12;
+  var qty=Math.round(k[4]*CDW[c]*drift*(slow?1.05:1)*(.75+.5*R()));
+  var dsl=slow?Math.round(SLOW[s]*(.8+.5*R())+w*3):Math.round(3+R()*55);
+  rows.push({w:w,c:c,s:s,cat:k[1],f:k[2],qty:qty,val:qty*k[3],dsl:dsl});
+}
+
+var F={sem:new Set([String(11)]),cd:new Set(),cat:new Set()};
+function filtered(){return rows.filter(function(x){return F.sem.has(String(x.w))&&D.pass(F.cd,String(x.c))&&D.pass(F.cat,String(x.cat));});}
+
+var chCat,chFor;
+function combo(id){
+  return D.mk(id,'bar',{plugins:{tooltip:{}},scales:{}});
+}
+function setCombo(ch,labels,val,qty){
+  var small=innerWidth<600;
+  ch.options.scales={
+    x:{grid:{display:false},border:{display:false},ticks:{autoSkip:false,maxRotation:small?60:0,minRotation:small?60:0,font:{size:small?9.5:11.5}}},
+    y:{position:'left',grid:{color:D.grid()},border:{display:false},ticks:{callback:function(v){return D.brlc(v);},maxTicksLimit:5}},
+    y1:{position:'right',grid:{display:false},border:{display:false},ticks:{callback:function(v){return D.num(v);},maxTicksLimit:5}}};
+  ch.options.plugins.tooltip={callbacks:{label:function(c){return c.dataset.type==='line'?' '+D.int(c.parsed.y)+' unidades':' '+D.brl(c.parsed.y);}}};
+  ch.set(labels,[
+    {type:'bar',data:val,backgroundColor:D.css('--c2'),borderRadius:7,maxBarThickness:30,yAxisID:'y',order:2},
+    {type:'line',data:qty,borderColor:D.css('--c1'),backgroundColor:D.css('--c1'),tension:.42,borderWidth:2.5,pointRadius:3.5,pointBackgroundColor:'#fff',pointBorderWidth:2,yAxisID:'y1',order:1}]);
+}
+function agg(rs,keyf,n){var v=new Array(n).fill(0),q=new Array(n).fill(0);rs.forEach(function(x){var k=keyf(x);v[k]+=x.val;q[k]+=x.qty;});return {v:v,q:q};}
+
+function render(){
+  var rs=filtered(),qty=D.sum(rs,function(x){return x.qty;}),val=D.sum(rs,function(x){return x.val;});
+  var st=rs.filter(function(x){return x.dsl>90;}),sv=D.sum(st,function(x){return x.val;});
+  updCount((F.cd.size)+(F.cat.size));
+  var wk=Array.from(F.sem)[0];document.getElementById('wk').textContent='Semana de '+WEEKS[+wk];
+  document.getElementById('kg').innerHTML=
+    '<div class="it"><div class="k">Quantidade em estoque</div><div class="v num">'+D.int(qty)+'</div></div><hr>'+
+    '<div class="it"><div class="k">Valor em estoque</div><div class="v num">'+D.brlc(val)+'</div></div><hr>'+
+    '<div class="row2"><div class="it"><div class="k">Valor parado</div><div class="v num">'+D.brlc(sv)+'</div></div>'+
+    '<div class="it"><div class="k">% parado</div><div class="v num">'+(val?D.dec(sv/val*100,1):'0')+'%</div></div></div>';
+  var a=agg(rs,function(x){return x.cat;},CATS.length);setCombo(chCat,CATS,a.v,a.q);
+  var b=agg(rs,function(x){return x.f;},FORN.length);setCombo(chFor,FORN,b.v,b.q);
+  // baixo giro por SKU
+  var g=D.group(rs,function(x){return x.s;}),list=[];
+  g.forEach(function(arr,s){var v=0,q=0,dmax=0;arr.forEach(function(x){if(x.dsl>90){v+=x.val;q+=x.qty;}if(x.dsl>dmax)dmax=x.dsl;});if(dmax>90)list.push({n:SKU[s][0],v:v,q:q,d:dmax});});
+  list.sort(function(x,y){return y.v-x.v;});
+  var top=list.slice(0,6),mx=top.length?Math.max.apply(null,top.map(function(x){return x.v;})):1;
+  document.getElementById('slow').innerHTML=top.length?top.map(function(x){
+    return '<li><span class="n">'+x.n+'</span><span class="d">'+x.d+' dias</span><span class="m">'+D.int(x.q)+' un. · '+D.brlc(x.v)+' parados</span><span class="bar"><i style="width:'+Math.round(x.v/mx*100)+'%"></i></span></li>';}).join(''):'<li class="empty">Nenhum item parado neste filtro.</li>';
+  var topCat=CATS.map(function(n,i){return {n:n,v:a.v[i]};}).sort(function(x,y){return y.v-x.v;})[0];
+  document.getElementById('read').innerHTML='<b>Leitura:</b> '+(val?('<em>'+D.dec(sv/val*100,1)+'%</em> do valor em estoque ('+D.brlc(sv)+') está parado há mais de 90 dias. A categoria com mais capital é <em>'+topCat.n+'</em> ('+D.brlc(topCat.v)+').'):'sem estoque para o filtro escolhido.');
+}
+
+var updCount=D.filterToggle(document.getElementById('fbtn'),document.getElementById('fpanel'),function(){return F.cd.size+F.cat.size;});
+D.slicer(document.getElementById('slSem'),{title:'Semana (segunda-feira)',items:WEEKS.map(function(n,i){return {v:i,label:n};}),sel:F.sem,single:true,onChange:render});
+D.slicer(document.getElementById('slCd'),{title:'Centro de distribuição',items:CDS.map(function(n,i){return {v:i,label:n};}),sel:F.cd,onChange:render});
+D.slicer(document.getElementById('slCat'),{title:'Categoria',items:CATS.map(function(n,i){return {v:i,label:n};}),sel:F.cat,onChange:render});
+D.chartInit();chCat=combo('cCat');chFor=combo('cFor');render();
+})();
+</script>
+</body>
+</html>

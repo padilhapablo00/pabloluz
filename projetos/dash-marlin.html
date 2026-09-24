@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Marlin Distribuição · Inventário e logística 360</title>
+<meta name="description" content="Dashboard de demonstração: inventário, giro e curva ABC. Empresa fictícia, dados ilustrativos. Por Pablo Luz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dash/dash.css">
+<style>
+:root{
+  --bg:#edf0f6; --card:#ffffff; --ink:#0f1836; --mut:#5a6488; --dim:#8b93b0;
+  --line:rgba(15,24,54,.09); --r:14px;
+  --side:#0a1030; --sidefg:#e9edff; --sidemut:#8f9bc4; --slbg:rgba(255,255,255,.08); --slon:#2fe0b4; --slonfg:#06251d;
+  --accent:#2fe0b4; --accent-fg:#06251d;
+  --c1:#17b890; --c2:#7c5cd6; --c3:#e5484d; --c4:#2fe0b4; --c5:#b8bfd1; --c6:#dde1ee;
+  --kn:4;
+}
+.brand .gl{background:linear-gradient(140deg,#2fe0b4,#17b890)}
+.read em{color:#0c8a72}
+.card h3{font-family:var(--serif);font-size:17px;font-weight:600;letter-spacing:-.01em}
+.kpi{border-radius:14px}
+.kpi .n{font-size:11.5px}
+.sum{margin:12px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px;font-size:13.5px;color:var(--mut)}
+.sum li{padding-left:16px;position:relative;line-height:1.5}
+.sum li::before{content:"";position:absolute;left:0;top:.6em;width:7px;height:7px;border-radius:50%;background:var(--c4)}
+.sum b{color:var(--ink)}
+.tabs button.on{color:var(--accent-fg)}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><span class="gl" style="color:#06251d">M</span><div><b>Marlin</b><small>Distribuição de autopeças</small></div></div>
+    <button class="fbtn" id="fbtn" type="button"><span>Filtros</span></button>
+    <div class="fpanel" id="fpanel">
+      <div id="slMes"></div><div id="slCd"></div><div id="slCat"></div><div id="slAbc"></div>
+    </div>
+    <p class="filters-note">Projeto de demonstração. Empresa e dados fictícios.</p>
+  </aside>
+
+  <main class="main">
+    <div class="dhead">
+      <div>
+        <h1 class="dtitle">Inventário e logística 360</h1>
+        <p class="dq">Onde está o capital imobilizado e quais armazéns ou categorias pesam mais no nível de serviço?</p>
+      </div>
+      <div class="tabs" id="tabs"><button class="on" data-p="pDash" type="button">Dashboard</button><button data-p="pBase" type="button">Base de dados</button></div>
+    </div>
+
+    <section class="panel" id="pDash">
+      <div class="radios" id="metric"><span class="rl">Métrica dos gráficos</span>
+        <label><input type="radio" name="m" value="inv" checked>Valor do inventário</label>
+        <label><input type="radio" name="m" value="giro">Giro</label>
+        <label><input type="radio" name="m" value="dias">Dias de inventário</label>
+        <label><input type="radio" name="m" value="fill">Nível de serviço</label>
+      </div>
+      <div class="kpis" id="kpis"></div>
+      <div class="grid">
+        <div class="card s7"><h3 id="tMes">Valor do inventário por mês</h3><div class="sub">2025, com os filtros escolhidos</div><div class="ch"><canvas id="cMes"></canvas></div><p class="insight" id="iMes"></p></div>
+        <div class="card s5"><h3 id="tCd">Valor do inventário por armazém</h3><div class="sub">do maior para o menor</div><div class="ch"><canvas id="cCd"></canvas></div><p class="insight" id="iCd"></p></div>
+        <div class="card s4"><h3>Capital por classe ABC</h3><div class="sub">participação no valor do inventário</div><div class="ch"><canvas id="cAbc"></canvas></div><p class="insight" id="iAbc"></p></div>
+        <div class="card s4"><h3 id="tCat">Valor do inventário por categoria</h3><div class="sub">do maior para o menor</div><div class="ch"><canvas id="cCat"></canvas></div><p class="insight" id="iCat"></p></div>
+        <div class="card s4"><h3>Resumo executivo</h3><div class="sub">gerado a partir do filtro atual</div><ul class="sum" id="sum"></ul></div>
+      </div>
+    </section>
+
+    <section class="panel" id="pBase" hidden>
+      <div class="card" style="margin-top:20px"><h3>Base de dados</h3><div class="sub">categoria × classe ABC, no filtro atual</div>
+        <div class="tbl-wrap" id="tabela"></div></div>
+    </section>
+
+    <div class="foot"><span>Marlin Distribuição é uma empresa fictícia; dados ilustrativos, gerados para demonstração.</span>
+      <span>Painel por <a href="https://padilhapablo00.github.io/pabloluz/" target="_blank" rel="noopener">Pablo Luz</a></span></div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="dash/dash.js"></script>
+<script>
+(function(){
+"use strict";
+var D=window.DASH;
+var MESES=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+var CDS=['CD Campinas','CD Curitiba','CD Recife','CD Goiânia'],CDW=[.38,.25,.2,.17];
+var CATS=['Motor','Transmissão','Freios e suspensão','Filtros e lubrificantes','Elétrica','Acessórios'];
+var CATV=[9.2e6,6.4e6,8.1e6,5.0e6,6.2e6,3.7e6]; // capital médio por categoria (todos os CDs)
+var ABC=['A','B','C'],ABCS=[.36,.23,.41],TURN=[11,6,1.9],FILL=[.985,.968,.925];
+var INVS=[.96,.95,.97,.98,1,1.01,1,1.02,1.04,1.08,1.12,.98];
+var DEM=[.95,.9,.95,1,1.05,1,1,1.05,1.05,1.1,1.15,1.05];
+
+var R=D.rng(31415),rows=[];
+for(var m=0;m<12;m++)for(var c=0;c<4;c++)for(var k=0;k<6;k++)for(var a=0;a<3;a++){
+  var inv=CATV[k]*CDW[c]*ABCS[a]*INVS[m]*(.95+.1*R());
+  var cogs=inv*TURN[a]/12*DEM[m]*(.92+.16*R());
+  var lines=Math.round(cogs/620),fr=Math.min(.999,FILL[a]-(m>=10?.012:0)-(c===2?.008:0)+(R()-.5)*.012);
+  rows.push({m:m,c:c,k:k,a:a,inv:inv,cogs:cogs,lines:lines,filled:lines*fr});
+}
+
+var F={m:new Set(),c:new Set(),k:new Set(),a:new Set()};
+function filtered(){return rows.filter(function(x){return D.pass(F.m,String(x.m))&&D.pass(F.c,String(x.c))&&D.pass(F.k,String(x.k))&&D.pass(F.a,String(x.a));});}
+function S(rs){var o={inv:0,cogs:0,lines:0,filled:0},ms=new Set();
+  rs.forEach(function(x){o.inv+=x.inv;o.cogs+=x.cogs;o.lines+=x.lines;o.filled+=x.filled;ms.add(x.m);});o.nm=ms.size||1;return o;}
+var MET={
+  inv:{n:'Valor do inventário',f:function(s){return s.inv/s.nm;},fmt:D.brlc},
+  giro:{n:'Giro',f:function(s){return s.inv?s.cogs/s.inv*12:0;},fmt:function(v){return D.dec(v,1)+'x';}},
+  dias:{n:'Dias de inventário',f:function(s){var g=s.inv?s.cogs/s.inv*12:0;return g?365/g:0;},fmt:function(v){return D.int(v)+' dias';}},
+  fill:{n:'Nível de serviço',f:function(s){return s.lines?s.filled/s.lines*100:0;},fmt:function(v){return D.dec(v,1)+'%';}}};
+var metric='inv';
+
+var chMes,chCd,chAbc,chCat;
+function init(){
+  D.chartInit();
+  chMes=D.mk('cMes','bar',{});chCd=D.mk('cCd','bar',{indexAxis:'y'});chCat=D.mk('cCat','bar',{indexAxis:'y'});
+  chAbc=D.mk('cAbc','doughnut',{cutout:'64%',plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:10,boxHeight:10,padding:12,usePointStyle:true}},
+    tooltip:{callbacks:{label:function(c){return ' Classe '+c.label+': '+D.brlc(c.parsed);}}}}});
+}
+function bars(ch,labels,vals,fmt,horizontal,lowIsGood){
+  var val={grid:{color:D.grid()},border:{display:false},ticks:{callback:function(v){return fmt(v);},maxTicksLimit:4}};
+  var cat={grid:{display:false},border:{display:false},ticks:{autoSkip:false,font:{size:innerWidth<600?9.5:11.5}}};
+  ch.options.scales=horizontal?{x:val,y:cat}:{x:cat,y:val};
+  ch.options.plugins.tooltip={callbacks:{label:function(c){return ' '+fmt(c.parsed[horizontal?'x':'y']);}}};
+  var mx=Math.max.apply(null,vals.concat([0]));
+  ch.set(labels,[{data:vals,backgroundColor:vals.map(function(v,i){return (horizontal?i===0:v===mx)?D.css('--c1'):D.css('--c5');}),borderRadius:6,maxBarThickness:horizontal?18:30}]);
+}
+function byIdx(rs,kf,names,mf){var g=D.group(rs,kf),o=[];names.forEach(function(n,i){var a=g.get(i);if(a)o.push({n:n,v:mf(S(a))});});return o;}
+function desc(l){return l.slice().sort(function(a,b){return b.v-a.v;});}
+
+function render(){
+  var rs=filtered(),s=S(rs),M=MET[metric];
+  updCount(F.m.size+F.c.size+F.k.size+F.a.size);
+  var giro=s.inv?s.cogs/s.inv*12:0;
+  document.getElementById('kpis').innerHTML=[
+    ['Capital imobilizado',D.brlc(s.inv/s.nm),'valor médio do inventário'],
+    ['Giro do inventário',D.dec(giro,1)+'x','vezes por ano'],
+    ['Dias de inventário',giro?D.int(365/giro)+' dias':'-','cobertura média'],
+    ['Nível de serviço',s.lines?D.dec(s.filled/s.lines*100,1)+'%':'-','linhas de pedido atendidas']
+  ].map(function(x){return '<div class="kpi"><div class="k">'+x[0]+'</div><div class="v num">'+x[1]+'</div><div class="n">'+x[2]+'</div></div>';}).join('');
+  ['tMes','tCd','tCat'].forEach(function(id,i){document.getElementById(id).textContent=M.n+' por '+['mês','armazém','categoria'][i];});
+
+  var gm=byIdx(rs,function(x){return x.m;},MESES,M.f);
+  bars(chMes,gm.map(function(x){return x.n;}),gm.map(function(x){return x.v;}),M.fmt,false);
+  var gc=desc(byIdx(rs,function(x){return x.c;},CDS,M.f));
+  bars(chCd,gc.map(function(x){return x.n;}),gc.map(function(x){return x.v;}),M.fmt,true);
+  var gk=desc(byIdx(rs,function(x){return x.k;},CATS,M.f));
+  bars(chCat,gk.map(function(x){return x.n;}),gk.map(function(x){return x.v;}),M.fmt,true);
+  var ga=byIdx(rs,function(x){return x.a;},ABC,function(t){return t.inv/t.nm;}),ta=ga.reduce(function(p,q){return p+q.v;},0);
+  chAbc.set(ga.map(function(x){return x.n;}),[{data:ga.map(function(x){return x.v;}),backgroundColor:[D.css('--c1'),D.css('--c2'),D.css('--c3')],borderColor:'#fff',borderWidth:2}]);
+
+  // leituras automáticas (dependem do filtro)
+  var pk=gm.slice().sort(function(a,b){return b.v-a.v;});
+  document.getElementById('iMes').innerHTML=gm.length>1?('<b>Leitura:</b> pico em <b>'+pk[0].n+'</b> ('+M.fmt(pk[0].v)+') e piso em <b>'+pk[pk.length-1].n+'</b> ('+M.fmt(pk[pk.length-1].v)+'). Alinhe as compras à sazonalidade para não carregar excesso fora da alta.'):'<b>Leitura:</b> escolha mais de um mês para ver a sazonalidade.';
+  var shareCd=desc(byIdx(rs,function(x){return x.c;},CDS,function(t){return t.inv;})),totCd=shareCd.reduce(function(p,q){return p+q.v;},0);
+  document.getElementById('iCd').innerHTML=shareCd.length?('<b>Leitura:</b> '+shareCd[0].n+' concentra <b>'+D.pct(shareCd[0].v/totCd,0)+'</b> do capital. Audite primeiro os excessos deste armazém.'):'';
+  var gI=byIdx(rs,function(x){return x.a;},ABC,function(t){return t.inv;}),gCg=byIdx(rs,function(x){return x.a;},ABC,function(t){return t.cogs;});
+  var iC=gI.filter(function(x){return x.n==='C';})[0],cC=gCg.filter(function(x){return x.n==='C';})[0];
+  var totI=gI.reduce(function(p,q){return p+q.v;},0),totC=gCg.reduce(function(p,q){return p+q.v;},0);
+  document.getElementById('iAbc').innerHTML=(iC&&totI&&totC)?('<b>Leitura:</b> a classe C tem <b>'+D.pct(iC.v/totI,0)+'</b> do capital e responde por só <b>'+D.pct(cC.v/totC,0)+'</b> do consumo. Revise a reposição e liquide o que não gira.'):'<b>Leitura:</b> inclua a classe C no filtro para ver o peso do estoque sem giro.';
+  var shareK=desc(byIdx(rs,function(x){return x.k;},CATS,function(t){return t.inv;})),totK=shareK.reduce(function(p,q){return p+q.v;},0);
+  document.getElementById('iCat').innerHTML=shareK.length?('<b>Leitura:</b> <b>'+shareK[0].n+'</b> é a categoria com mais capital ('+D.pct(shareK[0].v/totK,0)+'). Vale checar giro e cobertura dela primeiro.'):'';
+  // resumo executivo
+  var lst=[];
+  lst.push('Capital médio de <b>'+D.brlc(s.inv/s.nm)+'</b>, giro de <b>'+D.dec(giro,1)+'x</b> ao ano (<b>'+(giro?D.int(365/giro):0)+' dias</b> de cobertura) e nível de serviço de <b>'+(s.lines?D.dec(s.filled/s.lines*100,1):'0')+'%</b>.');
+  if(iC&&totI)lst.push('A classe C guarda <b>'+D.pct(iC.v/totI,0)+'</b> do capital e gira pouco: é onde há mais dinheiro parado.');
+  var low=desc(byIdx(rs,function(x){return x.c;},CDS,MET.fill.f));
+  if(low.length>1)lst.push('Menor nível de serviço: <b>'+low[low.length-1].n+'</b> ('+D.dec(low[low.length-1].v,1)+'%). Vale rever o estoque de segurança ali.');
+  lst.push('Próximo passo sugerido: reduzir compras de itens C e reforçar a reposição dos itens A com ruptura.');
+  document.getElementById('sum').innerHTML=lst.map(function(t){return '<li>'+t+'</li>';}).join('');
+  // tabela
+  var g=D.group(rs,function(x){return x.k*3+x.a;}),list=[];
+  g.forEach(function(arr,key){var t=S(arr),k=Math.floor(key/3),a=key%3;list.push({cat:CATS[k],cl:ABC[a],t:t});});
+  list.sort(function(x,y){return y.t.inv-x.t.inv;});
+  D.table(document.getElementById('tabela'),[
+    {h:'Categoria',f:function(r){return r.cat;}},{h:'Classe',f:function(r){return r.cl;}},
+    {h:'Capital médio',r:1,f:function(r){return D.brl(r.t.inv/r.t.nm);}},{h:'Giro',r:1,f:function(r){return D.dec(r.t.cogs/r.t.inv*12,1)+'x';}},
+    {h:'Dias',r:1,f:function(r){return D.int(365/(r.t.cogs/r.t.inv*12));}},{h:'Nível de serviço',r:1,f:function(r){return D.dec(r.t.filled/r.t.lines*100,1)+'%';}}],list);
+}
+
+var updCount=D.filterToggle(document.getElementById('fbtn'),document.getElementById('fpanel'),function(){return F.m.size+F.c.size+F.k.size+F.a.size;});
+D.slicer(document.getElementById('slMes'),{title:'Mês',items:MESES.map(function(n,i){return {v:i,label:n};}),sel:F.m,onChange:render});
+D.slicer(document.getElementById('slCd'),{title:'Armazém',items:CDS.map(function(n,i){return {v:i,label:n};}),sel:F.c,onChange:render});
+D.slicer(document.getElementById('slCat'),{title:'Categoria',items:CATS.map(function(n,i){return {v:i,label:n};}),sel:F.k,onChange:render});
+D.slicer(document.getElementById('slAbc'),{title:'Classe ABC',items:ABC.map(function(n,i){return {v:i,label:'Classe '+n};}),sel:F.a,onChange:render});
+D.tabs(document.getElementById('tabs'));
+document.getElementById('metric').addEventListener('change',function(e){if(e.target.name==='m'){metric=e.target.value;render();}});
+init();render();
+})();
+</script>
+</body>
+</html>

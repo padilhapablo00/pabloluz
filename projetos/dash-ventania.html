@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ventania Transportes · Frota e transporte</title>
+<meta name="description" content="Dashboard de demonstração: frota e transporte. Empresa fictícia, dados ilustrativos. Por Pablo Luz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dash/dash.css">
+<style>
+:root{
+  --bg:#e6edf5; --card:#f9fbfe; --ink:#0f2a4a; --mut:#566a85; --dim:#8497b0;
+  --line:rgba(15,42,74,.10);
+  --side:#0e2a4b; --slon:#9cc7ee; --slonfg:#0b2140; --accent:#0f3a6b;
+  --c1:#0f2a4a; --c2:#2f6da3; --c3:#5a9bc9; --c4:#8bbfe0; --c5:#b9d6ee; --c6:#dbe9f6;
+}
+.kpi{border-right:9px solid var(--c1)}
+.kpi:nth-child(2){border-right-color:#2f6da3}.kpi:nth-child(3){border-right-color:#3f8f9c}
+.kpi:nth-child(4){border-right-color:#5a9bc9}.kpi:nth-child(5){border-right-color:#8bbfe0}
+.card.col{display:flex;flex-direction:column}
+.card.col .ch{flex:1;height:auto;min-height:330px}
+@media(max-width:1000px){.kpi{border-right-width:6px}.card.col .ch{min-height:300px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><span class="gl">V</span><div><b>Ventania</b><small>Transportes e logística</small></div></div>
+    <button class="fbtn" id="fbtn" type="button"><span>Filtros</span></button>
+    <div class="fpanel" id="fpanel">
+      <div id="slMes"></div><div id="slRota"></div><div id="slVeic"></div><div id="slMot"></div>
+    </div>
+    <p class="filters-note">Projeto de demonstração. Empresa e dados fictícios.</p>
+  </aside>
+
+  <main class="main">
+    <div class="dhead">
+      <div>
+        <h1 class="dtitle">Frota e transporte</h1>
+        <p class="dq">Quais rotas, veículos e motoristas estão drenando a margem da frota, e onde cai o nível de serviço?</p>
+      </div>
+      <div class="tabs" id="tabs"><button class="on" data-p="pDash" type="button">Dashboard</button><button data-p="pBase" type="button">Base de dados</button></div>
+    </div>
+
+    <section class="panel" id="pDash">
+      <div class="radios" id="metric"><span class="rl">Métrica dos gráficos</span>
+        <label><input type="radio" name="m" value="rev" checked>Receita</label>
+        <label><input type="radio" name="m" value="mar">Margem %</label>
+        <label><input type="radio" name="m" value="cap">Capacidade %</label>
+        <label><input type="radio" name="m" value="sat">Satisfação</label>
+      </div>
+      <div class="kpis" id="kpis"></div>
+      <div class="read" id="read"></div>
+      <div class="grid">
+        <div class="card s6"><h3 id="tMes">Receita por mês</h3><div class="sub">2025, com os filtros escolhidos</div><div class="ch"><canvas id="cMes"></canvas></div></div>
+        <div class="card s3"><h3>Receita por tipo de veículo</h3><div class="sub">participação</div><div class="ch"><canvas id="cVeic"></canvas></div></div>
+        <div class="card s3 rs2 col"><h3 id="tMot">Receita por motorista</h3><div class="sub">do maior para o menor</div><div class="ch"><canvas id="cMot"></canvas></div></div>
+        <div class="card s6"><h3 id="tCarga">Receita por tipo de carga</h3><div class="sub">o que a frota transporta</div><div class="ch"><canvas id="cCarga"></canvas></div></div>
+        <div class="card s3"><h3 id="tRota">Receita por rota</h3><div class="sub">do maior para o menor</div><div class="ch"><canvas id="cRota"></canvas></div></div>
+      </div>
+    </section>
+
+    <section class="panel" id="pBase" hidden>
+      <div class="card" style="margin-top:20px"><h3>Base de dados</h3><div class="sub">motorista × rota, no filtro atual (40 maiores por receita)</div>
+        <div class="tbl-wrap" id="tabela"></div></div>
+    </section>
+
+    <div class="foot"><span>Ventania Transportes é uma empresa fictícia; dados ilustrativos, gerados para demonstração.</span>
+      <span>Painel por <a href="https://padilhapablo00.github.io/pabloluz/" target="_blank" rel="noopener">Pablo Luz</a></span></div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="dash/dash.js"></script>
+<script>
+(function(){
+"use strict";
+var D=window.DASH;
+var MESES=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+var SEASON=[.86,.84,.92,.95,1,.98,1,1.03,1.02,1.08,1.16,1.12];
+var ROTAS=[
+  {n:'São Paulo × Rio',km:430,mg:.30,ot:0},
+  {n:'São Paulo × Belo Horizonte',km:590,mg:.29,ot:0},
+  {n:'São Paulo × Curitiba',km:410,mg:.30,ot:0},
+  {n:'Curitiba × Porto Alegre',km:710,mg:.235,ot:-.04},
+  {n:'São Paulo × Goiânia',km:930,mg:.315,ot:-.01},
+  {n:'São Paulo × Campinas',km:100,mg:.17,ot:.02}];
+var VEIC=[
+  {n:'Carreta',rate:7.8,kml:2.4,mg:0,ok:[0,1,2,3,4]},
+  {n:'Bitrem',rate:9.6,kml:2.1,mg:.02,ok:[1,3,4]},
+  {n:'Truck',rate:5.6,kml:3.3,mg:0,ok:[0,1,2,3,4,5]},
+  {n:'Toco',rate:4.6,kml:4.1,mg:-.02,ok:[0,1,2,5]},
+  {n:'VUC',rate:3.4,kml:7.2,mg:-.05,ok:[0,2,5]}];
+var CARGA=[{n:'Carga geral',f:1,w:.4,mg:0},{n:'Materiais',f:.92,w:.25,mg:-.02},{n:'Encomendas',f:1.12,w:.2,mg:.02},{n:'Refrigerada',f:1.3,w:.15,mg:.03}];
+var MOT=[
+  ['Anderson Ribeiro',0,.90],['Marcos Tavares',0,.84],['Edson Camargo',1,.92],['Jair Moura',1,.78],
+  ['Cláudio Ferraz',2,.88],['Vanderlei Costa',2,.80],['Ronaldo Lima',2,.86],['Paulo Henrique Dias',3,.91],
+  ['Sérgio Batista',3,.75],['Gilberto Rocha',3,.83],['Fábio Nogueira',4,.89],['Leandro Assis',4,.79]];
+
+// ---- dados sintéticos (sempre os mesmos) ----
+var R=D.rng(20250611),rows=[];
+for(var m=0;m<12;m++)for(var ri=0;ri<ROTAS.length;ri++)for(var di=0;di<MOT.length;di++){
+  var mo=MOT[di],vi=mo[1],v=VEIC[vi];if(v.ok.indexOf(ri)<0)continue;
+  for(var li=0;li<CARGA.length;li++){
+    var c=CARGA[li],t=Math.round(R()*3.1*SEASON[m]*(c.w*2.4)-.15);if(t<=0)continue;
+    var rt=ROTAS[ri],rev=t*rt.km*v.rate*c.f*(.93+.14*R());
+    var mg=rt.mg+v.mg+c.mg+(R()-.5)*.05;
+    var p=Math.min(.98,Math.max(.6,.86+(mo[2]-.84)+rt.ot-(m>=10?.04:0)-(li===3?.015:0)+(R()-.5)*.05));
+    var sat=Math.min(4.9,Math.max(3.0,3.02+1.25*p+(R()-.5)*.3));
+    var km=t*rt.km;
+    rows.push({m:m,r:ri,d:di,v:vi,l:li,t:t,rev:rev,cost:rev*(1-mg),ont:t*p,sat:sat*t,km:km,lit:km/(v.kml*(.95+.1*R())),cap:t*(.6+.34*R())});
+  }
+}
+
+// ---- filtros ----
+var F={m:new Set(),r:new Set(),v:new Set(),d:new Set()};
+function filtered(){return rows.filter(function(x){
+  return D.pass(F.m,String(x.m))&&D.pass(F.r,String(x.r))&&D.pass(F.v,String(x.v))&&D.pass(F.d,String(x.d));});}
+
+function sums(rs){var a={t:0,rev:0,cost:0,ont:0,sat:0,km:0,lit:0,cap:0};
+  rs.forEach(function(x){a.t+=x.t;a.rev+=x.rev;a.cost+=x.cost;a.ont+=x.ont;a.sat+=x.sat;a.km+=x.km;a.lit+=x.lit;a.cap+=x.cap;});return a;}
+var MET={
+  rev:{n:'Receita',f:function(a){return a.rev;},fmt:D.brlc},
+  mar:{n:'Margem %',f:function(a){return a.rev?(a.rev-a.cost)/a.rev*100:0;},fmt:function(v){return D.dec(v,1)+'%';}},
+  cap:{n:'Capacidade %',f:function(a){return a.t?a.cap/a.t*100:0;},fmt:function(v){return D.dec(v,1)+'%';}},
+  sat:{n:'Satisfação',f:function(a){return a.t?a.sat/a.t:0;},fmt:function(v){return D.dec(v,2);}}};
+var metric='rev';
+
+// ---- gráficos ----
+var grid=D.grid();
+function axes(fmt,horizontal){
+  var val={grid:{color:grid},border:{display:false},ticks:{callback:function(v){return fmt(v);},maxTicksLimit:5}};
+  var cat={grid:{display:false},border:{display:false},ticks:{autoSkip:false,maxRotation:0,font:{size:innerWidth<600?9:11.5}}};
+  return horizontal?{x:val,y:cat}:{x:cat,y:val};}
+function tipFmt(fmt){return {callbacks:{label:function(c){return ' '+fmt(c.parsed[c.chart.options.indexAxis==='y'?'x':'y']);}}};}
+var chMes,chVeic,chMot,chCarga,chRota;
+function init(){
+  D.chartInit();
+  chMes=D.mk('cMes','bar',{plugins:{tooltip:{}},scales:{}});
+  chVeic=D.mk('cVeic','doughnut',{cutout:'62%',plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:10,boxHeight:10,padding:10,usePointStyle:true}},
+    tooltip:{callbacks:{label:function(c){return ' '+c.label+': '+D.brlc(c.parsed);}}}}});
+  chMot=D.mk('cMot','bar',{indexAxis:'y'});
+  chCarga=D.mk('cCarga','bar',{});
+  chRota=D.mk('cRota','bar',{indexAxis:'y'});
+}
+function barSet(ch,labels,vals,fmt,horizontal){
+  var mx=Math.max.apply(null,vals.concat([0])),cols=vals.map(function(v){return v===mx&&mx>0?D.css('--c1'):D.css('--c4');});
+  ch.options.scales=axes(fmt,horizontal);
+  ch.options.plugins.tooltip=tipFmt(fmt);
+  ch.set(labels,[{data:vals,backgroundColor:cols,borderRadius:6,maxBarThickness:horizontal?18:34}]);
+}
+function byKey(rs,keyf,names,mf){
+  var g=D.group(rs,keyf),out=[];
+  names.forEach(function(n,i){var a=g.get(i);if(a)out.push({n:n,v:mf(sums(a))});});return out;}
+function sorted(list){return list.slice().sort(function(a,b){return b.v-a.v;});}
+
+function render(){
+  var rs=filtered(),a=sums(rs),M=MET[metric];
+  var nf=(F.m.size+F.r.size+F.v.size+F.d.size);
+  updCount(nf);
+  // KPIs
+  var k=[
+    ['Receita de frete',D.brlc(a.rev),'2025 completo'],
+    ['Margem',a.rev?D.dec((a.rev-a.cost)/a.rev*100,1)+'%':'-','resultado sobre a receita'],
+    ['Entregas no prazo',a.t?D.dec(a.ont/a.t*100,1)+'%':'-',D.int(a.t)+' viagens'],
+    ['Satisfação',a.t?D.dec(a.sat/a.t,2):'-','nota média de 1 a 5'],
+    ['Rendimento',a.lit?D.dec(a.km/a.lit,2)+' km/L':'-',D.int(a.km)+' km rodados']];
+  document.getElementById('kpis').innerHTML=k.map(function(x){
+    return '<div class="kpi"><div class="k">'+x[0]+'</div><div class="v num">'+x[1]+'</div><div class="n">'+x[2]+'</div></div>';}).join('');
+  // leitura
+  var gr=byKey(rs,function(x){return x.r;},ROTAS.map(function(r){return r.n;}),function(s){return s.rev;});
+  var rd=document.getElementById('read');
+  if(gr.length>1){
+    var gm=byKey(rs,function(x){return x.r;},ROTAS.map(function(r){return r.n;}),MET.mar.f).sort(function(p,q){return p.v-q.v;});
+    var go=byKey(rs,function(x){return x.r;},ROTAS.map(function(r){return r.n;}),function(s){return s.t?s.ont/s.t*100:0;}).sort(function(p,q){return p.v-q.v;});
+    var top=sorted(gr)[0];
+    rd.innerHTML='<b>Leitura:</b> a rota <em>'+top.n+'</em> lidera a receita ('+D.brlc(top.v)+'). A menor margem está em <em>'+gm[0].n+'</em> ('+D.dec(gm[0].v,1)+'%) e a pontualidade mais baixa em <em>'+go[0].n+'</em> ('+D.dec(go[0].v,1)+'%).';
+  }else rd.innerHTML='<b>Leitura:</b> escolha mais de uma rota (ou limpe os filtros) para comparar onde a margem e a pontualidade caem.';
+  // gráficos
+  var lab=M.n;
+  document.getElementById('tMes').textContent=lab+' por mês';
+  document.getElementById('tMot').textContent=lab+' por motorista';
+  document.getElementById('tCarga').textContent=lab+' por tipo de carga';
+  document.getElementById('tRota').textContent=lab+' por rota';
+  var gm2=byKey(rs,function(x){return x.m;},MESES,M.f);
+  barSet(chMes,gm2.map(function(x){return x.n;}),gm2.map(function(x){return x.v;}),M.fmt,false);
+  var gv=byKey(rs,function(x){return x.v;},VEIC.map(function(v){return v.n;}),function(s){return s.rev;});
+  chVeic.set(gv.map(function(x){return x.n;}),[{data:gv.map(function(x){return x.v;}),backgroundColor:[D.css('--c1'),D.css('--c2'),D.css('--c3'),D.css('--c4'),D.css('--c5')],borderWidth:2,borderColor:D.css('--card')}]);
+  var gd=sorted(byKey(rs,function(x){return x.d;},MOT.map(function(x){return x[0];}),M.f));
+  barSet(chMot,gd.map(function(x){return x.n;}),gd.map(function(x){return x.v;}),M.fmt,true);
+  var gc=byKey(rs,function(x){return x.l;},CARGA.map(function(c){return c.n;}),M.f);
+  barSet(chCarga,gc.map(function(x){return x.n;}),gc.map(function(x){return x.v;}),M.fmt,false);
+  var gr2=sorted(byKey(rs,function(x){return x.r;},ROTAS.map(function(r){return r.n;}),M.f));
+  barSet(chRota,gr2.map(function(x){return x.n;}),gr2.map(function(x){return x.v;}),M.fmt,true);
+  // tabela
+  var g=D.group(rs,function(x){return x.d+'|'+x.r;}),list=[];
+  g.forEach(function(arr,key){var s=sums(arr),p=key.split('|');list.push({mot:MOT[+p[0]][0],vei:VEIC[MOT[+p[0]][1]].n,rota:ROTAS[+p[1]].n,s:s});});
+  list.sort(function(x,y){return y.s.rev-x.s.rev;});
+  D.table(document.getElementById('tabela'),[
+    {h:'Motorista',f:function(r){return r.mot;}},{h:'Veículo',f:function(r){return r.vei;}},{h:'Rota',f:function(r){return r.rota;}},
+    {h:'Viagens',r:1,f:function(r){return D.int(r.s.t);}},{h:'Receita',r:1,f:function(r){return D.brl(r.s.rev);}},
+    {h:'Margem',r:1,f:function(r){return D.dec((r.s.rev-r.s.cost)/r.s.rev*100,1)+'%';}},
+    {h:'No prazo',r:1,f:function(r){return D.dec(r.s.ont/r.s.t*100,1)+'%';}}],list.slice(0,40));
+}
+
+// ---- montagem ----
+var updCount=D.filterToggle(document.getElementById('fbtn'),document.getElementById('fpanel'),function(){return F.m.size+F.r.size+F.v.size+F.d.size;});
+D.slicer(document.getElementById('slMes'),{title:'Mês',items:MESES.map(function(n,i){return {v:i,label:n};}),sel:F.m,onChange:render});
+D.slicer(document.getElementById('slRota'),{title:'Rota',items:ROTAS.map(function(r,i){return {v:i,label:r.n};}),sel:F.r,onChange:render});
+D.slicer(document.getElementById('slVeic'),{title:'Tipo de veículo',items:VEIC.map(function(v,i){return {v:i,label:v.n};}),sel:F.v,onChange:render});
+D.slicer(document.getElementById('slMot'),{title:'Motorista',items:MOT.map(function(x,i){return {v:i,label:x[0]};}),sel:F.d,onChange:render});
+D.tabs(document.getElementById('tabs'));
+document.getElementById('metric').addEventListener('change',function(e){if(e.target.name==='m'){metric=e.target.value;render();}});
+init();render();
+})();
+</script>
+</body>
+</html>
