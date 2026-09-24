@@ -77,16 +77,16 @@ body{margin:0;background:var(--bg)}
 .hero .sub{max-width:34ch;margin:22px 0 0;font-size:clamp(17px,4.6vw,20px);color:var(--mut);line-height:1.5}
 .hero .ctas{display:flex;gap:10px;margin-top:32px;flex-wrap:wrap}
 .hero .ctas .btn{flex:1 1 auto;min-width:150px}
-.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 128px;grid-template-areas:"t p" "s s" "c c";gap:26px 20px;align-items:center}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 152px;grid-template-areas:"t p" "s s" "c c";gap:26px 20px;align-items:center}
 .hero-tx{display:contents}
 .hero-tx h1{grid-area:t}.hero-tx .sub{grid-area:s;margin:0}.hero-tx .ctas{grid-area:c;margin-top:2px}
 .pic{grid-area:p;position:relative;margin:0 8px 8px 0}
 .pic::before{content:"";position:absolute;inset:8px -8px -8px 8px;border:2px solid var(--blue);border-radius:22px;z-index:0}
 .pic img{position:relative;z-index:1;width:100%;height:auto;border-radius:20px;box-shadow:var(--sh)}
-.pic figcaption{display:none;position:absolute;z-index:2;left:12px;right:12px;bottom:12px;background:rgba(20,32,58,.9);color:#fff;
-  border-radius:18px;padding:12px 16px;backdrop-filter:blur(8px)}
-.pic figcaption b{display:block;font-size:16px;font-weight:700;letter-spacing:-.02em}
-.pic figcaption span{display:block;font-size:13px;color:#b8c0d2;margin-top:1px}
+.pic figcaption{position:absolute;z-index:2;left:6px;right:6px;bottom:6px;background:rgba(20,32,58,.9);color:#fff;
+  border-radius:13px;padding:8px 10px;backdrop-filter:blur(8px)}
+.pic figcaption b{display:block;font-size:13px;font-weight:700;letter-spacing:-.02em;line-height:1.2}
+.pic figcaption span{display:block;font-size:10.5px;color:#b8c0d2;margin-top:1px;line-height:1.25}
 
 /* SECOES */
 .sec{padding:64px 0;position:relative;z-index:2}
@@ -245,7 +245,9 @@ body{margin:0;background:var(--bg)}
   .pic{grid-area:auto;margin:0 14px 14px 0;max-width:420px;justify-self:end}
   .pic::before{inset:14px -14px -14px 14px;border-radius:30px}
   .pic img{border-radius:28px}
-  .pic figcaption{display:block}
+  .pic figcaption{left:12px;right:12px;bottom:12px;border-radius:18px;padding:12px 16px}
+  .pic figcaption b{font-size:16px}
+  .pic figcaption span{font-size:13px}
   .sec{padding:96px 0}
   .feature{padding:56px 52px;grid-template-columns:.9fr 1.1fr;gap:56px;border-radius:40px}
   .feature .ctas .btn{flex:0 0 auto}
